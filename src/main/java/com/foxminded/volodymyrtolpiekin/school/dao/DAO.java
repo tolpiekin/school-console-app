@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface DAO <T>{
 
-    Optional<T> get(int id);
+    Optional<T> getById(int id);
 
     Optional<T> findByName(String name);
 
@@ -15,6 +15,6 @@ public interface DAO <T>{
 
     void update(T t);
 
-    void delete(int id);
+    void deleteById(int id);
 
 }

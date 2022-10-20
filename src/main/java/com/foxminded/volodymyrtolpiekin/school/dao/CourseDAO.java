@@ -10,7 +10,7 @@ public abstract class CourseDAO implements DAO<Course>{
 
     private List<Course> courses = new ArrayList<>();
     @Override
-    public Optional<Course> get(int id) {
+    public Optional<Course> getById(int id) {
         return Optional.ofNullable(courses.get(id));
     }
 
@@ -30,7 +30,7 @@ public abstract class CourseDAO implements DAO<Course>{
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int id) {
         courses.remove(id);
     }
 

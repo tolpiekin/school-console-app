@@ -10,7 +10,7 @@ public class GroupDAO implements DAO<Group> {
 
     private List<Group> groups = new ArrayList<>();
     @Override
-    public Optional<Group> get(int id) {
+    public Optional<Group> getById(int id) {
         return Optional.ofNullable(groups.get(id));
     }
 
@@ -40,7 +40,7 @@ public class GroupDAO implements DAO<Group> {
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int id) {
         groups.remove(id);
     }
 }

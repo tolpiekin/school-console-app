@@ -10,7 +10,7 @@ public class StudentDAO implements DAO<Student> {
 
     private List<Student> students = new ArrayList<>();
     @Override
-    public Optional<Student> get(int id) {
+    public Optional<Student> getById(int id) {
         return Optional.ofNullable(students.get(id));
     }
 
@@ -40,7 +40,7 @@ public class StudentDAO implements DAO<Student> {
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int id) {
         students.remove(id);
     }
 }
