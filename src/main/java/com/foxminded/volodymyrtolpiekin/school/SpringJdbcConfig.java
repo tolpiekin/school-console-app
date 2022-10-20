@@ -10,8 +10,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
-import static com.foxminded.volodymyrtolpiekin.school.Constants.*;
-
 @Configuration
 @ComponentScan("com.foxminded.volodymyrtolpiekin.school")
 @PropertySource("classpath:database.properties")
