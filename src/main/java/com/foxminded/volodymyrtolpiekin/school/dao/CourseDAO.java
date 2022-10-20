@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class CourseDAO implements DAO<Course>{
+public class CourseDAO implements DAO<Course>{
 
     private List<Course> courses = new ArrayList<>();
     @Override
