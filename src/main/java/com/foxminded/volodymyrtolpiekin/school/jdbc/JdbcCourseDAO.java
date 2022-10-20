@@ -20,10 +20,10 @@ public class JdbcCourseDAO extends CourseDAO {
     }
 
     @Override
-    Optional<Course> findByName(String name) {
+    public Optional<Course> findByName(String name) {
         try {
             return Optional.of(jdbcTemplate
-                    .queryForObject(FIND_BY_NAME, courseRowMapper, name))
+                    .queryForObject(FIND_BY_NAME, courseRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

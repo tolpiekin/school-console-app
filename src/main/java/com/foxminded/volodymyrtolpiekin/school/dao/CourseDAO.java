@@ -34,5 +34,13 @@ public abstract class CourseDAO implements DAO<Course>{
         courses.remove(id);
     }
 
-    abstract Optional<Course> findByName(String name);
+    @Override
+    public Optional<Course> findByName(String name) {
+        for (Course course: courses) {
+            if (course.getName().equals(name)) {
+                return Optional.ofNullable(course);
+            }
+        }
+        return Optional.empty();
+    }
 }

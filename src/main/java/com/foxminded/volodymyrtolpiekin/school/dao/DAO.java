@@ -7,6 +7,8 @@ public interface DAO <T>{
 
     Optional<T> get(int id);
 
+    Optional<T> findByName(String name);
+
     List<T> getAll();
 
     void create(T t);

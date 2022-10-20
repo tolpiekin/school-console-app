@@ -15,6 +15,16 @@ public class GroupDAO implements DAO<Group> {
     }
 
     @Override
+    public Optional<Group> findByName(String name) {
+        for(Group group: groups) {
+            if(group.getName().equals(name)) {
+                return Optional.ofNullable(group);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public List<Group> getAll() {
         return groups;
     }

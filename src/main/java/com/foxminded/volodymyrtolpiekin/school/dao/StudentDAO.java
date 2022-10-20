@@ -15,6 +15,16 @@ public class StudentDAO implements DAO<Student> {
     }
 
     @Override
+    public Optional<Student> findByName(String name) {
+        for(Student student: students) {
+            if((student.getFirstName() + " " + student.getLastName()).equals(name)){
+                return Optional.ofNullable(student);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public List<Student> getAll() {
         return students;
     }
