@@ -1,7 +1,7 @@
-package com.foxminded.volodymyrtolpiekin.school.jdbc;
+package ua.com.foxminded.volodymyrtolpiekin.school.jdbc;
 
-import com.foxminded.volodymyrtolpiekin.school.dao.StudentDAO;
-import com.foxminded.volodymyrtolpiekin.school.models.Student;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.StudentDAO;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import static com.foxminded.volodymyrtolpiekin.school.Constants.*;
+import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Repository
 public class JdbcStudentDAO extends StudentDAO {

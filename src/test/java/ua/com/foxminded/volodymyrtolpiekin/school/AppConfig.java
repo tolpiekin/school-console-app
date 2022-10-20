@@ -1,4 +1,4 @@
-package com.foxminded.volodymyrtolpiekin.school;
+package ua.com.foxminded.volodymyrtolpiekin.school;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

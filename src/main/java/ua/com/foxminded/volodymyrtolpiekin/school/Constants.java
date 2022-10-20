@@ -1,4 +1,4 @@
-package com.foxminded.volodymyrtolpiekin.school;
+package ua.com.foxminded.volodymyrtolpiekin.school;
 
 public final class Constants {
     public static final String DB_URL = "url";

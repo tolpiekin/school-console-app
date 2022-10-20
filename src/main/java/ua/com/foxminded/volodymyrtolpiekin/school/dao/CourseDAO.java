@@ -1,6 +1,6 @@
-package com.foxminded.volodymyrtolpiekin.school.dao;
+package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
-import com.foxminded.volodymyrtolpiekin.school.models.Course;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
 import java.util.ArrayList;
 import java.util.List;

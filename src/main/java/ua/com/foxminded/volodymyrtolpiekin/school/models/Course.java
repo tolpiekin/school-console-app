@@ -1,4 +1,4 @@
-package com.foxminded.volodymyrtolpiekin.school.models;
+package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
 public class Course {
     private int id;
@@ -12,6 +12,11 @@ public class Course {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Course[id=%d, name='%s', description='%s']", id, name, description);
     }
 
     public int getId() {

@@ -1,4 +1,4 @@
-package com.foxminded.volodymyrtolpiekin.school;
+package ua.com.foxminded.volodymyrtolpiekin.school;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

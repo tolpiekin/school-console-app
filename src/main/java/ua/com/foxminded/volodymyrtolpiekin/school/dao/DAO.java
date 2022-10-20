@@ -1,4 +1,4 @@
-package com.foxminded.volodymyrtolpiekin.school.dao;
+package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
 import java.util.List;
 import java.util.Optional;

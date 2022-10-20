@@ -1,6 +1,6 @@
-package com.foxminded.volodymyrtolpiekin.school.jdbc;
+package ua.com.foxminded.volodymyrtolpiekin.school.jdbc;
 
-import com.foxminded.volodymyrtolpiekin.school.models.Course;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
