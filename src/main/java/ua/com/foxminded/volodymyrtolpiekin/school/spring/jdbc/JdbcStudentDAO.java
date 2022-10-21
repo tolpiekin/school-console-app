@@ -31,7 +31,7 @@ public class JdbcStudentDAO extends StudentDAO {
     }
 
     @Override
-    public Optional<Student> getById(int id) {
+    public Optional<Student> findById(int id) {
         try {
             return Optional.of(jdbcTemplate
                     .queryForObject(SQL_STUDENTS_FIND_BY_ID, studentRowMapper, id));
@@ -46,13 +46,13 @@ public class JdbcStudentDAO extends StudentDAO {
     }
 
     @Override
-    public void create(Student student){
+    public void addItem(Student student){
         jdbcTemplate.update(SQL_STUDENTS_INSERT, student.getId(), student.getGroupId(), student.getFirstName(),
                 student.getLastName());
     }
 
     @Override
-    public void update(Student student){
+    public void updateItem(Student student){
         jdbcTemplate.update(SQL_STUDENTS_UPDATE, student.getGroupId(), student.getFirstName(), student.getLastName(),
                 student.getId());
     }

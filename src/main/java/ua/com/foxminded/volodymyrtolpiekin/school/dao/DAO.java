@@ -5,15 +5,15 @@ import java.util.Optional;
 
 public interface DAO <T>{
 
-    Optional<T> getById(int id);
+    Optional<T> findById(int id);
 
     Optional<T> findByName(String name);
 
     List<T> getAll();
 
-    void create(T t);
+    void addItem(T t);
 
-    void update(T t);
+    void updateItem(T t);
 
     void deleteById(int id);
 

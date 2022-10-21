@@ -31,7 +31,7 @@ public class JdbcCourseDAO extends CourseDAO {
     }
 
     @Override
-    public Optional<Course> getById(int id) {
+    public Optional<Course> findById(int id) {
         try {
             return Optional.of(jdbcTemplate
                     .queryForObject(SQL_COURSES_FIND_BY_ID, courseRowMapper, id));
@@ -46,12 +46,12 @@ public class JdbcCourseDAO extends CourseDAO {
     }
 
     @Override
-    public void create(Course course){
+    public void addItem(Course course){
         jdbcTemplate.update(SQL_COURSES_INSERT, course.getId(), course.getName(), course.getDescription());
     }
 
     @Override
-    public void update(Course course){
+    public void updateItem(Course course){
         jdbcTemplate.update(SQL_COURSES_UPDATE, course.getName(), course.getDescription(), course.getId());
     }
 

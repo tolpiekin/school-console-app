@@ -14,129 +14,97 @@ import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 public class CourseDAO implements DAO<Course>{
     private static final Logger LOGGER = LoggerFactory.getLogger(CourseDAO.class);
     private final Connection CONNECTION = ConnectionFactory.getInstance().getConnection();
-    PreparedStatement ptmt = null;
     ResultSet resultSet = null;
 
     @Override
-    public Optional<Course> getById(int id) {
+    public Optional<Course> findById(int id) {
         Course course = null;
-        try {
-            ptmt = CONNECTION.prepareStatement(SQL_COURSES_FIND_BY_ID);
-            ptmt.setInt(1, id);
-            resultSet = ptmt.executeQuery();
+
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_FIND_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            course = new Course(resultSet.getInt("course_id"), resultSet.getString("course_name"), resultSet.getString("course_description"));
+            course = new Course(resultSet.getInt("course_id"), resultSet.getString("course_name"),
+                    resultSet.getString("course_description"));
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
-        } finally {
-            try {
-                if (ptmt != null) ptmt.close();
-            } catch (Exception e) {
-                LOGGER.error("Cannot close ptmt : %s", e);
-            }
         }
+
         return Optional.ofNullable(course);
     }
 
     @Override
     public List<Course> getAll() {
         List<Course> courses = new ArrayList<>();
-        try {
-            ptmt = CONNECTION.prepareStatement(SQL_COURSES_GET_ALL);
-            resultSet = ptmt.executeQuery();
+
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_GET_ALL)) {
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                courses.add(new Course(resultSet.getInt("course_id"), resultSet.getString("course_name"), resultSet.getString("course_description")));
+                courses.add(new Course(resultSet.getInt("course_id"),
+                        resultSet.getString("course_name"),
+                        resultSet.getString("course_description")));
             }
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
-        } finally {
-            try {
-                if (resultSet != null) resultSet.close();
-                if (ptmt != null) ptmt.close();
-            } catch (Exception e) {
-                LOGGER.error("Cannot close ptmt : %s", e);
-            }
         }
+
         return courses;
     }
 
     @Override
-    public void create(Course course) {
-        try {
-            ptmt = CONNECTION.prepareStatement(SQL_COURSES_INSERT, Statement.RETURN_GENERATED_KEYS);
-            ptmt.setInt(1, course.getId());
-            ptmt.setString(2, course.getName());
-            ptmt.setString(3, course.getDescription());
-            ptmt.executeUpdate();
-            resultSet = ptmt.getGeneratedKeys();
+    public void addItem(Course course) {
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_INSERT,
+                Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setInt(1, course.getId());
+            preparedStatement.setString(2, course.getName());
+            preparedStatement.setString(3, course.getDescription());
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
-        } finally {
-            try {
-                if (ptmt != null) ptmt.close();
-            } catch (Exception e) {
-                LOGGER.error("Cannot close ptmt : %s", e);
-            }
         }
     }
 
     @Override
-    public void update(Course course) {
-        try {
-            ptmt = CONNECTION.prepareStatement(SQL_COURSES_UPDATE, Statement.RETURN_GENERATED_KEYS);
-            ptmt.setString(1, course.getName());
-            ptmt.setString(2, course.getDescription());
-            ptmt.setInt(3, course.getId());
-            ptmt.executeUpdate();
-            resultSet = ptmt.getGeneratedKeys();
+    public void updateItem(Course course) {
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_UPDATE,
+                Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, course.getName());
+            preparedStatement.setString(2, course.getDescription());
+            preparedStatement.setInt(3, course.getId());
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
-        } finally {
-            try {
-                if (ptmt != null) ptmt.close();
-            } catch (Exception e) {
-                LOGGER.error("Cannot close ptmt : %s", e);
-            }
         }
     }
 
     @Override
     public void deleteById(int id) {
-        try {
-            ptmt = CONNECTION.prepareStatement(SQL_COURSES_DELETE);
-            ptmt.setInt(1, id);
-            ptmt.executeUpdate();
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_DELETE)) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
-        } finally {
-            try {
-                if (ptmt != null) ptmt.close();
-            } catch (Exception e) {
-                LOGGER.error("Cannot close ptmt : %s", e);
-            }
         }
     }
 
     @Override
     public Optional<Course> findByName(String name) {
         Course course = null;
-        try {
-            ptmt = CONNECTION.prepareStatement(SQL_COURSES_FIND_BY_NAME);
-            ptmt.setString(1, name);
-            resultSet = ptmt.executeQuery();
+
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_FIND_BY_NAME)){
+            preparedStatement.setString(1, name);
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            course = new Course(resultSet.getInt("course_id"), resultSet.getString("course_name"), resultSet.getString("course_description"));
+            course = new Course(resultSet.getInt("course_id"), resultSet.getString("course_name"),
+                    resultSet.getString("course_description"));
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
-        } finally {
-            try {
-                if (ptmt != null) ptmt.close();
-            } catch (Exception e) {
-                LOGGER.error("Database Connection Creation Failed : %s", e);
-            }
         }
+
         return Optional.ofNullable(course);
     }
 }

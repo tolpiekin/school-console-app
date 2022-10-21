@@ -31,7 +31,7 @@ public class JdbcGroupDAO extends GroupDAO {
     }
 
     @Override
-    public Optional<Group> getById(int id) {
+    public Optional<Group> findById(int id) {
         try {
             return Optional.of(jdbcTemplate
                     .queryForObject(SQL_GROUPS_FIND_BY_ID, groupRowMapper, id));
@@ -46,12 +46,12 @@ public class JdbcGroupDAO extends GroupDAO {
     }
 
     @Override
-    public void create(Group group){
+    public void addItem(Group group){
         jdbcTemplate.update(SQL_GROUPS_INSERT, group.getId(), group.getName());
     }
 
     @Override
-    public void update(Group group){
+    public void updateItem(Group group){
         jdbcTemplate.update(SQL_GROUPS_UPDATE, group.getName(), group.getId());
     }
 
