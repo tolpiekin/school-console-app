@@ -2,12 +2,12 @@ package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
@@ -32,7 +32,7 @@ public class CourseDAO implements DAO<Course>{
             try {
                 if (ptmt != null) ptmt.close();
             } catch (Exception e) {
-                LOGGER.error("Database Connection Creation Failed : %s", e);
+                LOGGER.error("Cannot close ptmt : %s", e);
             }
         }
         return Optional.ofNullable(course);
@@ -54,7 +54,7 @@ public class CourseDAO implements DAO<Course>{
                 if (resultSet != null) resultSet.close();
                 if (ptmt != null) ptmt.close();
             } catch (Exception e) {
-                LOGGER.error("Database Connection Creation Failed : %s", e);
+                LOGGER.error("Cannot close ptmt : %s", e);
             }
         }
         return courses;
