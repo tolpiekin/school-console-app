@@ -1,4 +1,4 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.jdbc;
+package ua.com.foxminded.volodymyrtolpiekin.school.spring.jdbc;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.GroupDAO;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
