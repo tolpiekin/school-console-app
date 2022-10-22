@@ -36,4 +36,8 @@ public class GroupService {
     public void delGroup(int id){
         jdbcGroupDAO.deleteById(id);
     }
+
+    public List<Group> smallerThen(int size){
+        return jdbcGroupDAO.smallerThen(size);
+    }
 }

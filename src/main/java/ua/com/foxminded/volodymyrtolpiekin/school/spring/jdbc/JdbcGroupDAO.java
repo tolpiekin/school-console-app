@@ -43,7 +43,7 @@ public class JdbcGroupDAO extends GroupDAO {
 
     @Override
     public List<Group> getAll(){
-        return jdbcTemplate.query(SQL_COURSES_GET_ALL, groupRowMapper);
+        return jdbcTemplate.query(SQL_GROUPS_GET_ALL, groupRowMapper);
     }
 
     @Override
@@ -63,5 +63,9 @@ public class JdbcGroupDAO extends GroupDAO {
     @Override
     public void deleteById(int id) {
         jdbcTemplate.update(SQL_GROUPS_DELETE, id);
+    }
+
+    public List<Group> smallerThen (int size) {
+        return jdbcTemplate.query(SQL_GROUPS_LESS_THEN, groupRowMapper, size);
     }
 }

@@ -3,6 +3,7 @@ package ua.com.foxminded.volodymyrtolpiekin.school.spring.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 import ua.com.foxminded.volodymyrtolpiekin.school.spring.jdbc.JdbcCourseDAO;
 
 import java.util.List;
@@ -35,5 +36,24 @@ public class CourseService {
 
     public void delCourse(int id){
         jdbcCourseDAO.deleteById(id);
+    }
+
+    public List<Student> getCourseStudents(String courseName){
+        return jdbcCourseDAO.getCourseStudents(courseName);
+    }
+
+    public boolean addStudentToCourse(Student student, Course course) {
+        return jdbcCourseDAO.addStudentToCourse(student.getId(), course.getId());
+    }
+
+    public boolean ifStudentAtCourse(Student student, Course course){
+        return jdbcCourseDAO.ifStudentAtCourse(student.getId(), course.getId());
+    }
+
+    public boolean removeStudentFromCourse(Student student, Course course){
+        if (ifStudentAtCourse(student, course)) {
+            return jdbcCourseDAO.removeStudentFromCourse(student.getId(), course.getId());
+        }
+        return false;
     }
 }
