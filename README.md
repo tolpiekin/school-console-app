@@ -1,66 +1,37 @@
+Task 2.3 Service layer
 Assignment:
+Create a service layer on the top of your DAO to implement the following requirements:
 
-Based on previously created console application sql-jdbc-school, create spring boot application utilizing spring JDBC API.
+Find all groups with less or equals student count
 
-Use already existing tests with spring test tools like @Sql
+Find all students related to the course with the given name
 
-No need for db drop functionality
+Add a new student
 
+Delete a student by STUDENT_ID
 
-Project bootstrap:
+Add a student to the course that is going to exit the course
 
-Use Initializer to bootstrap project with following dependencies:
+Remove the student from one of their courses
 
-JDBC API (Database Connectivity API that defines how a client may connect and query a database.)
-https://www.baeldung.com/spring-jdbc-jdbctemplate
-https://www.concretepage.com/spring-5/sql-example-spring-test
-Flyway Migration (Version control for your database so you can migrate from any version (incl. an empty database) to the latest version of the schema.)
-PostgreSQL Database (The use of docker is recommended)
-Use Testcontainers for JdbcTests to instantiate a test database
-Database structure:
+** Add missing DAO methods to accomplish services needs
 
-Tables (the given types are Java types, use SQL analogs that fit the most:
+Create a generator service that will be called if database is empty:
 
-groups(
-group_id int,
-group_name string
-)
-students(
-student_id int,
-group_id int,
-first_name string,
-last_name string
-)
-courses(
-course_id int,
-course_name string,
-course_description string
-)
-Create a DAO layer using JdbcTemplate and implement the basic CRUD functionality
+Create 10 groups with randomly generated names. The name should contain 2 characters, hyphen, 2 numbers
 
-package com.foxminded.spring.console.dao;
+Create 10 courses (math, biology, etc.)
 
-@Repository
-public class JdbcCourseDao implements CourseDao {
+Create 200 students. Take 20 first names and 20 last names and randomly combine them to generate students.
 
-    public static final String FIND_BY_NAME = "select * from courses where course_name = ?";
-    
-    private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Course> courseRowMapper = new CourseRowMapper();
+Randomly assign students to the groups. Each group can contain from 10 to 30 students. It is possible that some groups are without students or students without groups
 
-    public JdbcCourseDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-    
-    @Override
-    Optional<Course> findByName(String name) {
-        try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(FIND_BY_NAME, courseRowMapper, name))
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
-    
-    // rest of code
-}
+Create the relation MANY-TO-MANY between the tables STUDENTS and COURSES. Randomly assign from 1 to 3 courses for each student
+
+Hint:
+
+Use ApplicationRunner interface as an entry point for triggering generator
+
+Important
+
+Cover your services with tests using mocked DAO layer
