@@ -21,20 +21,20 @@ public class JdbcGroupDAO extends GroupDAO {
     }
 
     @Override
-    public Optional<Group> findByName(String name) {
+    public Optional<Group> findById(int id) {
         try {
             return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_GROUPS_FIND_BY_NAME, groupRowMapper, name));
+                    .queryForObject(SQL_GROUPS_FIND_BY_ID, groupRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public Optional<Group> findById(int id) {
+    public Optional<Group> findByName(String name) {
         try {
             return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_GROUPS_FIND_BY_ID, groupRowMapper, id));
+                    .queryForObject(SQL_GROUPS_FIND_BY_NAME, groupRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -46,13 +46,17 @@ public class JdbcGroupDAO extends GroupDAO {
     }
 
     @Override
-    public void addItem(Group group){
+    public Optional<Group> addItem(Group group){
         jdbcTemplate.update(SQL_GROUPS_INSERT, group.getId(), group.getName());
+
+        return findById(group.getId());
     }
 
     @Override
-    public void updateItem(Group group){
+    public Optional<Group> updateItem(Group group){
         jdbcTemplate.update(SQL_GROUPS_UPDATE, group.getName(), group.getId());
+
+        return findById(group.getId());
     }
 
     @Override

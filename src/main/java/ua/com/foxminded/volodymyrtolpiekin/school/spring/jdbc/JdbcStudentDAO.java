@@ -21,20 +21,20 @@ public class JdbcStudentDAO extends StudentDAO {
     }
 
     @Override
-    public Optional<Student> findByName(String lastName) {
+    public Optional<Student> findById(int id) {
         try {
             return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_STUDENTS_FIND_BY_LAST_NAME, studentRowMapper, lastName));
+                    .queryForObject(SQL_STUDENTS_FIND_BY_ID, studentRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public Optional<Student> findById(int id) {
+    public Optional<Student> findByName(String lastName) {
         try {
             return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_STUDENTS_FIND_BY_ID, studentRowMapper, id));
+                    .queryForObject(SQL_STUDENTS_FIND_BY_LAST_NAME, studentRowMapper, lastName));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -46,15 +46,19 @@ public class JdbcStudentDAO extends StudentDAO {
     }
 
     @Override
-    public void addItem(Student student){
+    public Optional<Student> addItem(Student student){
         jdbcTemplate.update(SQL_STUDENTS_INSERT, student.getId(), student.getGroupId(), student.getFirstName(),
                 student.getLastName());
+
+        return findById(student.getId());
     }
 
     @Override
-    public void updateItem(Student student){
+    public Optional<Student> updateItem(Student student){
         jdbcTemplate.update(SQL_STUDENTS_UPDATE, student.getGroupId(), student.getFirstName(), student.getLastName(),
                 student.getId());
+
+        return findById(student.getId());
     }
 
     @Override

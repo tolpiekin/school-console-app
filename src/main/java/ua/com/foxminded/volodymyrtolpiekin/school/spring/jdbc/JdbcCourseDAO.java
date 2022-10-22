@@ -21,20 +21,20 @@ public class JdbcCourseDAO extends CourseDAO {
     }
 
     @Override
-    public Optional<Course> findByName(String name) {
+    public Optional<Course> findById(int id) {
         try {
             return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_COURSES_FIND_BY_NAME, courseRowMapper, name));
+                    .queryForObject(SQL_COURSES_FIND_BY_ID, courseRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public Optional<Course> findById(int id) {
+    public Optional<Course> findByName(String name) {
         try {
             return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_COURSES_FIND_BY_ID, courseRowMapper, id));
+                    .queryForObject(SQL_COURSES_FIND_BY_NAME, courseRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -46,13 +46,17 @@ public class JdbcCourseDAO extends CourseDAO {
     }
 
     @Override
-    public void addItem(Course course){
+    public Optional<Course> addItem(Course course){
         jdbcTemplate.update(SQL_COURSES_INSERT, course.getId(), course.getName(), course.getDescription());
+
+        return findById(course.getId());
     }
 
     @Override
-    public void updateItem(Course course){
+    public Optional<Course> updateItem(Course course){
         jdbcTemplate.update(SQL_COURSES_UPDATE, course.getName(), course.getDescription(), course.getId());
+
+        return findById(course.getId());
     }
 
     @Override
