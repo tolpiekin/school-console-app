@@ -75,7 +75,7 @@ public class StudentDAO implements DAO<Student> {
     }
 
     @Override
-    public void addItem(Student student) {
+    public Optional<Student> addItem(Student student) {
         try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_STUDENTS_GET_ALL)){
             preparedStatement.setInt(1, student.getGroupId());
             preparedStatement.setString(2, student.getFirstName());
@@ -86,10 +86,12 @@ public class StudentDAO implements DAO<Student> {
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
         }
+
+        return findById(student.getId());
     }
 
     @Override
-    public void updateItem(Student student) {
+    public Optional<Student> updateItem(Student student) {
         try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_STUDENTS_GET_ALL)){
             preparedStatement.setInt(1, student.getId());
             preparedStatement.setString(2, student.getFirstName());
@@ -101,6 +103,8 @@ public class StudentDAO implements DAO<Student> {
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
         }
+
+        return findById(student.getId());
     }
 
     @Override

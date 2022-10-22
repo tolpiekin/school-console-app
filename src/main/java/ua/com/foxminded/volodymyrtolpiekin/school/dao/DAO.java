@@ -11,9 +11,9 @@ public interface DAO <T>{
 
     List<T> getAll();
 
-    void addItem(T t);
+    Optional<T> addItem(T t);
 
-    void updateItem(T t);
+    Optional<T> updateItem(T t);
 
     void deleteById(int id);
 

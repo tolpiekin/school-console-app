@@ -34,6 +34,23 @@ public class CourseDAO implements DAO<Course>{
     }
 
     @Override
+    public Optional<Course> findByName(String name) {
+        Course course = null;
+
+        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_FIND_BY_NAME)){
+            preparedStatement.setString(1, name);
+            resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            course = new Course(resultSet.getInt("course_id"), resultSet.getString("course_name"),
+                    resultSet.getString("course_description"));
+        } catch (SQLException e) {
+            LOGGER.error("Database Connection Creation Failed : %s", e);
+        }
+
+        return Optional.ofNullable(course);
+    }
+
+    @Override
     public List<Course> getAll() {
         List<Course> courses = new ArrayList<>();
 
@@ -52,7 +69,7 @@ public class CourseDAO implements DAO<Course>{
     }
 
     @Override
-    public void addItem(Course course) {
+    public Optional<Course> addItem(Course course) {
         try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_INSERT,
                 Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, course.getId());
@@ -64,10 +81,12 @@ public class CourseDAO implements DAO<Course>{
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
         }
+
+        return findById(course.getId());
     }
 
     @Override
-    public void updateItem(Course course) {
+    public Optional<Course> updateItem(Course course) {
         try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_UPDATE,
                 Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, course.getName());
@@ -79,6 +98,8 @@ public class CourseDAO implements DAO<Course>{
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
         }
+
+        return findById(course.getId());
     }
 
     @Override
@@ -89,22 +110,5 @@ public class CourseDAO implements DAO<Course>{
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
         }
-    }
-
-    @Override
-    public Optional<Course> findByName(String name) {
-        Course course = null;
-
-        try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_COURSES_FIND_BY_NAME)){
-            preparedStatement.setString(1, name);
-            resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            course = new Course(resultSet.getInt("course_id"), resultSet.getString("course_name"),
-                    resultSet.getString("course_description"));
-        } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
-        }
-
-        return Optional.ofNullable(course);
     }
 }

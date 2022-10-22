@@ -64,7 +64,7 @@ public class GroupDAO implements DAO<Group> {
     }
 
     @Override
-    public void addItem(Group group) {
+    public Optional<Group> addItem(Group group) {
         try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_GROUPS_INSERT,
                 Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, group.getId());
@@ -75,10 +75,12 @@ public class GroupDAO implements DAO<Group> {
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
         }
+
+        return findById(group.getId());
     }
 
     @Override
-    public void updateItem(Group group) {
+    public Optional<Group> updateItem(Group group) {
         try (PreparedStatement preparedStatement = CONNECTION.prepareStatement(SQL_GROUPS_UPDATE,
                 Statement.RETURN_GENERATED_KEYS)){
             preparedStatement.setString(1, group.getName());
@@ -89,6 +91,8 @@ public class GroupDAO implements DAO<Group> {
         } catch (SQLException e) {
             LOGGER.error("Database Connection Creation Failed : %s", e);
         }
+
+        return findById(group.getId());
     }
 
     @Override
