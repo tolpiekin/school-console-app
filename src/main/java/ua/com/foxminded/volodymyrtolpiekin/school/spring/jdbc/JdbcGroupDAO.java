@@ -24,8 +24,7 @@ public class JdbcGroupDAO extends GroupDAO {
     @Override
     public Optional<Group> findById(int id) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_GROUPS_FIND_BY_ID, groupRowMapper, id));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_GROUPS_FIND_BY_ID, groupRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -34,8 +33,7 @@ public class JdbcGroupDAO extends GroupDAO {
     @Override
     public Optional<Group> findByName(String name) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_GROUPS_FIND_BY_NAME, groupRowMapper, name));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_GROUPS_FIND_BY_NAME, groupRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

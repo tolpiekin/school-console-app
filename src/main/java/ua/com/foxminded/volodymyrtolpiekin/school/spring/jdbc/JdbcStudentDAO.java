@@ -24,8 +24,7 @@ public class JdbcStudentDAO extends StudentDAO {
     @Override
     public Optional<Student> findById(int id) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_STUDENTS_FIND_BY_ID, studentRowMapper, id));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_STUDENTS_FIND_BY_ID, studentRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -34,8 +33,7 @@ public class JdbcStudentDAO extends StudentDAO {
     @Override
     public Optional<Student> findByName(String lastName) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_STUDENTS_FIND_BY_LAST_NAME, studentRowMapper, lastName));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_STUDENTS_FIND_BY_LAST_NAME, studentRowMapper, lastName));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
