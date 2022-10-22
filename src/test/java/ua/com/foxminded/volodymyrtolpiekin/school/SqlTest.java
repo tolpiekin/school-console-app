@@ -17,19 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Sql(scripts = "/insert_data1.sql", statements = "insert into students (student_id, group_id, first_name, last_name) values (100, 211, 'John', 'Shiva')")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = AppConfig.class)
-public class SqlTest {
+class SqlTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Test
-    public void fetchRows1() {
+    void fetchRows1() {
         List<Map<String, Object>> students = jdbcTemplate.queryForList("SELECT * FROM students");
         assertEquals(3, students.size());
     }
 
     @Sql("/insert_more_data1.sql")
     @Test
-    public void fetchRows2() {
+    void fetchRows2() {
         List<Map<String, Object>> students = jdbcTemplate.queryForList("SELECT * FROM students");
         assertEquals(5, students.size());
     }

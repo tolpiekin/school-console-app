@@ -30,7 +30,6 @@ public class AppConfig {
 
     @Bean
     public PlatformTransactionManager transactionManager(){
-        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
-        return transactionManager;
+        return new DataSourceTransactionManager(dataSource());
     }
 }

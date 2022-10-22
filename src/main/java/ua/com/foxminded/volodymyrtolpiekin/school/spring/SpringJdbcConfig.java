@@ -11,7 +11,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("com.foxminded.volodymyrtolpiekin.school")
+@ComponentScan("ua.com.foxminded.volodymyrtolpiekin.school")
 @PropertySource("classpath:database.properties")
 public class SpringJdbcConfig {
     @Value("${DB_URL}")
