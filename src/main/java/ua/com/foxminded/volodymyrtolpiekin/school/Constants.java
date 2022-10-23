@@ -1,9 +1,9 @@
 package ua.com.foxminded.volodymyrtolpiekin.school;
 
 public final class Constants {
-    public static final String DB_URL = "url";
+    public static final String DB_URL = "dburl";
+    public static final String DB_DRIVER = "dbdriver";
     public static final String DB_USER = "dbuser";
-    public static final String DB_DRIVER = "driver";
     public static final String DB_PASSWORD = "dbpassword";
     public static final String SQL_COURSES_FIND_BY_NAME = "select * from courses where course_name = ?";
     public static final String SQL_COURSES_FIND_BY_ID = "select * from courses where course_id = ?";

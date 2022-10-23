@@ -23,7 +23,7 @@ public final class ConnectionFactory {
                 return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             }
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
         return CONNECTION;
     }
@@ -37,7 +37,7 @@ public final class ConnectionFactory {
                     instance = new ConnectionFactory();
                 }
             } catch (SQLException e) {
-                LOGGER.error("Database Connection Creation Failed : %s", e);
+                LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
             }
         }
         return instance;

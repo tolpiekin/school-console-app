@@ -1,5 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.spring.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +17,7 @@ import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Repository
 public class CourseDAOImpl implements CourseDAO {
+    @Autowired
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Course> courseRowMapper = new CourseRowMapper();
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
