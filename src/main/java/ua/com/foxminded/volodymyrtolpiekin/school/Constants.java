@@ -26,7 +26,7 @@ public final class Constants {
     public static final String SQL_COURSES_REMOVE_STUDENT_FROM_COURSE =
             "DELETE FROM course_attendance WHERE student_id=%d AND course_id=%d";
     public static final String SQL_COURSES_IF_STUDENT_AT_COURSE =
-            "SELECT * FROM course_attendance WHERE student_id=? AND course_id=?";
+            "SELECT EXISTS(SELECT * FROM course_attendance WHERE student_id=? AND course_id=?)";
     public static final String SQL_GROUPS_FIND_BY_NAME = "select * from groups where group_name = ?";
     public static final String SQL_GROUPS_FIND_BY_ID = "select * from groups where group_id = ?";
     public static final String SQL_GROUPS_GET_ALL = "select * from groups";

@@ -1,5 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.spring.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
@@ -14,9 +15,13 @@ import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Service
 public class DatabaseStartup {
+    @Autowired
     GroupServiceImpl groupServiceImpl;
+    @Autowired
     CourseServiceImpl courseServiceImpl;
+    @Autowired
     StudentServiceImpl studentServiceImpl;
+    @Autowired
     JdbcTemplate jdbcTemplate;
     Random random = new Random();
     private String generateGroupName() {
@@ -46,7 +51,6 @@ public class DatabaseStartup {
     }
 
     public void assignStudentsToCourses() {
-        jdbcTemplate.update(QUERY_COURSE_ATTENDANCE_CREATE);
         List<Student> students = studentServiceImpl.getAll();
         List<Course> courses = courseServiceImpl.getAll();
         students.forEach(student -> IntStream.range(0, random.nextInt(COURSES_LIMIT + 1)).forEach(i -> {

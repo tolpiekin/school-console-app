@@ -80,7 +80,8 @@ public class CourseDAOImpl implements CourseDAO {
 
     @Override
     public boolean ifStudentAtCourse(int studentId, int courseId){
-        return jdbcTemplate.update(SQL_COURSES_IF_STUDENT_AT_COURSE, studentId, courseId) > 0;
+        return jdbcTemplate.queryForObject(SQL_COURSES_IF_STUDENT_AT_COURSE, new Object[] { studentId, courseId},
+                Boolean.class );
     }
 
     @Override

@@ -12,57 +12,57 @@ import java.util.Optional;
 @Service
 public class CourseServiceImpl implements CourseService{
     @Autowired
-    private CourseDAOImpl jdbcCourseDAOImpl;
+    private CourseDAOImpl courseDAOImpl;
 
     @Override
     public Optional<Course> findById(int id) {
-        return jdbcCourseDAOImpl.findById(id);
+        return courseDAOImpl.findById(id);
     }
 
     @Override
     public Optional<Course> findByName(String name) {
-        return jdbcCourseDAOImpl.findByName(name);
+        return courseDAOImpl.findByName(name);
     }
 
     @Override
     public List<Course> getAll() {
-        return jdbcCourseDAOImpl.getAll();
+        return courseDAOImpl.getAll();
     }
 
     @Override
     public Optional<Course> addCourse(Course course) {
-        return jdbcCourseDAOImpl.addItem(course);
+        return courseDAOImpl.addItem(course);
     }
 
     @Override
     public Optional<Course> updateCourse(Course course) {
-        return jdbcCourseDAOImpl.updateItem(course);
+        return courseDAOImpl.updateItem(course);
     }
 
     @Override
     public void deleteById(int id){
-        jdbcCourseDAOImpl.deleteById(id);
+        courseDAOImpl.deleteById(id);
     }
 
     @Override
     public List<Student> getCourseStudents(String courseName){
-        return jdbcCourseDAOImpl.getCourseStudents(courseName);
+        return courseDAOImpl.getCourseStudents(courseName);
     }
 
     @Override
     public boolean addStudentToCourse(Student student, Course course) {
-        return jdbcCourseDAOImpl.addStudentToCourse(student.getId(), course.getId());
+        return courseDAOImpl.addStudentToCourse(student.getId(), course.getId());
     }
 
     @Override
     public boolean ifStudentAtCourse(Student student, Course course){
-        return jdbcCourseDAOImpl.ifStudentAtCourse(student.getId(), course.getId());
+        return courseDAOImpl.ifStudentAtCourse(student.getId(), course.getId());
     }
 
     @Override
     public boolean removeStudentFromCourse(Student student, Course course){
         if (ifStudentAtCourse(student, course)) {
-            return jdbcCourseDAOImpl.removeStudentFromCourse(student.getId(), course.getId());
+            return courseDAOImpl.removeStudentFromCourse(student.getId(), course.getId());
         }
         return false;
     }
