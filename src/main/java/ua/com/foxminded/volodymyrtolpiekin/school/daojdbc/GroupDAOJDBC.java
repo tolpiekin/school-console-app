@@ -27,7 +27,7 @@ public class GroupDAOJDBC implements DAOJDBC<Group> {
             resultSet.next();
             group = new Group(resultSet.getInt("group_id"), resultSet.getString("group_name"));
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return Optional.ofNullable(group);
@@ -42,7 +42,7 @@ public class GroupDAOJDBC implements DAOJDBC<Group> {
             resultSet.next();
             group = new Group(resultSet.getInt("group_id"), resultSet.getString("group_name"));
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return Optional.ofNullable(group);
@@ -57,7 +57,7 @@ public class GroupDAOJDBC implements DAOJDBC<Group> {
                 groups.add(new Group(resultSet.getInt("group_id"), resultSet.getString("group_name")));
             }
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return groups;
@@ -73,7 +73,7 @@ public class GroupDAOJDBC implements DAOJDBC<Group> {
             resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return findById(group.getId());
@@ -89,7 +89,7 @@ public class GroupDAOJDBC implements DAOJDBC<Group> {
             resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return findById(group.getId());
@@ -101,7 +101,7 @@ public class GroupDAOJDBC implements DAOJDBC<Group> {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
     }
 }

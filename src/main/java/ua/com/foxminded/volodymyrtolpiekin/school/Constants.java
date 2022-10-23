@@ -48,7 +48,7 @@ public final class Constants {
     public static final String SQL_STUDENTS_UPDATE = "update students set group_id = ?, first_name = ?, " +
             "last_name = ? where student_id = ?";
     public static final String SQL_STUDENTS_DELETE = "delete from students where student_id = ?";
-    public static  final String[] COURSES = new String[]{"math", "biology", "physics", "psychology", "economics",
+    public static final String[] COURSES = new String[]{"math", "biology", "physics", "psychology", "economics",
             "logics", "geography", "history", "literature", "programming"};
     public static final String[] FIRST_NAMES = new String[] {"Liam", "Olivia", "Noah", "Emma", "Oliver", "Charlotte",
             "Elijah", "Amelia", "James", "Ava", "William", "Sophia", "Benjamin", "Isabella", "Lucas", "Mia", "Henry",
@@ -65,6 +65,7 @@ public final class Constants {
             "student_id integer NOT NULL, " +
             "course_id integer NOT NULL, " +
             "CONSTRAINT \"course_attendance.pkey\" PRIMARY KEY (student_id, course_id));";
+    public static final String DATABASE_CONNECTION_CREATION_FAILED = "Database Connection Creation Failed : %s";
 
     private Constants() {
 

@@ -31,7 +31,7 @@ public class StudentDAOJDBC implements DAOJDBC<Student> {
             student = new Student(resultSet.getInt("student_id"), resultSet.getInt("group_id"),
                     resultSet.getString("first_name"), resultSet.getString("last_name"));
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return Optional.ofNullable(student);
@@ -48,7 +48,7 @@ public class StudentDAOJDBC implements DAOJDBC<Student> {
             student = new Student(resultSet.getInt("student_id"), resultSet.getInt("group_id"),
                     resultSet.getString("first_name"), resultSet.getString("last_name"));
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return Optional.ofNullable(student);
@@ -68,7 +68,7 @@ public class StudentDAOJDBC implements DAOJDBC<Student> {
                         resultSet.getString("last_name")));
             }
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return students;
@@ -84,7 +84,7 @@ public class StudentDAOJDBC implements DAOJDBC<Student> {
             resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return findById(student.getId());
@@ -101,7 +101,7 @@ public class StudentDAOJDBC implements DAOJDBC<Student> {
             resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
 
         return findById(student.getId());
@@ -113,7 +113,7 @@ public class StudentDAOJDBC implements DAOJDBC<Student> {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Database Connection Creation Failed : %s", e);
+            LOGGER.error(DATABASE_CONNECTION_CREATION_FAILED, e);
         }
     }
 }

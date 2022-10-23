@@ -17,7 +17,7 @@ public interface GroupService {
 
     Optional<Group> updateGroup(Group group);
 
-    public void delGroup(int id);
+    void delGroup(int id);
 
     List<Group> smallerThen(int size);
 }
