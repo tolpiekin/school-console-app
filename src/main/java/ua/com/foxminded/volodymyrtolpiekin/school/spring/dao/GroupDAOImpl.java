@@ -1,23 +1,23 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.jdbc;
+package ua.com.foxminded.volodymyrtolpiekin.school.spring.dao;
 
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.GroupDAO;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 import ua.com.foxminded.volodymyrtolpiekin.school.spring.mappers.GroupRowMapper;
 
 import java.util.List;
 import java.util.Optional;
+
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Repository
-public class JdbcGroupDAO extends GroupDAO {
+public class GroupDAOImpl implements GroupDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Group> groupRowMapper = new GroupRowMapper();
 
-    public JdbcGroupDAO(JdbcTemplate jdbcTemplate) {
+    public GroupDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

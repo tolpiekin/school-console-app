@@ -1,23 +1,23 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.jdbc;
+package ua.com.foxminded.volodymyrtolpiekin.school.spring.dao;
 
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.StudentDAO;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 import ua.com.foxminded.volodymyrtolpiekin.school.spring.mappers.StudentRowMapper;
 
 import java.util.List;
 import java.util.Optional;
+
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Repository
-public class JdbcStudentDAO extends StudentDAO {
+public class StudentDAOImpl implements StudentDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
 
-    public JdbcStudentDAO(JdbcTemplate jdbcTemplate) {
+    public StudentDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

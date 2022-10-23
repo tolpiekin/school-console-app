@@ -1,4 +1,4 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.dao;
+package ua.com.foxminded.volodymyrtolpiekin.school.daojdbc;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
@@ -11,8 +11,8 @@ import java.util.Optional;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
-public class CourseDAO implements DAO<Course>{
-    private static final Logger LOGGER = LoggerFactory.getLogger(CourseDAO.class);
+public class CourseDAOJDBC implements DAOJDBC<Course> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseDAOJDBC.class);
     private final Connection CONNECTION = ConnectionFactory.getInstance().getConnection();
     ResultSet resultSet = null;
 

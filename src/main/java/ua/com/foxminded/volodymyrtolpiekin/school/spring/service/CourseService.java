@@ -1,59 +1,29 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.spring.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
-import ua.com.foxminded.volodymyrtolpiekin.school.spring.jdbc.JdbcCourseDAO;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class CourseService {
-    @Autowired
-    private JdbcCourseDAO jdbcCourseDAO;
+public interface CourseService {
+    Optional<Course> findById(int id);
 
-    public Optional<Course> findById(int id) {
-        return jdbcCourseDAO.findById(id);
-    }
+    Optional<Course> findByName(String name);
 
-    public Optional<Course> findByName(String name) {
-        return jdbcCourseDAO.findByName(name);
-    }
+    List<Course> getAll();
 
-    public List<Course> getAll() {
-        return jdbcCourseDAO.getAll();
-    }
+    Optional<Course> addCourse(Course course);
 
-    public Optional<Course> addCourse(Course course) {
-        return jdbcCourseDAO.addItem(course);
-    }
+    Optional<Course> updateCourse(Course course);
 
-    public Optional<Course> updateCourse(Course course) {
-        return jdbcCourseDAO.updateItem(course);
-    }
+    void deleteById(int id);
 
-    public void delCourse(int id){
-        jdbcCourseDAO.deleteById(id);
-    }
+    List<Student> getCourseStudents(String courseName);
 
-    public List<Student> getCourseStudents(String courseName){
-        return jdbcCourseDAO.getCourseStudents(courseName);
-    }
+    boolean addStudentToCourse(Student student, Course course);
 
-    public boolean addStudentToCourse(Student student, Course course) {
-        return jdbcCourseDAO.addStudentToCourse(student.getId(), course.getId());
-    }
+    boolean ifStudentAtCourse(Student student, Course course);
 
-    public boolean ifStudentAtCourse(Student student, Course course){
-        return jdbcCourseDAO.ifStudentAtCourse(student.getId(), course.getId());
-    }
-
-    public boolean removeStudentFromCourse(Student student, Course course){
-        if (ifStudentAtCourse(student, course)) {
-            return jdbcCourseDAO.removeStudentFromCourse(student.getId(), course.getId());
-        }
-        return false;
-    }
+    boolean removeStudentFromCourse(Student student, Course course);
 }
