@@ -60,4 +60,16 @@ public class StudentServiceTest {
         // Assert the response
         Assertions.assertEquals(2, students.size(), "getAll should return 2 students");
     }
+
+    @Test
+    @DisplayName("Test add student")
+    void testSave() {
+        Student student = new Student(1, 1, "John", "Doe");
+        doReturn(Optional.of(student)).when(repository).addItem(any());
+
+        Optional<Student> returnedStudent = repository.addItem(student);
+
+        Assertions.assertNotNull(returnedStudent, "The saved student should not be null");
+        Assertions.assertEquals(returnedStudent, Optional.of(student), "Should be the same student");
+    }
 }
