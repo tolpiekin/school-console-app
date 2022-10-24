@@ -11,40 +11,45 @@ import java.util.Optional;
 @Service
 public class GroupServiceImpl implements GroupService {
     @Autowired
-    private GroupDAOImpl jdbcGroupDAOImpl;
+    private GroupDAOImpl groupDAOImpl;
 
     @Override
     public Optional<Group> findById(int id) {
-        return jdbcGroupDAOImpl.findById(id);
+        return groupDAOImpl.findById(id);
     }
 
     @Override
     public Optional<Group> findByName(String name) {
-        return jdbcGroupDAOImpl.findByName(name);
+        return groupDAOImpl.findByName(name);
     }
 
     @Override
     public List<Group> getAll() {
-        return jdbcGroupDAOImpl.getAll();
+        return groupDAOImpl.getAll();
     }
 
     @Override
     public Optional<Group> addGroup(Group group) {
-        return jdbcGroupDAOImpl.addItem(group);
+        return groupDAOImpl.addItem(group);
     }
 
     @Override
     public Optional<Group> updateGroup(Group group) {
-        return jdbcGroupDAOImpl.updateItem(group);
+        return groupDAOImpl.updateItem(group);
     }
 
     @Override
     public void delGroup(int id){
-        jdbcGroupDAOImpl.deleteById(id);
+        groupDAOImpl.deleteById(id);
+    }
+
+    @Override
+    public boolean isTableEmpty() {
+        return groupDAOImpl.isTableEmpty();
     }
 
     @Override
     public List<Group> smallerThen(int size){
-        return jdbcGroupDAOImpl.smallerThen(size);
+        return groupDAOImpl.smallerThen(size);
     }
 }

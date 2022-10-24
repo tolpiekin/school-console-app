@@ -18,5 +18,7 @@ public interface GroupDAO {
 
     void deleteById(int id);
 
+    boolean isTableEmpty();
+
     List<Group> smallerThen (int size);
 }

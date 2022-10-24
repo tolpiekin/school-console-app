@@ -63,6 +63,11 @@ public class GroupDAOImpl implements GroupDAO {
         jdbcTemplate.update(SQL_GROUPS_DELETE, id);
     }
 
+    @Override
+    public boolean isTableEmpty() {
+        return jdbcTemplate.queryForObject(SQL_COURSE_ATTENDANCE_NOT_EMPTY, Integer.class) == 0;
+    }
+
     public List<Group> smallerThen (int size) {
         return jdbcTemplate.query(SQL_GROUPS_LESS_THEN, groupRowMapper, size);
     }

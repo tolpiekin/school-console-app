@@ -19,5 +19,7 @@ public interface GroupService {
 
     void delGroup(int id);
 
+    boolean isTableEmpty ();
+
     List<Group> smallerThen(int size);
 }

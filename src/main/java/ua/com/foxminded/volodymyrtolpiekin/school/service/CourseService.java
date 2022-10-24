@@ -18,4 +18,6 @@ public interface CourseService {
     Optional<Course> updateCourse(Course course);
 
     void deleteById(int id);
+
+    boolean isTableEmpty ();
 }

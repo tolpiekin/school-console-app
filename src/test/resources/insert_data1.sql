@@ -1,2 +1,0 @@
-insert into students(student_id, group_id, first_name, last_name) values (101, 411, 'Ivan', 'Ozarko');
-insert into students(student_id, group_id, first_name, last_name) values (102, 411, 'Kristina', 'Agulera');

@@ -17,4 +17,6 @@ public interface StudentService {
     Optional<Student> updateStudent(Student student);
 
     void delStudent(int id);
+
+    boolean isTableEmpty ();
 }

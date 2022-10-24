@@ -11,35 +11,40 @@ import java.util.Optional;
 @Service
 public class StudentServiceImpl implements StudentService {
     @Autowired
-    private StudentDAOImpl jdbcStudentDAOImpl;
+    private StudentDAOImpl studentDAOImpl;
 
     @Override
     public Optional<Student> findById(int id) {
-        return jdbcStudentDAOImpl.findById(id);
+        return studentDAOImpl.findById(id);
     }
 
     @Override
     public Optional<Student> findByLastName(String lastName) {
-        return jdbcStudentDAOImpl.findByName(lastName);
+        return studentDAOImpl.findByName(lastName);
     }
 
     @Override
     public List<Student> getAll() {
-        return jdbcStudentDAOImpl.getAll();
+        return studentDAOImpl.getAll();
     }
 
     @Override
     public Optional<Student> addStudent(Student student) {
-        return jdbcStudentDAOImpl.addItem(student);
+        return studentDAOImpl.addItem(student);
     }
 
     @Override
     public Optional<Student> updateStudent(Student student) {
-        return jdbcStudentDAOImpl.updateItem(student);
+        return studentDAOImpl.updateItem(student);
     }
 
     @Override
     public void delStudent(int id){
-        jdbcStudentDAOImpl.deleteById(id);
+        studentDAOImpl.deleteById(id);
+    }
+
+    @Override
+    public boolean isTableEmpty() {
+        return studentDAOImpl.isTableEmpty();
     }
 }

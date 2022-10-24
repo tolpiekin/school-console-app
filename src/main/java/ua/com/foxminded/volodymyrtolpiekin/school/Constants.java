@@ -23,7 +23,10 @@ public final class Constants {
             "DELETE FROM course_attendance WHERE student_id=%d AND course_id=%d";
     public static final String SQL_COURSES_IF_STUDENT_AT_COURSE =
             "SELECT EXISTS(SELECT * FROM course_attendance WHERE student_id=? AND course_id=?)";
-    public static final String SQL_COURSES_NOT_EMPTY = "SELECT count(*) From course_attendance";
+    public static final String SQL_COURSE_ATTENDANCE_NOT_EMPTY = "SELECT count(*) from course_attendance";
+    public static final String SQL_COURSES_NOT_EMPTY = "SELECT count(*) from courses";
+    public static final String SQL_GROUPS_ATTENDANCE_NOT_EMPTY = "SELECT count(*) from groups";
+    public static final String SQL_STUDENTS_NOT_EMPTY = "SELECT count(*) from students";
     public static final String SQL_GROUPS_FIND_BY_NAME = "select * from groups where group_name = ?";
     public static final String SQL_GROUPS_FIND_BY_ID = "select * from groups where group_id = ?";
     public static final String SQL_GROUPS_GET_ALL = "select * from groups";

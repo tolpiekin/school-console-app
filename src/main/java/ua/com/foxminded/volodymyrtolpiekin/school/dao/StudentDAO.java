@@ -17,4 +17,6 @@ public interface StudentDAO {
     Optional<Student> updateItem(Student student);
 
     void deleteById(int id);
+
+    boolean isTableEmpty();
 }

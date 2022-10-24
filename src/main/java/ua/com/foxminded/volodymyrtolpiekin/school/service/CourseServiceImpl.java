@@ -42,4 +42,9 @@ public class CourseServiceImpl implements CourseService{
     public void deleteById(int id){
         courseDAOImpl.deleteById(id);
     }
+
+    @Override
+    public boolean isTableEmpty() {
+        return courseDAOImpl.isTableEmpty();
+    }
 }
