@@ -34,14 +34,14 @@ public class DatabaseStartup {
     }
 
     public void generateGroups() {
-        if (groupServiceImpl.getAll().size() == 0) {
+        if (groupServiceImpl.isTableEmpty()) {
             IntStream.range(0, NUMBER_OF_GROUPS).forEach(i ->
                     groupServiceImpl.addGroup(new Group(i + 1, generateGroupName())));
         }
     }
 
     public void generateCourses() {
-        if (courseServiceImpl.getAll().size() == 0) {
+        if (courseServiceImpl.isTableEmpty()) {
             IntStream.range(0, COURSES.length).forEach(i ->
                     courseServiceImpl.addCourse(new Course(i + 1, COURSES[i],
                             String.format(COURSE_DESCRIPTION, COURSES[i]))));
@@ -50,7 +50,7 @@ public class DatabaseStartup {
     }
 
     public void generateStudents() {
-        if (studentServiceImpl.getAll().size() == 0) {
+        if (studentServiceImpl.isTableEmpty()) {
             List<Group> groups = groupServiceImpl.getAll();
             IntStream.range(0, NUMBER_OF_STUDENTS).forEach(i ->
                     studentServiceImpl.addStudent(new Student(i + 1, groups.get(random.nextInt(NUMBER_OF_GROUPS)).getId(),
