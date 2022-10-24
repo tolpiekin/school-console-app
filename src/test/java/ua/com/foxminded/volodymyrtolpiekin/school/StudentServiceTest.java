@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.StudentDAOImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.StudentDAO;
-import ua.com.foxminded.volodymyrtolpiekin.school.service.StudentService;
+import ua.com.foxminded.volodymyrtolpiekin.school.service.StudentServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,10 +20,10 @@ import static org.mockito.Mockito.doReturn;
 @SpringBootTest
 public class StudentServiceTest {
     @Autowired
-    StudentService service;
+    StudentServiceImpl service;
 
     @MockBean
-    private StudentDAO repository;
+    private StudentDAOImpl repository;
 
     @Test
     @DisplayName("Test findById Success")
@@ -59,17 +59,5 @@ public class StudentServiceTest {
 
         // Assert the response
         Assertions.assertEquals(2, students.size(), "getAll should return 2 students");
-    }
-
-    @Test
-    @DisplayName("Test add student")
-    void testSave() {
-        Student student = new Student(1, 1, "John", "Doe");
-        doReturn(student).when(repository).addItem(any());
-
-        Optional<Student> returnedStudent = repository.addItem(student);
-
-        Assertions.assertNotNull(returnedStudent, "The saved student should not be null");
-        Assertions.assertEquals(returnedStudent.get(), student, "Should be the same student");
     }
 }
