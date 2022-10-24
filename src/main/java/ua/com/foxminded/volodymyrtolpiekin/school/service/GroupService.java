@@ -1,4 +1,4 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.service;
+package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 

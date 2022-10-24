@@ -1,11 +1,10 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring;
+package ua.com.foxminded.volodymyrtolpiekin.school;
 
-import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import ua.com.foxminded.volodymyrtolpiekin.school.spring.service.DatabaseStartup;
+import ua.com.foxminded.volodymyrtolpiekin.school.service.DatabaseStartup;
 
 @Component
 public class InitializeDatabaseRunner implements ApplicationRunner {

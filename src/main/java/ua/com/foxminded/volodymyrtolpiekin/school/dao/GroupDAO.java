@@ -1,4 +1,4 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.dao;
+package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 

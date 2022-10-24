@@ -1,4 +1,4 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.service;
+package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,6 +22,8 @@ public class DatabaseStartup {
     @Autowired
     StudentServiceImpl studentServiceImpl;
     @Autowired
+    CourseAttendanceServiceImpl courseAttendanceServiceImpl;
+    @Autowired
     JdbcTemplate jdbcTemplate;
     Random random = new Random();
     private String generateGroupName() {
@@ -32,22 +34,30 @@ public class DatabaseStartup {
     }
 
     public void generateGroups() {
-        IntStream.range(0, NUMBER_OF_GROUPS).forEach(i ->
-                groupServiceImpl.addGroup(new Group(i + 1, generateGroupName())));
+        if (groupServiceImpl.getAll().size() == 0) {
+            IntStream.range(0, NUMBER_OF_GROUPS).forEach(i ->
+                    groupServiceImpl.addGroup(new Group(i + 1, generateGroupName())));
+        }
     }
 
     public void generateCourses() {
-        IntStream.range(0, COURSES.length).forEach(i ->
-                courseServiceImpl.addCourse(new Course(i + 1, COURSES[i],
-                        String.format(COURSE_DESCRIPTION, COURSES[i]))));
+        if (courseServiceImpl.getAll().size() == 0) {
+            IntStream.range(0, COURSES.length).forEach(i ->
+                    courseServiceImpl.addCourse(new Course(i + 1, COURSES[i],
+                            String.format(COURSE_DESCRIPTION, COURSES[i]))));
+        }
+
     }
 
     public void generateStudents() {
-        List<Group> groups = groupServiceImpl.getAll();
-        IntStream.range(0, NUMBER_OF_STUDENTS).forEach(i ->
-                studentServiceImpl.addStudent(new Student(i + 1, groups.get(random.nextInt(NUMBER_OF_GROUPS)).getId(),
-                        FIRST_NAMES[random.nextInt(FIRST_NAMES.length)],
-                        LAST_NAMES[random.nextInt(LAST_NAMES.length)])));
+        if (studentServiceImpl.getAll().size() == 0) {
+            List<Group> groups = groupServiceImpl.getAll();
+            IntStream.range(0, NUMBER_OF_STUDENTS).forEach(i ->
+                    studentServiceImpl.addStudent(new Student(i + 1, groups.get(random.nextInt(NUMBER_OF_GROUPS)).getId(),
+                            FIRST_NAMES[random.nextInt(FIRST_NAMES.length)],
+                            LAST_NAMES[random.nextInt(LAST_NAMES.length)])));
+        }
+
     }
 
     public void assignStudentsToCourses() {
@@ -55,8 +65,8 @@ public class DatabaseStartup {
         List<Course> courses = courseServiceImpl.getAll();
         students.forEach(student -> IntStream.range(0, random.nextInt(COURSES_LIMIT + 1)).forEach(i -> {
             Course course = courses.get(random.nextInt(courses.size()));
-            if (!courseServiceImpl.ifStudentAtCourse(student, course)) {
-                courseServiceImpl.addStudentToCourse(student, course);
+            if (!courseAttendanceServiceImpl.ifStudentAtCourse(student, course)) {
+                courseAttendanceServiceImpl.addStudentToCourse(student, course);
             }
         }));
     }

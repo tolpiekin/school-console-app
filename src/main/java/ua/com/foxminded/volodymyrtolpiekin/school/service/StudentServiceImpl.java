@@ -1,9 +1,9 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.service;
+package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
-import ua.com.foxminded.volodymyrtolpiekin.school.spring.dao.StudentDAOImpl;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.StudentDAOImpl;
 
 import java.util.List;
 import java.util.Optional;

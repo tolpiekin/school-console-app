@@ -1,11 +1,11 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.dao;
+package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
-import ua.com.foxminded.volodymyrtolpiekin.school.spring.mappers.GroupRowMapper;
+import ua.com.foxminded.volodymyrtolpiekin.school.mappers.GroupRowMapper;
 
 import java.util.List;
 import java.util.Optional;

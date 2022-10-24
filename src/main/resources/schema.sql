@@ -22,4 +22,10 @@ CREATE TABLE courses (
   course_name varchar(50) NOT NULL,
   course_description varchar(200) NOT NULL,
   CONSTRAINT "courses.pkey" PRIMARY KEY (course_id)
-);
+  );
+
+CREATE TABLE course_attendance (
+    student_id integer NOT NULL,
+    course_id integer NOT NULL,
+    CONSTRAINT "course_attendance.pkey" PRIMARY KEY (student_id, course_id)
+    );

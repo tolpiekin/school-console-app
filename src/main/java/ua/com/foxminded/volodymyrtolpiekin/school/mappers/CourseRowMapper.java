@@ -1,4 +1,4 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.mappers;
+package ua.com.foxminded.volodymyrtolpiekin.school.mappers;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import org.springframework.jdbc.core.RowMapper;
