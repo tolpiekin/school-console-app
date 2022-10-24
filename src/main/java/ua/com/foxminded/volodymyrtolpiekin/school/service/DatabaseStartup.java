@@ -61,13 +61,15 @@ public class DatabaseStartup {
     }
 
     public void assignStudentsToCourses() {
-        List<Student> students = studentServiceImpl.getAll();
-        List<Course> courses = courseServiceImpl.getAll();
-        students.forEach(student -> IntStream.range(0, random.nextInt(COURSES_LIMIT + 1)).forEach(i -> {
-            Course course = courses.get(random.nextInt(courses.size()));
-            if (!courseAttendanceServiceImpl.ifStudentAtCourse(student, course)) {
-                courseAttendanceServiceImpl.addStudentToCourse(student, course);
-            }
-        }));
+        if (courseAttendanceServiceImpl.isTableEmpty()) {
+            List<Student> students = studentServiceImpl.getAll();
+            List<Course> courses = courseServiceImpl.getAll();
+            students.forEach(student -> IntStream.range(0, random.nextInt(COURSES_LIMIT + 1)).forEach(i -> {
+                Course course = courses.get(random.nextInt(courses.size()));
+                if (!courseAttendanceServiceImpl.ifStudentAtCourse(student, course)) {
+                    courseAttendanceServiceImpl.addStudentToCourse(student, course);
+                }
+            }));
+        }
     }
 }

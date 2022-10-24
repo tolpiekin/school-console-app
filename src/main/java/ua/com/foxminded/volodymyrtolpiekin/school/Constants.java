@@ -1,10 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school;
 
 public final class Constants {
-    public static final String DB_URL = "dburl";
-    public static final String DB_DRIVER = "dbdriver";
-    public static final String DB_USER = "dbuser";
-    public static final String DB_PASSWORD = "dbpassword";
     public static final String SQL_COURSES_FIND_BY_NAME = "select * from courses where course_name = ?";
     public static final String SQL_COURSES_FIND_BY_ID = "select * from courses where course_id = ?";
     public static final String SQL_COURSES_GET_ALL = "select * from courses";
@@ -27,6 +23,7 @@ public final class Constants {
             "DELETE FROM course_attendance WHERE student_id=%d AND course_id=%d";
     public static final String SQL_COURSES_IF_STUDENT_AT_COURSE =
             "SELECT EXISTS(SELECT * FROM course_attendance WHERE student_id=? AND course_id=?)";
+    public static final String SQL_COURSES_NOT_EMPTY = "SELECT count(*) From course_attendance";
     public static final String SQL_GROUPS_FIND_BY_NAME = "select * from groups where group_name = ?";
     public static final String SQL_GROUPS_FIND_BY_ID = "select * from groups where group_id = ?";
     public static final String SQL_GROUPS_GET_ALL = "select * from groups";

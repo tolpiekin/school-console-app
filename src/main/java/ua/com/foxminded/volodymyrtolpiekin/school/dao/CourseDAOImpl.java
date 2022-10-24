@@ -5,10 +5,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 import ua.com.foxminded.volodymyrtolpiekin.school.mappers.CourseRowMapper;
-import ua.com.foxminded.volodymyrtolpiekin.school.mappers.StudentRowMapper;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
 import java.util.List;
 import java.util.Optional;

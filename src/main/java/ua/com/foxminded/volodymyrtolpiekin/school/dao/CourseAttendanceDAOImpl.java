@@ -3,6 +3,7 @@ package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import ua.com.foxminded.volodymyrtolpiekin.school.mappers.StudentRowMapper;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
+@Repository
 public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     @Autowired
     private final JdbcTemplate jdbcTemplate;
@@ -38,5 +40,10 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     @Override
     public boolean removeStudentFromCourse(int studentId, int courseId){
         return jdbcTemplate.update(SQL_COURSES_REMOVE_STUDENT_FROM_COURSE, studentId, courseId) > 0;
+    }
+
+    @Override
+    public boolean isTableEmpty(){
+        return jdbcTemplate.queryForObject(SQL_COURSES_NOT_EMPTY, Integer.class) == 0;
     }
 }

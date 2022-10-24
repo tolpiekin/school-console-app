@@ -1,12 +1,16 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.CourseAttendanceDAOImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;
 
+@Service
 public class CourseAttendanceServiceImpl implements CourseAttendanceService {
+    @Autowired
     private CourseAttendanceDAOImpl courseAttendanceDAOImpl;
 
     @Override
@@ -30,5 +34,10 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
             return courseAttendanceDAOImpl.removeStudentFromCourse(student.getId(), course.getId());
         }
         return false;
+    }
+
+    @Override
+    public boolean isTableEmpty(){
+        return courseAttendanceDAOImpl.isTableEmpty();
     }
 }

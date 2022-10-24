@@ -1,7 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;
 import java.util.Optional;
