@@ -1,5 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,6 +18,7 @@ public class GroupDAOImpl implements GroupDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Group> groupRowMapper = new GroupRowMapper();
 
+    @Autowired
     public GroupDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

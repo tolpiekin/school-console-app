@@ -15,11 +15,11 @@ import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Repository
 public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
-    @Autowired
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
     private final RowMapper<Course> courseRowMapper = new CourseRowMapper();
 
+    @Autowired
     public CourseAttendanceDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
