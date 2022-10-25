@@ -18,12 +18,10 @@ public final class Constants {
                     "ON course_attendance.course_id = courses.course_id\n" +
                     "AND courses.course_name='%s';";
     public static final String SQL_COURSES_GET_COURSES_OF_STUDENT =
-            "SELECT  courses.course_id, courses.course_name\n" +
+            "SELECT  courses.course_id, courses.course_name, courses.course_description\n" +
                     "FROM courses\n" +
                     "INNER JOIN course_attendance\n" +
                     "ON courses.course_id = course_attendance.course_id\n" +
-                    "INNER JOIN students \n" +
-                    "ON course_attendance.student_id = students.student_id\n" +
                     "AND students.student_id=?;";
     public static final String SQL_COURSES_ADD_STUDENT_TO_COURSE =
             "INSERT INTO course_attendance(student_id, course_id) VALUES(?, ?)";
