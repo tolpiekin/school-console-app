@@ -10,8 +10,12 @@ import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    @Autowired
     private StudentDAOImpl studentDAOImpl;
+
+    @Autowired
+    public StudentServiceImpl (StudentDAOImpl studentDAOImpl) {
+        this.studentDAOImpl = studentDAOImpl;
+    }
 
     @Override
     public Optional<Student> findById(int id) {

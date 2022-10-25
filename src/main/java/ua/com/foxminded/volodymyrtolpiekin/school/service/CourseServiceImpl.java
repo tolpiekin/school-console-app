@@ -10,8 +10,12 @@ import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements CourseService{
+    private final CourseDAOImpl courseDAOImpl;
+
     @Autowired
-    private CourseDAOImpl courseDAOImpl;
+    public CourseServiceImpl (CourseDAOImpl courseDAOImpl) {
+        this.courseDAOImpl = courseDAOImpl;
+    }
 
     @Override
     public Optional<Course> findById(int id) {

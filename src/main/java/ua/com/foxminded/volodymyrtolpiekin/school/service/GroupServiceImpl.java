@@ -10,8 +10,12 @@ import java.util.Optional;
 
 @Service
 public class GroupServiceImpl implements GroupService {
+    private final GroupDAOImpl groupDAOImpl;
+
     @Autowired
-    private GroupDAOImpl groupDAOImpl;
+    public GroupServiceImpl(GroupDAOImpl groupDAOImpl) {
+        this.groupDAOImpl = groupDAOImpl;
+    }
 
     @Override
     public Optional<Group> findById(int id) {

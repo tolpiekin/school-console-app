@@ -10,8 +10,12 @@ import java.util.List;
 
 @Service
 public class CourseAttendanceServiceImpl implements CourseAttendanceService {
+    private final CourseAttendanceDAOImpl courseAttendanceDAOImpl;
+
     @Autowired
-    private CourseAttendanceDAOImpl courseAttendanceDAOImpl;
+    public CourseAttendanceServiceImpl(CourseAttendanceDAOImpl courseAttendanceDAOImpl) {
+        this.courseAttendanceDAOImpl = courseAttendanceDAOImpl;
+    }
 
     @Override
     public List<Student> getCourseStudents(String courseName){
