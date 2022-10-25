@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private StudentDAOImpl studentDAOImpl;
+    private final StudentDAOImpl studentDAOImpl;
 
     @Autowired
     public StudentServiceImpl (StudentDAOImpl studentDAOImpl) {
