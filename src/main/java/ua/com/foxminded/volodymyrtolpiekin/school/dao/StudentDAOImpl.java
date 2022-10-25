@@ -67,6 +67,6 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public boolean isTableEmpty() {
-        return jdbcTemplate.queryForObject(SQL_COURSE_ATTENDANCE_NOT_EMPTY, Integer.class) == 0;
+        return jdbcTemplate.queryForObject(SQL_STUDENTS_NOT_EMPTY, Integer.class) == 0;
     }
 }

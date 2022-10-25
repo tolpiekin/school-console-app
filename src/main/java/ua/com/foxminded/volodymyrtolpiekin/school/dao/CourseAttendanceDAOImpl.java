@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import ua.com.foxminded.volodymyrtolpiekin.school.mappers.CourseRowMapper;
 import ua.com.foxminded.volodymyrtolpiekin.school.mappers.StudentRowMapper;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;
@@ -16,14 +18,20 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     @Autowired
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
+    private final RowMapper<Course> courseRowMapper = new CourseRowMapper();
 
     public CourseAttendanceDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public List<Student> getCourseStudents(String courseName) {
+    public List<Student> getStudentsByCourseName(String courseName) {
         return jdbcTemplate.query(SQL_COURSES_GET_STUDENTS_BY_COURSE, studentRowMapper, courseName);
+    }
+
+    @Override
+    public List<Course> getCoursesByStudentId(int studentId) {
+        return jdbcTemplate.query(SQL_COURSES_GET_COURSES_OF_STUDENT, courseRowMapper, studentId);
     }
 
     @Override
@@ -32,7 +40,7 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     }
 
     @Override
-    public boolean ifStudentAtCourse(int studentId, int courseId){
+    public boolean isStudentAtCourse(int studentId, int courseId){
         return jdbcTemplate.queryForObject(SQL_COURSES_IF_STUDENT_AT_COURSE, new Object[] { studentId, courseId},
                 Boolean.class );
     }

@@ -65,7 +65,7 @@ public class GroupDAOImpl implements GroupDAO {
 
     @Override
     public boolean isTableEmpty() {
-        return jdbcTemplate.queryForObject(SQL_COURSE_ATTENDANCE_NOT_EMPTY, Integer.class) == 0;
+        return jdbcTemplate.queryForObject(SQL_GROUPS_NOT_EMPTY, Integer.class) == 0;
     }
 
     public List<Group> smallerThen (int size) {

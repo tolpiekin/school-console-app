@@ -15,7 +15,7 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
 
     @Override
     public List<Student> getCourseStudents(String courseName){
-        return courseAttendanceDAOImpl.getCourseStudents(courseName);
+        return courseAttendanceDAOImpl.getStudentsByCourseName(courseName);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
 
     @Override
     public boolean ifStudentAtCourse(Student student, Course course){
-        return courseAttendanceDAOImpl.ifStudentAtCourse(student.getId(), course.getId());
+        return courseAttendanceDAOImpl.isStudentAtCourse(student.getId(), course.getId());
     }
 
     @Override
