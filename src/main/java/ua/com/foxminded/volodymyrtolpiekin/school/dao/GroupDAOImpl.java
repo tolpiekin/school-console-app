@@ -1,31 +1,32 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.jdbc;
+package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.GroupDAO;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ua.com.foxminded.volodymyrtolpiekin.school.spring.mappers.GroupRowMapper;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
+import ua.com.foxminded.volodymyrtolpiekin.school.mappers.GroupRowMapper;
 
 import java.util.List;
 import java.util.Optional;
+
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Repository
-public class JdbcGroupDAO extends GroupDAO {
+public class GroupDAOImpl implements GroupDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Group> groupRowMapper = new GroupRowMapper();
 
-    public JdbcGroupDAO(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public GroupDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Optional<Group> findById(int id) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_GROUPS_FIND_BY_ID, groupRowMapper, id));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_GROUPS_FIND_BY_ID, groupRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -34,8 +35,7 @@ public class JdbcGroupDAO extends GroupDAO {
     @Override
     public Optional<Group> findByName(String name) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_GROUPS_FIND_BY_NAME, groupRowMapper, name));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_GROUPS_FIND_BY_NAME, groupRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -43,7 +43,7 @@ public class JdbcGroupDAO extends GroupDAO {
 
     @Override
     public List<Group> getAll(){
-        return jdbcTemplate.query(SQL_COURSES_GET_ALL, groupRowMapper);
+        return jdbcTemplate.query(SQL_GROUPS_GET_ALL, groupRowMapper);
     }
 
     @Override
@@ -63,5 +63,9 @@ public class JdbcGroupDAO extends GroupDAO {
     @Override
     public void deleteById(int id) {
         jdbcTemplate.update(SQL_GROUPS_DELETE, id);
+    }
+
+    public List<Group> smallerThen (int size) {
+        return jdbcTemplate.query(SQL_GROUPS_LESS_THEN, groupRowMapper, size);
     }
 }

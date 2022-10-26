@@ -1,31 +1,32 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.jdbc;
+package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.CourseDAO;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ua.com.foxminded.volodymyrtolpiekin.school.spring.mappers.CourseRowMapper;
+import ua.com.foxminded.volodymyrtolpiekin.school.mappers.CourseRowMapper;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
 import java.util.List;
 import java.util.Optional;
+
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Repository
-public class JdbcCourseDAO extends CourseDAO {
+public class CourseDAOImpl implements CourseDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Course> courseRowMapper = new CourseRowMapper();
 
-    public JdbcCourseDAO(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public CourseDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Optional<Course> findById(int id) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_COURSES_FIND_BY_ID, courseRowMapper, id));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_COURSES_FIND_BY_ID, courseRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -34,8 +35,7 @@ public class JdbcCourseDAO extends CourseDAO {
     @Override
     public Optional<Course> findByName(String name) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_COURSES_FIND_BY_NAME, courseRowMapper, name));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_COURSES_FIND_BY_NAME, courseRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

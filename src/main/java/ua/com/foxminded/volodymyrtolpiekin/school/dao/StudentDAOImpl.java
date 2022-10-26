@@ -1,31 +1,32 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.spring.jdbc;
+package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.StudentDAO;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ua.com.foxminded.volodymyrtolpiekin.school.spring.mappers.StudentRowMapper;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
+import ua.com.foxminded.volodymyrtolpiekin.school.mappers.StudentRowMapper;
 
 import java.util.List;
 import java.util.Optional;
+
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Repository
-public class JdbcStudentDAO extends StudentDAO {
+public class StudentDAOImpl implements StudentDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
 
-    public JdbcStudentDAO(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public StudentDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Optional<Student> findById(int id) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_STUDENTS_FIND_BY_ID, studentRowMapper, id));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_STUDENTS_FIND_BY_ID, studentRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -34,8 +35,7 @@ public class JdbcStudentDAO extends StudentDAO {
     @Override
     public Optional<Student> findByName(String lastName) {
         try {
-            return Optional.of(jdbcTemplate
-                    .queryForObject(SQL_STUDENTS_FIND_BY_LAST_NAME, studentRowMapper, lastName));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_STUDENTS_FIND_BY_LAST_NAME, studentRowMapper, lastName));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
