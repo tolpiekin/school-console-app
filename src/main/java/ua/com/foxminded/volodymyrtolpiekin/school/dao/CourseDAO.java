@@ -17,6 +17,4 @@ public interface CourseDAO {
     Optional<Course> updateItem(Course course);
 
     void deleteById(int id);
-
-    boolean isTableEmpty();
 }

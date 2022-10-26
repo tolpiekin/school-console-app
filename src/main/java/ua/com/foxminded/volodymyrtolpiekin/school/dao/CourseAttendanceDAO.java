@@ -16,6 +16,4 @@ public interface CourseAttendanceDAO {
     boolean isStudentAtCourse(int studentId, int courseId);
 
     boolean removeStudentFromCourse(int studentId, int courseId);
-
-    boolean isTableEmpty();
 }

@@ -13,6 +13,4 @@ public interface CourseAttendanceService {
     boolean ifStudentAtCourse(Student student, Course course);
 
     boolean removeStudentFromCourse(Student student, Course course);
-
-    boolean isTableEmpty ();
 }

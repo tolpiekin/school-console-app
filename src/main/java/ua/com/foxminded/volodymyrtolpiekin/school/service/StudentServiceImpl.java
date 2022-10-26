@@ -46,9 +46,4 @@ public class StudentServiceImpl implements StudentService {
     public void delStudent(int id){
         studentDAOImpl.deleteById(id);
     }
-
-    @Override
-    public boolean isTableEmpty() {
-        return studentDAOImpl.isTableEmpty();
-    }
 }

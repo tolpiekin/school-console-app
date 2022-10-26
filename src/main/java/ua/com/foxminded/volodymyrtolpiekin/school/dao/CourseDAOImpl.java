@@ -64,9 +64,4 @@ public class CourseDAOImpl implements CourseDAO {
     public void deleteById(int id) {
         jdbcTemplate.update(SQL_COURSES_DELETE, id);
     }
-
-    @Override
-    public boolean isTableEmpty() {
-        return jdbcTemplate.queryForObject(SQL_COURSES_NOT_EMPTY, Integer.class) == 0;
-    }
 }

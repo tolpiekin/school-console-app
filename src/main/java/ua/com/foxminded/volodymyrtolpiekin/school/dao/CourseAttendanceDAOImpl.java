@@ -49,9 +49,4 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     public boolean removeStudentFromCourse(int studentId, int courseId){
         return jdbcTemplate.update(SQL_COURSES_REMOVE_STUDENT_FROM_COURSE, studentId, courseId) > 0;
     }
-
-    @Override
-    public boolean isTableEmpty(){
-        return jdbcTemplate.queryForObject(SQL_COURSE_ATTENDANCE_NOT_EMPTY, Integer.class) == 0;
-    }
 }

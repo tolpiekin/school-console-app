@@ -66,9 +66,4 @@ public class StudentDAOImpl implements StudentDAO {
     public void deleteById(int id) {
         jdbcTemplate.update(SQL_STUDENTS_DELETE, id);
     }
-
-    @Override
-    public boolean isTableEmpty() {
-        return jdbcTemplate.queryForObject(SQL_STUDENTS_NOT_EMPTY, Integer.class) == 0;
-    }
 }

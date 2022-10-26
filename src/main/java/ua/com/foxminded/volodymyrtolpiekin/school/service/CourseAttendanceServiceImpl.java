@@ -39,9 +39,4 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
         }
         return false;
     }
-
-    @Override
-    public boolean isTableEmpty(){
-        return courseAttendanceDAOImpl.isTableEmpty();
-    }
 }

@@ -48,11 +48,6 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public boolean isTableEmpty() {
-        return groupDAOImpl.isTableEmpty();
-    }
-
-    @Override
     public List<Group> smallerThen(int size){
         return groupDAOImpl.smallerThen(size);
     }
