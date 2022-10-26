@@ -24,17 +24,16 @@ public class DatabaseStartup {
     private final CourseServiceImpl courseServiceImpl;
     private final StudentServiceImpl studentServiceImpl;
     private final CourseAttendanceServiceImpl courseAttendanceServiceImpl;
-    private final JdbcTemplate jdbcTemplate;
+
     Random random = new Random();
 
     @Autowired
     DatabaseStartup(GroupServiceImpl groupServiceImpl, CourseServiceImpl courseServiceImpl, StudentServiceImpl
-            studentServiceImpl, CourseAttendanceServiceImpl courseAttendanceServiceImpl, JdbcTemplate jdbcTemplate) {
+            studentServiceImpl, CourseAttendanceServiceImpl courseAttendanceServiceImpl) {
         this.groupServiceImpl = groupServiceImpl;
         this.courseServiceImpl = courseServiceImpl;
         this.studentServiceImpl = studentServiceImpl;
         this.courseAttendanceServiceImpl = courseAttendanceServiceImpl;
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @PostConstruct
