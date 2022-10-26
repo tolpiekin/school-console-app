@@ -1,7 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
@@ -24,7 +23,6 @@ public class DatabaseStartup {
     private final CourseServiceImpl courseServiceImpl;
     private final StudentServiceImpl studentServiceImpl;
     private final CourseAttendanceServiceImpl courseAttendanceServiceImpl;
-
     Random random = new Random();
 
     @Autowired
