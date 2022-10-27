@@ -10,6 +10,7 @@ import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;
+import java.util.Map;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
@@ -25,8 +26,8 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     }
 
     @Override
-    public List<Student> getStudentsByCourseName(String courseName) {
-        return jdbcTemplate.query(SQL_COURSES_GET_STUDENTS_BY_COURSE, studentRowMapper, courseName);
+    public List<Map<String, Object>> getStudentsByCourseName(String courseName) {
+        return jdbcTemplate.queryForList(String.format(SQL_COURSES_GET_STUDENTS_BY_COURSE, courseName));
     }
 
     @Override

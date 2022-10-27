@@ -6,6 +6,7 @@ import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.GroupDAOImpl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -48,7 +49,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> smallerThen(int size){
+    public List<Map<String, Object>> smallerThen(int size){
         return groupDAOImpl.smallerThen(size);
     }
 }

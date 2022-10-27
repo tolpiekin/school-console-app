@@ -3,6 +3,7 @@ package ua.com.foxminded.volodymyrtolpiekin.school.service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface GroupService {
@@ -19,5 +20,5 @@ public interface GroupService {
 
     void delGroup(int id);
 
-    List<Group> smallerThen(int size);
+    List<Map<String, Object>> smallerThen(int size);
 }

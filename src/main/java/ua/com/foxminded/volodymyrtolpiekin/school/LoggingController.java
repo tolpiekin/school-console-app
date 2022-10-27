@@ -1,14 +1,14 @@
 package ua.com.foxminded.volodymyrtolpiekin.school;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LoggingController {
+public class    LoggingController {
 
-    Logger logger = LoggerFactory.getLogger(LoggingController.class);
+    Logger logger = LogManager.getLogger(LoggingController.class);
 
     @RequestMapping("/")
     public String index() {

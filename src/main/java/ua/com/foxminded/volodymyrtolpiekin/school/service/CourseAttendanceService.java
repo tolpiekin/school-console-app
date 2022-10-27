@@ -1,16 +1,18 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CourseAttendanceService {
-    List<Student> getCourseStudents(String courseName);
+    List<Map<String, Object>> getStudentsAtCourse(String courseName);
 
-    boolean addStudentToCourse(Student student, Course course);
+    List<Course> getCoursesOfStudent(int studentId);
 
-    boolean ifStudentAtCourse(Student student, Course course);
+    boolean addStudentToCourse(int studentId, int courseId);
 
-    boolean removeStudentFromCourse(Student student, Course course);
+    boolean ifStudentAtCourse(int studentId, int courseId);
+
+    boolean removeStudentFromCourse(int studentId, int courseId);
 }

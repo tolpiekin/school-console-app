@@ -9,6 +9,7 @@ import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 import ua.com.foxminded.volodymyrtolpiekin.school.mappers.GroupRowMapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
@@ -65,7 +66,7 @@ public class GroupDAOImpl implements GroupDAO {
         jdbcTemplate.update(SQL_GROUPS_DELETE, id);
     }
 
-    public List<Group> smallerThen (int size) {
-        return jdbcTemplate.query(SQL_GROUPS_LESS_THEN, groupRowMapper, size);
+    public List<Map<String, Object>> smallerThen (int size) {
+        return jdbcTemplate.queryForList(SQL_GROUPS_LESS_THEN, size);
     }
 }

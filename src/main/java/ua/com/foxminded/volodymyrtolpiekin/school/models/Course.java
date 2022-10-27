@@ -1,5 +1,7 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
+import java.util.Objects;
+
 public class Course {
     private int id;
     private String name;
@@ -37,6 +39,21 @@ public class Course {
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return id == course.id;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = (37 * result) + id;
+        return result;
     }
 
     public void setDescription(String description) {

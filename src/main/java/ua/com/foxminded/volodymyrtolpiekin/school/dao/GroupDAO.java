@@ -3,6 +3,7 @@ package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface GroupDAO {
@@ -18,5 +19,5 @@ public interface GroupDAO {
 
     void deleteById(int id);
 
-    List<Group> smallerThen (int size);
+    List<Map<String, Object>> smallerThen (int size);
 }
