@@ -1,5 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,6 +16,7 @@ import java.util.Map;
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 
 @Repository
+@Log4j2
 public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Student> studentRowMapper = new StudentRowMapper();
@@ -37,6 +39,10 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
 
     @Override
     public boolean addStudentToCourse(int studentId, int courseId) {
+        if (isStudentAtCourse(studentId, courseId)) {
+            log.error("Student " + studentId + " already at course " + courseId);
+            return false;
+        }
         return jdbcTemplate.update(SQL_COURSES_ADD_STUDENT_TO_COURSE, studentId, courseId) > 0;
     }
 
@@ -48,6 +54,10 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
 
     @Override
     public boolean removeStudentFromCourse(int studentId, int courseId){
-        return jdbcTemplate.update(SQL_COURSES_REMOVE_STUDENT_FROM_COURSE, studentId, courseId) > 0;
+        if (isStudentAtCourse(studentId, courseId)){
+            return jdbcTemplate.update(SQL_COURSES_REMOVE_STUDENT_FROM_COURSE, studentId, courseId) > 0;
+        }
+        log.error("Student " + studentId + " not attending course " + courseId);
+        return false;
     }
 }

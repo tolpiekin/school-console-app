@@ -7,13 +7,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
-import ua.com.foxminded.volodymyrtolpiekin.school.service.*;
+import ua.com.foxminded.volodymyrtolpiekin.school.service.CourseAttendanceServiceImpl;
+import ua.com.foxminded.volodymyrtolpiekin.school.service.CourseServiceImpl;
+import ua.com.foxminded.volodymyrtolpiekin.school.service.GroupServiceImpl;
+import ua.com.foxminded.volodymyrtolpiekin.school.service.StudentServiceImpl;
 
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
 import static ua.com.foxminded.volodymyrtolpiekin.school.MenuConstants.*;
 
 @SpringBootApplication
