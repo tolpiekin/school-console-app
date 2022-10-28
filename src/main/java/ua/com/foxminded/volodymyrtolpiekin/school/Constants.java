@@ -10,7 +10,7 @@ public final class Constants {
             "where course_id = ?";
     public static final String SQL_COURSES_DELETE = "delete from courses where course_id = ?";
     public static final String SQL_COURSES_GET_STUDENTS_BY_COURSE =
-            "SELECT students.first_name, students.last_name, courses.course_name FROM students " +
+            "SELECT students.student_id, students.group_id, students.first_name, students.last_name FROM students " +
                     "INNER JOIN course_attendance ON students.student_id = course_attendance.student_id " +
                     "INNER JOIN courses ON course_attendance.course_id = courses.course_id " +
                     "AND courses.course_name='%s'";

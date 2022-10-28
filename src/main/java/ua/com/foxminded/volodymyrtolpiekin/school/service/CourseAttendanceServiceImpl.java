@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.CourseAttendanceDAOImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CourseAttendanceServiceImpl implements CourseAttendanceService {
@@ -18,7 +18,7 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
     }
 
     @Override
-    public List<Map<String, Object>> getStudentsAtCourse(String courseName){
+    public List<Student> getStudentsAtCourse(String courseName){
         return courseAttendanceDAOImpl.getStudentsByCourseName(courseName);
     }
 

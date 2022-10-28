@@ -50,6 +50,6 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<Map<String, Object>> smallerThen(int size){
-        return groupDAOImpl.smallerThen(size);
+        return groupDAOImpl.findGroupsSmallerThenNumber(size);
     }
 }

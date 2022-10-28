@@ -1,13 +1,13 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CourseAttendanceDAO {
 
-    List<Map<String, Object>> getStudentsByCourseName(String courseName);
+    List<Student> getStudentsByCourseName(String courseName);
 
     List<Course> getCoursesByStudentId(int studentId);
 

@@ -19,5 +19,5 @@ public interface GroupDAO {
 
     void deleteById(int id);
 
-    List<Map<String, Object>> smallerThen (int size);
+    List<Map<String, Object>> findGroupsSmallerThenNumber(int size);
 }

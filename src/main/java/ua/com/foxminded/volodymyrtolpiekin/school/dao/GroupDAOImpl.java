@@ -76,7 +76,7 @@ public class GroupDAOImpl implements GroupDAO {
         }
     }
 
-    public List<Map<String, Object>> smallerThen (int size) {
+    public List<Map<String, Object>> findGroupsSmallerThenNumber(int size) {
         return jdbcTemplate.queryForList(SQL_GROUPS_LESS_THEN, size);
     }
 }

@@ -22,21 +22,6 @@ public class Student {
                 id, groupId, firstName, lastName);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return id == student.id;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = (37 * result) + id;
-        return result;
-    }
-
     public int getId() {
         return id;
     }
@@ -67,5 +52,20 @@ public class Student {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id == student.id;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = (37 * result) + id;
+        return result;
     }
 }
