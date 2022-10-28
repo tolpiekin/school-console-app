@@ -6,8 +6,8 @@ public final class MenuConstants  {
     public static final int COURSE_ATTENDANCE = 2;
     public static final int ADD_STUDENT = 3;
     public static final int DEL_STUDENT = 4;
-    public static final int ADD_STUD_TO_COURSE = 5;
-    public static final int DEL_STUD_FROM_COURSE = 6;
+    public static final int ADD_STUDENT_TO_COURSE = 5;
+    public static final int DEL_STUDENT_FROM_COURSE = 6;
     public static final String MAIN_TITLE = "Main Menu for Student Data. Make your choice:\n\n";
     public static final String GROUP_SMALLER_THAN_TITLE = "1. Find all groups with less or equals student count\n";
     public static final String COURSE_ATTENDANCE_TITLE = "2. Find all students related to course with given name\n";
