@@ -1,5 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +24,7 @@ public class Menu implements ApplicationRunner {
     private final StudentServiceImpl studentServiceImpl;
     private final CourseAttendanceServiceImpl courseAttendanceServiceImpl;
 
+    @Autowired
     public Menu(GroupServiceImpl groupServiceImpl, CourseServiceImpl courseServiceImpl, StudentServiceImpl studentServiceImpl, CourseAttendanceServiceImpl courseAttendanceServiceImpl) {
         this.groupServiceImpl = groupServiceImpl;
         this.courseServiceImpl = courseServiceImpl;
@@ -31,9 +33,9 @@ public class Menu implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         boolean inMenu = true;
-        Scanner sc = new Scanner(System.in);
+        try(Scanner sc = new Scanner(System.in)) {
 
         while(inMenu) {
 
@@ -49,16 +51,7 @@ public class Menu implements ApplicationRunner {
             } else if (choice == ADD_STUDENT) {
                 addNewStudent(sc);
             } else if (choice == DEL_STUDENT) {
-                String studentsList = studentServiceImpl.getAll().stream().map(s->
-                                String.format(STUDENT_OUTPUT_TEMPLATE, s.getId(), s.getFirstName(), s.getLastName()))
-                        .collect(Collectors.joining("\n"));
-                handleMenu(DEL_STUDENT_TITLE + "\n" + studentsList, STUDENT_ID_REQUEST);
-                int idToDelete = sc.nextInt();
-                sc.nextLine();
-                studentServiceImpl.delStudent(idToDelete);
-                System.out.printf(DEL_STUDENT_CONFIRMATION, idToDelete);
-                System.out.println(PRESS_ENTER_TO_CONTINUE);
-                sc.nextLine();
+                deleteStudent(sc);
             } else if (choice == ADD_STUD_TO_COURSE) {
                 addStudentToCourse(sc);
             } else if (choice == DEL_STUD_FROM_COURSE) {
@@ -67,6 +60,20 @@ public class Menu implements ApplicationRunner {
                 inMenu = false;
             }
         }
+        }
+    }
+
+    private void deleteStudent(Scanner sc) {
+        String studentsList = studentServiceImpl.getAll().stream().map(s->
+                        String.format(STUDENT_OUTPUT_TEMPLATE, s.getId(), s.getFirstName(), s.getLastName()))
+                .collect(Collectors.joining("\n"));
+        handleMenu(DEL_STUDENT_TITLE + "\n" + studentsList, STUDENT_ID_REQUEST);
+        int idToDelete = sc.nextInt();
+        sc.nextLine();
+        studentServiceImpl.delStudent(idToDelete);
+        System.out.printf(DEL_STUDENT_CONFIRMATION, idToDelete);
+        System.out.println(PRESS_ENTER_TO_CONTINUE);
+        sc.nextLine();
     }
 
     private void deleteStudentFromCourse(Scanner sc) {
@@ -138,7 +145,7 @@ public class Menu implements ApplicationRunner {
         handleMenu(COURSE_ATTENDANCE_TITLE + "\n" + coursesList, COURSE_NAME_REQUEST);
         String courseName = sc.nextLine();
         System.out.println(courseName + " course attendees:");
-        courseAttendanceServiceImpl.getStudentsAtCourse(courseName).stream().forEach(m ->
+        courseAttendanceServiceImpl.getStudentsAtCourse(courseName).forEach(m ->
                 System.out.format("%s %s%n", m.getFirstName(), m.getLastName()));
         System.out.println(PRESS_ENTER_TO_CONTINUE);
         sc.nextLine();
@@ -149,8 +156,8 @@ public class Menu implements ApplicationRunner {
         int numberStudentsPerGroup = sc.nextInt();
         sc.nextLine();
         System.out.println("Group Name | Number of Students");
-        groupServiceImpl.smallerThen(numberStudentsPerGroup).stream().forEach(m ->
-                System.out.format("%10s%10d%n", m.get("group_name"), m.get("count")));
+        groupServiceImpl.smallerThen(numberStudentsPerGroup).forEach(m ->
+                System.out.format("%10s%10s%n", m.get("group_name"), m.get("count")));
         System.out.println(PRESS_ENTER_TO_CONTINUE);
         sc.nextLine();
     }

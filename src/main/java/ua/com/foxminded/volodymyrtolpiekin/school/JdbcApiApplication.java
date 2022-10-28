@@ -17,9 +17,5 @@ public class JdbcApiApplication implements CommandLineRunner {
 	@Override
 	public void run (String[] args) {
 		log.info("EXECUTING : menu driven app");
-
-
 	}
-
-
 }
