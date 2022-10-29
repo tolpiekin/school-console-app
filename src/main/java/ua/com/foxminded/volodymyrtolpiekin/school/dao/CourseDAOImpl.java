@@ -6,6 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.foxminded.volodymyrtolpiekin.school.mappers.CourseRowMapper;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
@@ -30,7 +31,7 @@ public class CourseDAOImpl implements CourseDAO {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_COURSES_FIND_BY_ID, courseRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
-            log.error("Course not found", e);
+            log.error(String.format("Course with id: %d not found.", id));
             return Optional.empty();
         }
     }
@@ -40,7 +41,7 @@ public class CourseDAOImpl implements CourseDAO {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_COURSES_FIND_BY_NAME, courseRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
-            log.error("Cannot get course by name", e);
+            log.error(String.format("Course with courseName: %s not found.", name));
             return Optional.empty();
         }
     }
@@ -51,27 +52,28 @@ public class CourseDAOImpl implements CourseDAO {
     }
 
     @Override
+    @Transactional
     public Optional<Course> addItem(Course course){
-        if (jdbcTemplate.update(SQL_COURSES_INSERT, course.getId(), course.getName(), course.getDescription()) > 0) {
+        if (jdbcTemplate.update(SQL_COURSES_INSERT, course.getId(), course.getName(), course.getDescription()) > ZERO) {
             return findById(course.getId());
         }
-        log.error("Cannot add course " + course.getId());
+        log.error(String.format("Cannot add course with id: %d.", course.getId()));
         return Optional.empty();
     }
 
     @Override
     public Optional<Course> updateItem(Course course){
-        if (jdbcTemplate.update(SQL_COURSES_UPDATE, course.getName(), course.getDescription(), course.getId()) > 0) {
+        if (jdbcTemplate.update(SQL_COURSES_UPDATE, course.getName(), course.getDescription(), course.getId()) > ZERO) {
             return findById(course.getId());
         }
-        log.error("Cannot update course "+ course.getId());
+        log.error(String.format("Cannot update course with id: %d.", course.getId()));
         return Optional.empty();
     }
 
     @Override
     public void deleteById(int id) {
-        if (jdbcTemplate.update(SQL_COURSES_DELETE, id) <= 0) {
-            log.error("Cannot delete course " + id);
+        if (jdbcTemplate.update(SQL_COURSES_DELETE, id) <= ZERO) {
+            log.error(String.format("Cannot delete course with id: %d.", id));
         }
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 import ua.com.foxminded.volodymyrtolpiekin.school.mappers.GroupRowMapper;
 
@@ -31,7 +32,7 @@ public class GroupDAOImpl implements GroupDAO {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_GROUPS_FIND_BY_ID, groupRowMapper, id));
         } catch (EmptyResultDataAccessException e) {
-            log.error("Cannot find group with id " + id, e);
+            log.error(String.format("Group with id: %d not found.", id));
             return Optional.empty();
         }
     }
@@ -41,7 +42,7 @@ public class GroupDAOImpl implements GroupDAO {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_GROUPS_FIND_BY_NAME, groupRowMapper, name));
         } catch (EmptyResultDataAccessException e) {
-            log.error("Cannot fing group with name " + name, e);
+            log.error(String.format("Group with groupName: %s not found.", name));
             return Optional.empty();
         }
     }
@@ -52,27 +53,28 @@ public class GroupDAOImpl implements GroupDAO {
     }
 
     @Override
+    @Transactional
     public Optional<Group> addItem(Group group){
-        if (jdbcTemplate.update(SQL_GROUPS_INSERT, group.getId(), group.getName()) > 0) {
+        if (jdbcTemplate.update(SQL_GROUPS_INSERT, group.getId(), group.getName()) > ZERO) {
             return findById(group.getId());
         }
-        log.error("Cannot add group with id " + group.getId());
+        log.error(String.format("Cannot add group with id: %d.", group.getId()));
         return Optional.empty();
     }
 
     @Override
     public Optional<Group> updateItem(Group group){
-        if (jdbcTemplate.update(SQL_GROUPS_UPDATE, group.getName(), group.getId()) > 0) {
+        if (jdbcTemplate.update(SQL_GROUPS_UPDATE, group.getName(), group.getId()) > ZERO) {
             return findById(group.getId());
         }
-        log.error("Cannot update group id " + group.getId());
+        log.error(String.format("Cannot update group with id: %d.", group.getId()));
         return Optional.empty();
     }
 
     @Override
     public void deleteById(int id) {
-        if (jdbcTemplate.update(SQL_GROUPS_DELETE, id) <= 0 ) {
-            log.error("Cannot delete group with id " + id);
+        if (jdbcTemplate.update(SQL_GROUPS_DELETE, id) <= ZERO ) {
+            log.error(String.format("Cannot delete group with id: %d.", id));
         }
     }
 

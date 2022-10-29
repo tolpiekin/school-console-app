@@ -2,9 +2,9 @@ package ua.com.foxminded.volodymyrtolpiekin.school;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 import ua.com.foxminded.volodymyrtolpiekin.school.service.CourseAttendanceServiceImpl;
@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.MenuConstants.*;
 
-@SpringBootApplication
+@Service
 @Log4j2
-public class Menu implements ApplicationRunner {
+public class Menu {
     private final GroupServiceImpl groupServiceImpl;
     private final CourseServiceImpl courseServiceImpl;
     private final StudentServiceImpl studentServiceImpl;
@@ -35,38 +35,7 @@ public class Menu implements ApplicationRunner {
         this.courseAttendanceServiceImpl = courseAttendanceServiceImpl;
     }
 
-    @Override
-    public void run(ApplicationArguments args) {
-        boolean inMenu = true;
-        try(Scanner sc = new Scanner(System.in)) {
-
-        while(inMenu) {
-
-            handleMenu(MAIN_MENU, ENTER_YOUR_CHOICE);
-
-            int choice = sc.nextInt();
-            sc.nextLine();
-
-            if (choice == GROUP_SMALLER_THAN) {
-                groupSmallerThan(sc);
-            } else if (choice == COURSE_ATTENDANCE) {
-                courseAttendance(sc);
-            } else if (choice == ADD_STUDENT) {
-                addStudent(sc);
-            } else if (choice == DEL_STUDENT) {
-                delStudent(sc);
-            } else if (choice == ADD_STUDENT_TO_COURSE) {
-                addStudentToCourse(sc);
-            } else if (choice == DEL_STUDENT_FROM_COURSE) {
-                delStudentFromCourse(sc);
-            } else if (choice == EXIT) {
-                inMenu = false;
-            }
-        }
-        }
-    }
-
-    private void delStudent(Scanner sc) {
+    public void delStudent(Scanner sc) {
         String studentsList = studentServiceImpl.getAll().stream().map(s-> String.format(STUDENT_OUTPUT_TEMPLATE,
                         s.getId(), s.getFirstName(), s.getLastName())).collect(Collectors.joining("\n"));
 
@@ -82,7 +51,7 @@ public class Menu implements ApplicationRunner {
         pressEnterToContinue(sc);
     }
 
-    private void delStudentFromCourse(Scanner sc) {
+    public void deleteStudentFromCourse(Scanner sc) {
         String studentsList = studentServiceImpl.getAll().stream().map(s-> String.format(STUDENT_OUTPUT_TEMPLATE,
                         s.getId(), s.getFirstName(), s.getLastName())).collect(Collectors.joining("\n"));
 
@@ -111,7 +80,7 @@ public class Menu implements ApplicationRunner {
         pressEnterToContinue(sc);
     }
 
-    private void addStudentToCourse(Scanner sc) {
+    public void addStudentToCourse(Scanner sc) {
         String studentsList = studentServiceImpl.getAll().stream().map(s-> String.format(STUDENT_OUTPUT_TEMPLATE,
                         s.getId(), s.getFirstName(), s.getLastName())).collect(Collectors.joining("\n"));
 
@@ -138,7 +107,7 @@ public class Menu implements ApplicationRunner {
         pressEnterToContinue(sc);
     }
 
-    private void addStudent(Scanner sc) {
+    public void addStudent(Scanner sc) {
         String studentList = studentServiceImpl.getAll().stream().map(s-> s.getId() + ". " + s.getFirstName() +
                         s.getLastName()).collect(Collectors.joining("\n"));
         String groupsList = groupServiceImpl.getAll().stream().map(g-> g.getId() + ". " + g.getName())
@@ -169,7 +138,7 @@ public class Menu implements ApplicationRunner {
         pressEnterToContinue(sc);
     }
 
-    private void courseAttendance(Scanner sc) {
+    public void courseAttendance(Scanner sc) {
         String coursesList = courseServiceImpl.getAll().stream().map(Course::getName).collect(Collectors
                 .joining("\n"));
 
@@ -185,7 +154,7 @@ public class Menu implements ApplicationRunner {
         pressEnterToContinue(sc);
     }
 
-    private void groupSmallerThan(Scanner sc) {
+    public void groupSmallerThan(Scanner sc) {
 
         handleMenu(GROUP_SMALLER_THAN_TITLE, GROUP_SMALLER_THAN_REQUEST);
 
@@ -199,7 +168,7 @@ public class Menu implements ApplicationRunner {
         pressEnterToContinue(sc);
     }
 
-    private void handleMenu(String menu, String request) {
+    public void handleMenu(String menu, String request) {
         System.out.println(menu);
         System.out.println(request);
     }

@@ -57,6 +57,8 @@ public final class Constants {
     public static final int COURSES_LIMIT = 3;
     public static final String COURSE_DESCRIPTION = "Our %s course is the best in town. The lecturer for the course " +
             "is the best in the country.";
+    public static final int ZERO = 0;
+
     private Constants() {
 
     }

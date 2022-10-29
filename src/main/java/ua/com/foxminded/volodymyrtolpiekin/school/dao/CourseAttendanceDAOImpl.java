@@ -39,10 +39,10 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     @Override
     public boolean addStudentToCourse(int studentId, int courseId) {
         if (isStudentAtCourse(studentId, courseId)) {
-            log.error("Student " + studentId + " already at course " + courseId);
+            log.error(String.format("Student %d already at course %d.", studentId, courseId));
             return false;
         }
-        return jdbcTemplate.update(SQL_COURSES_ADD_STUDENT_TO_COURSE, studentId, courseId) > 0;
+        return jdbcTemplate.update(SQL_COURSES_ADD_STUDENT_TO_COURSE, studentId, courseId) > ZERO;
     }
 
     @Override
@@ -54,9 +54,9 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     @Override
     public boolean removeStudentFromCourse(int studentId, int courseId){
         if (isStudentAtCourse(studentId, courseId)){
-            return jdbcTemplate.update(SQL_COURSES_REMOVE_STUDENT_FROM_COURSE, studentId, courseId) > 0;
+            return jdbcTemplate.update(SQL_COURSES_REMOVE_STUDENT_FROM_COURSE, studentId, courseId) > ZERO;
         }
-        log.error("Student " + studentId + " not attending course " + courseId);
+        log.error(String.format("Student %d not attending course %d", studentId, courseId));
         return false;
     }
 }
