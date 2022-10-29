@@ -68,7 +68,7 @@ public class StudentDAOImpl implements StudentDAO {
                 student.getId()) > ZERO) {
             return findById(student.getId());
         }
-        log.error(String.format("Cannot update sudent with id: %d.", student.getId()));
+        log.error(String.format("Cannot update student with id: %d.", student.getId()));
         return Optional.empty();
     }
 

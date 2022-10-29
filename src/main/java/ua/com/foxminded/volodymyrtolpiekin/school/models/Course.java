@@ -1,7 +1,5 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
-import java.util.Objects;
-
 public class Course {
     private int id;
     private String name;

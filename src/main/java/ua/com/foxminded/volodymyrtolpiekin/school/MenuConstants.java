@@ -36,5 +36,7 @@ public final class MenuConstants  {
     public static final String COURSE_LIST_TEMPLATE = "%2d. %s";
     public static final String STUDENT_NOT_ATTENDING_ANY_COURSE = "Student not attending any course.";
 
-    private MenuConstants(){}
+    private MenuConstants(){
+
+    }
 }
