@@ -18,24 +18,29 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
     }
 
     @Override
-    public List<Student> getCourseStudents(String courseName){
+    public List<Student> getStudentsAtCourse(String courseName){
         return courseAttendanceDAOImpl.getStudentsByCourseName(courseName);
     }
 
     @Override
-    public boolean addStudentToCourse(Student student, Course course) {
-        return courseAttendanceDAOImpl.addStudentToCourse(student.getId(), course.getId());
+    public List<Course> getCoursesOfStudent(int studentId){
+        return courseAttendanceDAOImpl.getCoursesByStudentId(studentId);
     }
 
     @Override
-    public boolean ifStudentAtCourse(Student student, Course course){
-        return courseAttendanceDAOImpl.isStudentAtCourse(student.getId(), course.getId());
+    public boolean addStudentToCourse(int studentId, int courseId) {
+        return courseAttendanceDAOImpl.addStudentToCourse(studentId, courseId);
     }
 
     @Override
-    public boolean removeStudentFromCourse(Student student, Course course){
-        if (ifStudentAtCourse(student, course)) {
-            return courseAttendanceDAOImpl.removeStudentFromCourse(student.getId(), course.getId());
+    public boolean ifStudentAtCourse(int studentId, int courseId){
+        return courseAttendanceDAOImpl.isStudentAtCourse(studentId, courseId);
+    }
+
+    @Override
+    public boolean removeStudentFromCourse(int studentId, int courseId){
+        if (ifStudentAtCourse(studentId, courseId)) {
+            return courseAttendanceDAOImpl.removeStudentFromCourse(studentId, courseId);
         }
         return false;
     }
