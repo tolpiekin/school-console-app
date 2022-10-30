@@ -13,6 +13,7 @@ import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 import java.util.List;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
+import static ua.com.foxminded.volodymyrtolpiekin.school.SQLQueries.*;
 
 @Repository
 @Log4j2
@@ -42,7 +43,7 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
             log.error(String.format("Student %d already at course %d.", studentId, courseId));
             return false;
         }
-        return jdbcTemplate.update(SQL_COURSES_ADD_STUDENT_TO_COURSE, studentId, courseId) > ZERO;
+        return jdbcTemplate.update(SQL_COURSES_ADD_STUDENT_TO_COURSE, studentId, courseId) > QUERY_RESULT;
     }
 
     @Override
@@ -54,7 +55,7 @@ public class CourseAttendanceDAOImpl implements CourseAttendanceDAO {
     @Override
     public boolean removeStudentFromCourse(int studentId, int courseId){
         if (isStudentAtCourse(studentId, courseId)){
-            return jdbcTemplate.update(SQL_COURSES_REMOVE_STUDENT_FROM_COURSE, studentId, courseId) > ZERO;
+            return jdbcTemplate.update(SQL_COURSES_REMOVE_STUDENT_FROM_COURSE, studentId, courseId) > QUERY_RESULT;
         }
         log.error(String.format("Student %d not attending course %d", studentId, courseId));
         return false;

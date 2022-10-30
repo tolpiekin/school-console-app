@@ -33,7 +33,37 @@ public class Menu {
         this.courseAttendanceServiceImpl = courseAttendanceServiceImpl;
     }
 
-    public void delStudent(Scanner sc) {
+    public void start() {
+        boolean inMenu = true;
+        try(Scanner sc = new Scanner(System.in)) {
+
+            while(inMenu) {
+
+                handleMenu(MAIN_MENU, ENTER_YOUR_CHOICE);
+
+                int choice = sc.nextInt();
+                sc.nextLine();
+
+                if (choice == GROUP_SMALLER_THAN) {
+                    groupSmallerThan(sc);
+                } else if (choice == COURSE_ATTENDANCE) {
+                    courseAttendance(sc);
+                } else if (choice == ADD_STUDENT) {
+                    addStudent(sc);
+                } else if (choice == DEL_STUDENT) {
+                    delStudent(sc);
+                } else if (choice == ADD_STUDENT_TO_COURSE) {
+                    addStudentToCourse(sc);
+                } else if (choice == DEL_STUDENT_FROM_COURSE) {
+                    deleteStudentFromCourse(sc);
+                } else if (choice == EXIT) {
+                    inMenu = false;
+                }
+            }
+        }
+    }
+
+    private void delStudent(Scanner sc) {
         String studentsList = studentServiceImpl.getAll().stream().map(s-> String.format(STUDENT_OUTPUT_TEMPLATE,
                         s.getId(), s.getFirstName(), s.getLastName())).collect(Collectors.joining("\n"));
 
@@ -49,7 +79,7 @@ public class Menu {
         pressEnterToContinue(sc);
     }
 
-    public void deleteStudentFromCourse(Scanner sc) {
+    private void deleteStudentFromCourse(Scanner sc) {
         String studentsList = studentServiceImpl.getAll().stream().map(s-> String.format(STUDENT_OUTPUT_TEMPLATE,
                         s.getId(), s.getFirstName(), s.getLastName())).collect(Collectors.joining("\n"));
 
@@ -78,7 +108,7 @@ public class Menu {
         pressEnterToContinue(sc);
     }
 
-    public void addStudentToCourse(Scanner sc) {
+    private void addStudentToCourse(Scanner sc) {
         String studentsList = studentServiceImpl.getAll().stream().map(s-> String.format(STUDENT_OUTPUT_TEMPLATE,
                         s.getId(), s.getFirstName(), s.getLastName())).collect(Collectors.joining("\n"));
 
@@ -105,7 +135,7 @@ public class Menu {
         pressEnterToContinue(sc);
     }
 
-    public void addStudent(Scanner sc) {
+    private void addStudent(Scanner sc) {
         String studentList = studentServiceImpl.getAll().stream().map(s-> s.getId() + ". " + s.getFirstName() +
                         s.getLastName()).collect(Collectors.joining("\n"));
         String groupsList = groupServiceImpl.getAll().stream().map(g-> g.getId() + ". " + g.getName())
@@ -136,7 +166,7 @@ public class Menu {
         pressEnterToContinue(sc);
     }
 
-    public void courseAttendance(Scanner sc) {
+    private void courseAttendance(Scanner sc) {
         String coursesList = courseServiceImpl.getAll().stream().map(Course::getName).collect(Collectors
                 .joining("\n"));
 
@@ -152,7 +182,7 @@ public class Menu {
         pressEnterToContinue(sc);
     }
 
-    public void groupSmallerThan(Scanner sc) {
+    private void groupSmallerThan(Scanner sc) {
 
         handleMenu(GROUP_SMALLER_THAN_TITLE, GROUP_SMALLER_THAN_REQUEST);
 
@@ -166,7 +196,7 @@ public class Menu {
         pressEnterToContinue(sc);
     }
 
-    public void handleMenu(String menu, String request) {
+    private void handleMenu(String menu, String request) {
         System.out.println(menu);
         System.out.println(request);
     }

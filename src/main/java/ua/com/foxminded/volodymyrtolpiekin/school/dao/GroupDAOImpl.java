@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
+import static ua.com.foxminded.volodymyrtolpiekin.school.SQLQueries.*;
 
 @Log4j2
 @Repository
@@ -55,7 +56,7 @@ public class GroupDAOImpl implements GroupDAO {
     @Override
     @Transactional
     public Optional<Group> addItem(Group group){
-        if (jdbcTemplate.update(SQL_GROUPS_INSERT, group.getId(), group.getName()) > ZERO) {
+        if (jdbcTemplate.update(SQL_GROUPS_INSERT, group.getId(), group.getName()) > QUERY_RESULT) {
             return findById(group.getId());
         }
         log.error(String.format("Cannot add group with id: %d.", group.getId()));
@@ -64,7 +65,7 @@ public class GroupDAOImpl implements GroupDAO {
 
     @Override
     public Optional<Group> updateItem(Group group){
-        if (jdbcTemplate.update(SQL_GROUPS_UPDATE, group.getName(), group.getId()) > ZERO) {
+        if (jdbcTemplate.update(SQL_GROUPS_UPDATE, group.getName(), group.getId()) > QUERY_RESULT) {
             return findById(group.getId());
         }
         log.error(String.format("Cannot update group with id: %d.", group.getId()));
@@ -73,7 +74,7 @@ public class GroupDAOImpl implements GroupDAO {
 
     @Override
     public void deleteById(int id) {
-        if (jdbcTemplate.update(SQL_GROUPS_DELETE, id) <= ZERO ) {
+        if (jdbcTemplate.update(SQL_GROUPS_DELETE, id) <= QUERY_RESULT) {
             log.error(String.format("Cannot delete group with id: %d.", id));
         }
     }

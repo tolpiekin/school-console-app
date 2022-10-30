@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
+import static ua.com.foxminded.volodymyrtolpiekin.school.SQLQueries.*;
 
 @Repository
 @Log4j2
@@ -54,7 +55,7 @@ public class CourseDAOImpl implements CourseDAO {
     @Override
     @Transactional
     public Optional<Course> addItem(Course course){
-        if (jdbcTemplate.update(SQL_COURSES_INSERT, course.getId(), course.getName(), course.getDescription()) > ZERO) {
+        if (jdbcTemplate.update(SQL_COURSES_INSERT, course.getId(), course.getName(), course.getDescription()) > QUERY_RESULT) {
             return findById(course.getId());
         }
         log.error(String.format("Cannot add course with id: %d.", course.getId()));
@@ -63,7 +64,7 @@ public class CourseDAOImpl implements CourseDAO {
 
     @Override
     public Optional<Course> updateItem(Course course){
-        if (jdbcTemplate.update(SQL_COURSES_UPDATE, course.getName(), course.getDescription(), course.getId()) > ZERO) {
+        if (jdbcTemplate.update(SQL_COURSES_UPDATE, course.getName(), course.getDescription(), course.getId()) > QUERY_RESULT) {
             return findById(course.getId());
         }
         log.error(String.format("Cannot update course with id: %d.", course.getId()));
@@ -72,7 +73,7 @@ public class CourseDAOImpl implements CourseDAO {
 
     @Override
     public void deleteById(int id) {
-        if (jdbcTemplate.update(SQL_COURSES_DELETE, id) <= ZERO) {
+        if (jdbcTemplate.update(SQL_COURSES_DELETE, id) <= QUERY_RESULT) {
             log.error(String.format("Cannot delete course with id: %d.", id));
         }
     }

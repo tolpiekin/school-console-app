@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static ua.com.foxminded.volodymyrtolpiekin.school.Constants.*;
+import static ua.com.foxminded.volodymyrtolpiekin.school.SQLQueries.*;
 
 @Log4j2
 @Repository
@@ -54,7 +55,7 @@ public class StudentDAOImpl implements StudentDAO {
     @Override
     public Optional<Student> addItem(Student student){
         if (jdbcTemplate.update(SQL_STUDENTS_INSERT, student.getId(), student.getGroupId(), student.getFirstName(),
-                student.getLastName()) > ZERO) {
+                student.getLastName()) > QUERY_RESULT) {
             return findById(student.getId());
         }
         log.error(String.format("Cannot add student with id: %d.", student.getId()));
@@ -65,7 +66,7 @@ public class StudentDAOImpl implements StudentDAO {
     @Transactional
     public Optional<Student> updateItem(Student student){
         if (jdbcTemplate.update(SQL_STUDENTS_UPDATE, student.getGroupId(), student.getFirstName(), student.getLastName(),
-                student.getId()) > ZERO) {
+                student.getId()) > QUERY_RESULT) {
             return findById(student.getId());
         }
         log.error(String.format("Cannot update student with id: %d.", student.getId()));
@@ -74,7 +75,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public void deleteById(int id) {
-        if (jdbcTemplate.update(SQL_STUDENTS_DELETE, id) <= ZERO) {
+        if (jdbcTemplate.update(SQL_STUDENTS_DELETE, id) <= QUERY_RESULT) {
             log.error(String.format("Cannot delete student with id: %d.", id));
         }
     }
