@@ -3,47 +3,47 @@ package ua.com.foxminded.volodymyrtolpiekin.school.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.StudentDAOImpl;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaStudentDao;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final StudentDAOImpl studentDAOImpl;
+    private final JpaStudentDao jpaStudentDao;
 
     @Autowired
-    public StudentServiceImpl (StudentDAOImpl studentDAOImpl) {
-        this.studentDAOImpl = studentDAOImpl;
+    public StudentServiceImpl (JpaStudentDao jpaStudentDao) {
+        this.jpaStudentDao = jpaStudentDao;
     }
 
     @Override
     public Optional<Student> findById(int id) {
-        return studentDAOImpl.findById(id);
+        return jpaStudentDao.findById(id);
     }
 
     @Override
     public Optional<Student> findByLastName(String lastName) {
-        return studentDAOImpl.findByName(lastName);
+        return jpaStudentDao.findByLastName(lastName);
     }
 
     @Override
     public List<Student> getAll() {
-        return studentDAOImpl.getAll();
+        return jpaStudentDao.getAll();
     }
 
     @Override
     public Optional<Student> addStudent(Student student) {
-        return studentDAOImpl.addItem(student);
+        return jpaStudentDao.addStudent(student);
     }
 
     @Override
     public Optional<Student> updateStudent(Student student) {
-        return studentDAOImpl.updateItem(student);
+        return jpaStudentDao.updateStudent(student);
     }
 
     @Override
     public void delStudent(int id){
-        studentDAOImpl.deleteById(id);
+        jpaStudentDao.deleteById(id);
     }
 }

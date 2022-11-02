@@ -3,7 +3,7 @@ package ua.com.foxminded.volodymyrtolpiekin.school.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.GroupDAOImpl;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaGroupDao;
 
 import java.util.List;
 import java.util.Map;
@@ -11,45 +11,45 @@ import java.util.Optional;
 
 @Service
 public class GroupServiceImpl implements GroupService {
-    private final GroupDAOImpl groupDAOImpl;
+    private final JpaGroupDao jpaGroupDAO;
 
     @Autowired
-    public GroupServiceImpl(GroupDAOImpl groupDAOImpl) {
-        this.groupDAOImpl = groupDAOImpl;
+    public GroupServiceImpl(JpaGroupDao jpaGroupDAO) {
+        this.jpaGroupDAO = jpaGroupDAO;
     }
 
     @Override
     public Optional<Group> findById(int id) {
-        return groupDAOImpl.findById(id);
+        return jpaGroupDAO.findById(id);
     }
 
     @Override
     public Optional<Group> findByName(String name) {
-        return groupDAOImpl.findByName(name);
+        return jpaGroupDAO.findByName(name);
     }
 
     @Override
     public List<Group> getAll() {
-        return groupDAOImpl.getAll();
+        return jpaGroupDAO.getAll();
     }
 
     @Override
     public Optional<Group> addGroup(Group group) {
-        return groupDAOImpl.addItem(group);
+        return jpaGroupDAO.addGroup(group);
     }
 
     @Override
     public Optional<Group> updateGroup(Group group) {
-        return groupDAOImpl.updateItem(group);
+        return jpaGroupDAO.updateGroup(group);
     }
 
     @Override
     public void delGroup(int id){
-        groupDAOImpl.deleteById(id);
+        jpaGroupDAO.deleteById(id);
     }
 
     @Override
     public List<Map<String, Object>> smallerThen(int size){
-        return groupDAOImpl.findGroupsSmallerThenNumber(size);
+        return jpaGroupDAO.smallerThen(size);
     }
 }

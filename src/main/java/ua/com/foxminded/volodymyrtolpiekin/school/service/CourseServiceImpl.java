@@ -3,6 +3,7 @@ package ua.com.foxminded.volodymyrtolpiekin.school.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.CourseDAOImpl;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaCourseDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
 import java.util.List;
@@ -10,40 +11,40 @@ import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements CourseService{
-    private final CourseDAOImpl courseDAOImpl;
+    private final JpaCourseDao jpaCourseDao;
 
     @Autowired
-    public CourseServiceImpl (CourseDAOImpl courseDAOImpl) {
-        this.courseDAOImpl = courseDAOImpl;
+    public CourseServiceImpl (JpaCourseDao jpaCourseDao) {
+        this.jpaCourseDao = jpaCourseDao;
     }
 
     @Override
     public Optional<Course> findById(int id) {
-        return courseDAOImpl.findById(id);
+        return jpaCourseDao.findById(id);
     }
 
     @Override
     public Optional<Course> findByName(String name) {
-        return courseDAOImpl.findByName(name);
+        return jpaCourseDao.findByName(name);
     }
 
     @Override
     public List<Course> getAll() {
-        return courseDAOImpl.getAll();
+        return jpaCourseDao.getAll();
     }
 
     @Override
     public Optional<Course> addCourse(Course course) {
-        return courseDAOImpl.addItem(course);
+        return jpaCourseDao.addCourse(course);
     }
 
     @Override
     public Optional<Course> updateCourse(Course course) {
-        return courseDAOImpl.updateItem(course);
+        return jpaCourseDao.updateCourse(course);
     }
 
     @Override
     public void deleteById(int id){
-        courseDAOImpl.deleteById(id);
+        jpaCourseDao.deleteById(id);
     }
 }
