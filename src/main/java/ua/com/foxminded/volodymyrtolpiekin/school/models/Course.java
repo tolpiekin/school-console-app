@@ -1,8 +1,19 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "courses")
 public class Course {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "COURSE_NAME")
     private String name;
+
+    @Column(name = "COURSE_DESCRIPTION")
     private String description;
 
     public Course() {

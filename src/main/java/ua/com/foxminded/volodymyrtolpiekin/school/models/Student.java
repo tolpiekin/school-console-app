@@ -1,9 +1,22 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "studens")
 public class Student {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "GROUP_ID")
     private int groupId;
+
+    @Column(name = "FIRST_NAME")
     private String firstName;
+
+    @Column(name = "LAST_NAME")
     private String lastName;
 
     public Student() {

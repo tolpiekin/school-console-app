@@ -1,7 +1,16 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "groups")
 public class Group {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "GROUP_NAME")
     private String name;
 
     public Group() {
