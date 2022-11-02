@@ -1,13 +1,14 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa;
+package ua.com.foxminded.volodymyrtolpiekin.school.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Transactional
 public interface JpaStudentDao extends JpaRepository<Student, Integer> {
 
     Optional<Student> findById(int id);
@@ -15,6 +16,8 @@ public interface JpaStudentDao extends JpaRepository<Student, Integer> {
     Optional<Student> findByLastName(String lastName);
 
     List<Student> getAll();
+
+    List<Student> findStudentsByCourseId(int courseId);
 
     Optional<Student> addStudent(Student student);
 

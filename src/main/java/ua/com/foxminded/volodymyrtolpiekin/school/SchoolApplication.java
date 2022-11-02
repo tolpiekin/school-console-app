@@ -8,17 +8,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @Log4j2
-public class JdbcApiApplication implements CommandLineRunner {
+public class SchoolApplication implements CommandLineRunner {
 	@Autowired
 	private final Menu menu;
 
-	public JdbcApiApplication(Menu menu) {
+	public SchoolApplication(Menu menu) {
 		this.menu = menu;
 	}
 
 	public static void main(String[] args) {
 		log.info("STARTING THE APPLICATION");
-		SpringApplication.run(JdbcApiApplication.class, args);
+		SpringApplication.run(SchoolApplication.class, args);
 		log.info("APPLICATION FINISHED");
 	}
 

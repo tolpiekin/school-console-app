@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
-import ua.com.foxminded.volodymyrtolpiekin.school.service.CourseAttendanceServiceImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.service.CourseServiceImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.service.GroupServiceImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.service.StudentServiceImpl;
@@ -22,15 +21,13 @@ public class Menu {
     private final GroupServiceImpl groupServiceImpl;
     private final CourseServiceImpl courseServiceImpl;
     private final StudentServiceImpl studentServiceImpl;
-    private final CourseAttendanceServiceImpl courseAttendanceServiceImpl;
 
     @Autowired
     public Menu(GroupServiceImpl groupServiceImpl, CourseServiceImpl courseServiceImpl, StudentServiceImpl
-            studentServiceImpl, CourseAttendanceServiceImpl courseAttendanceServiceImpl) {
+            studentServiceImpl) {
         this.groupServiceImpl = groupServiceImpl;
         this.courseServiceImpl = courseServiceImpl;
         this.studentServiceImpl = studentServiceImpl;
-        this.courseAttendanceServiceImpl = courseAttendanceServiceImpl;
     }
 
     public void start() {
@@ -88,10 +85,10 @@ public class Menu {
         int studentId = sc.nextInt();
         sc.nextLine();
 
-        if (courseAttendanceServiceImpl.getCoursesOfStudent(studentId).isEmpty()) {
+        if (courseServiceImpl.findCoursesByStudentId(studentId).isEmpty()) {
             System.out.println(STUDENT_NOT_ATTENDING_ANY_COURSE);
         } else {
-            String currentCourses = courseAttendanceServiceImpl.getCoursesOfStudent(studentId).stream().map(course ->
+            String currentCourses = courseServiceImpl.findCoursesByStudentId(studentId).stream().map(course ->
                     String.format(COURSE_LIST_TEMPLATE, course.getId(), course.getName())).collect(Collectors
                     .joining("\n"));
 
@@ -99,8 +96,8 @@ public class Menu {
 
             int courseId = sc.nextInt();
             sc.nextLine();
-
-            courseAttendanceServiceImpl.removeStudentFromCourse(studentId, courseId);
+            Course course= courseServiceImpl.findById(courseId).get();
+            course.removeStudent(studentId);
 
             System.out.println(DEL_FROM_COURSE_CONFIRMATION);
         }
@@ -118,7 +115,7 @@ public class Menu {
         sc.nextLine();
 
         List<Course> courses = courseServiceImpl.getAll();
-        courses.removeAll(courseAttendanceServiceImpl.getCoursesOfStudent(studentId));
+        courses.removeAll(courseServiceImpl.findCoursesByStudentId(studentId));
 
         String coursesList = courses.stream().map(c-> c.getId() + ". " + c.getName()).collect(Collectors
                 .joining("\n"));
@@ -128,7 +125,8 @@ public class Menu {
         int courseId = sc.nextInt();
         sc.nextLine();
 
-        courseAttendanceServiceImpl.addStudentToCourse(studentId, courseId);
+        Course course = courseServiceImpl.findById(courseId).get();
+        course.addStudent(studentServiceImpl.findById(studentId).get());
 
         System.out.printf(ADD_STUDENT_TO_COURSE_CONFIRMATION, studentId, courseId);
 
@@ -176,7 +174,8 @@ public class Menu {
 
         System.out.println(courseName + " course attendees:");
 
-        courseAttendanceServiceImpl.getStudentsAtCourse(courseName).forEach(m ->
+        Course course = courseServiceImpl.findByName(courseName).get();
+        studentServiceImpl.findStudentsByCourseId(course.getId()).forEach(m ->
                 System.out.format("%s %s%n", m.getFirstName(), m.getLastName()));
 
         pressEnterToContinue(sc);

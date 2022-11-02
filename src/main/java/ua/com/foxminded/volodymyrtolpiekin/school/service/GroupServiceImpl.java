@@ -2,18 +2,19 @@ package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.foxminded.volodymyrtolpiekin.school.jpa.JpaGroupDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaGroupDao;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class GroupServiceImpl implements GroupService {
+
     private final JpaGroupDao jpaGroupDAO;
 
-    @Autowired
     public GroupServiceImpl(JpaGroupDao jpaGroupDAO) {
         this.jpaGroupDAO = jpaGroupDAO;
     }

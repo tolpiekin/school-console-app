@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
-class JdbcApiApplicationTests {
+class SchoolApplicationTests {
 	@Autowired
 	StudentServiceImpl studentService;
 	@Autowired

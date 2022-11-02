@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
-import ua.com.foxminded.volodymyrtolpiekin.school.service.CourseAttendanceServiceImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.service.CourseServiceImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.service.GroupServiceImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.service.StudentServiceImpl;
@@ -22,16 +21,14 @@ public class DatabaseStartup {
     private final GroupServiceImpl groupServiceImpl;
     private final CourseServiceImpl courseServiceImpl;
     private final StudentServiceImpl studentServiceImpl;
-    private final CourseAttendanceServiceImpl courseAttendanceServiceImpl;
     Random random = new Random();
 
     @Autowired
     DatabaseStartup(GroupServiceImpl groupServiceImpl, CourseServiceImpl courseServiceImpl, StudentServiceImpl
-            studentServiceImpl, CourseAttendanceServiceImpl courseAttendanceServiceImpl) {
+            studentServiceImpl) {
         this.groupServiceImpl = groupServiceImpl;
         this.courseServiceImpl = courseServiceImpl;
         this.studentServiceImpl = studentServiceImpl;
-        this.courseAttendanceServiceImpl = courseAttendanceServiceImpl;
     }
 
     @PostConstruct
@@ -81,10 +78,11 @@ public class DatabaseStartup {
         List<Student> students = studentServiceImpl.getAll();
         List<Course> courses = courseServiceImpl.getAll();
         students.forEach(student -> IntStream.range(0, random.nextInt(COURSES_LIMIT + 1)).forEach(i -> {
-            if(courseAttendanceServiceImpl.getCoursesOfStudent(student.getId()).size() < 3) {
+            if(courseServiceImpl.findCoursesByStudentId(student.getId()).size() < 3) {
                 Course course = courses.get(random.nextInt(courses.size()));
-                if (!courseAttendanceServiceImpl.ifStudentAtCourse(student.getId(), course.getId())) {
-                    courseAttendanceServiceImpl.addStudentToCourse(student.getId(), course.getId());
+                if (courseServiceImpl.findCoursesByStudentId(student.getId()).isEmpty() &&
+                        studentServiceImpl.findStudentsByCourseId(course.getId()).isEmpty()) {
+                    course.addStudent(student);
                 }
             }
         }));

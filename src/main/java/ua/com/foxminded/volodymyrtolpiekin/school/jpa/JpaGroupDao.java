@@ -1,15 +1,16 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa;
+package ua.com.foxminded.volodymyrtolpiekin.school.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Repository
+@Transactional
 public interface JpaGroupDao extends JpaRepository<Group, Integer> {
 
     Optional<Group> findById(int id);

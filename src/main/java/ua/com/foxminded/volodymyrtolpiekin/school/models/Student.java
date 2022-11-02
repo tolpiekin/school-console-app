@@ -1,6 +1,8 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "studens")
@@ -18,6 +20,14 @@ public class Student {
 
     @Column(name = "LAST_NAME")
     private String lastName;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "courses")
+    private Set<Course> courses = new HashSet<>();
 
     public Student() {
     }
@@ -65,6 +75,14 @@ public class Student {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
     @Override

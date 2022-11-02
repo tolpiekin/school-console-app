@@ -1,6 +1,8 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -15,6 +17,16 @@ public class Course {
 
     @Column(name = "COURSE_DESCRIPTION")
     private String description;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "course_attendance",
+            joinColumns = { @JoinColumn(name = "student_id") },
+            inverseJoinColumns = { @JoinColumn(name = "course_id") })
+    private Set<Student> students = new HashSet<>();
 
     public Course() {
     }
@@ -52,6 +64,27 @@ public class Course {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void addStudent(Student student) {
+        this.students.add(student);
+        student.getCourses().add(this);
+    }
+
+    public void removeStudent(int studentId){
+        Student student = this.students.stream().filter(s -> s.getId() == studentId).findFirst().orElse(null);
+        if (student != null ) {
+            this.students.remove(student);
+            student.getCourses().remove(this);
+        }
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     @Override
