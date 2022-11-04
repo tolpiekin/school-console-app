@@ -1,7 +1,7 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaGroupDao;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaGroupDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
 import java.util.List;
@@ -29,8 +29,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Optional<Group> addGroup(Group group) {
-        jpaGroupDAO.save(group);
-        return jpaGroupDAO.findById(group.getId());
+        return Optional.ofNullable(jpaGroupDAO.save(group));
     }
 
     @Override
@@ -46,7 +45,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> smallerThen(int size){
+    public List<Map<String, Integer>> smallerThen(int size){
         return jpaGroupDAO.findGroupSmallerThen(size);
     }
 }

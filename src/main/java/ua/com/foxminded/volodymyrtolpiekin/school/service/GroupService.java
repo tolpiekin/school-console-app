@@ -18,5 +18,5 @@ public interface GroupService {
 
     void delGroup(int id);
 
-    List<Group> smallerThen(int size);
+    List<Map<String, Integer>> smallerThen(int size);
 }

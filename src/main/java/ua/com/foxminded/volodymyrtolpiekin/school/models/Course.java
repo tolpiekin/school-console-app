@@ -15,9 +15,9 @@ public class Course {
     public Course() {
     }
 
-    public Course(int id, String name, String courseDescription) {
+    public Course(int id, String courseName, String courseDescription) {
         this.id = id;
-        this.courseName = name;
+        this.courseName = courseName;
         this.courseDescription = courseDescription;
     }
 
@@ -34,11 +34,11 @@ public class Course {
         this.id = id;
     }
 
-    public String getName() {
+    public String getCourseName() {
         return courseName;
     }
 
-    public void setName(String name) {
+    public void setCourseName(String name) {
         this.courseName = name;
     }
 

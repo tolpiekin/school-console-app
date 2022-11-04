@@ -1,7 +1,7 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaCourseDao;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaCourseDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
 import java.util.List;
@@ -22,8 +22,8 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public Optional<Course> findByName(String name) {
-        return jpaCourseDao.findByName(name);
+    public Optional<Course> findByName(String courseName) {
+        return jpaCourseDao.findByCourseName(courseName);
     }
 
     @Override

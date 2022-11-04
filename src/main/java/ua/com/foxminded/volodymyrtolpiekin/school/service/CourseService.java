@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface CourseService {
     Optional<Course> findById(int id);
 
-    Optional<Course> findByName(String name);
+    Optional<Course> findByName(String courseName);
 
     Optional<Course> addCourse(Course course);
 

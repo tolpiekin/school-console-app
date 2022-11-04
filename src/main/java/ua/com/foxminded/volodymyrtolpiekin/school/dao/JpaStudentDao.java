@@ -1,4 +1,4 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa;
+package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

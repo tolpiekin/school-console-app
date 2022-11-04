@@ -1,4 +1,4 @@
-package ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa;
+package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface JpaCourseDao extends JpaRepository<Course, Integer> {
-    Optional<Course> findByName(String courseName);
+    Optional<Course> findByCourseName(String courseName);
 
 }

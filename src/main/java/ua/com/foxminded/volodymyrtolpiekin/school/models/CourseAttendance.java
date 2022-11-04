@@ -1,7 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "course_attendance")

@@ -14,5 +14,5 @@ public interface CourseAttendanceService {
 
     boolean ifStudentAtCourse(int studentId, int courseId);
 
-    void removeStudentFromCourse(int studentId, int courseId);
+    void delete (int studentId, int courseId);
 }

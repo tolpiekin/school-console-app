@@ -1,7 +1,7 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaStudentDao;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaStudentDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;

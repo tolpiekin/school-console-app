@@ -49,8 +49,8 @@ public class DatabaseStartup {
 
     private void generateGroups() {
         IntStream.range(0, NUMBER_OF_GROUPS).forEach(i -> {
-            Group group = new Group(i + 1, generateGroupName());
-            if (!groupServiceImpl.findById(group.getId()).isPresent()) {
+            Group group = new Group(i+1, generateGroupName());
+            if (!groupServiceImpl.findById(i+1).isPresent()) {
                 groupServiceImpl.addGroup(group);
             }
                 });
@@ -83,8 +83,7 @@ public class DatabaseStartup {
         students.forEach(student -> IntStream.range(0, random.nextInt(COURSES_LIMIT + 1)).forEach(i -> {
             if(courseAttendanceServiceImpl.findCoursesByStudent(student.getId()).size() < 3) {
                 Course course = courses.get(random.nextInt(courses.size()));
-                if (courseAttendanceServiceImpl.findCoursesByStudent(student.getId()).isEmpty() &&
-                        courseAttendanceServiceImpl.findStudentsByCourseName(course.getName()).isEmpty()) {
+                if (!courseAttendanceServiceImpl.ifStudentAtCourse(student.getId(), course.getId())) {
                     courseAttendanceServiceImpl.addStudentToCourse(student.getId(), course.getId());
                 }
             }
