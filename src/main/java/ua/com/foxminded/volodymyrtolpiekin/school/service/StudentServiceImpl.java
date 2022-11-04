@@ -1,11 +1,9 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.volodymyrtolpiekin.school.jpa.JpaStudentDao;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaStudentDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,22 +28,20 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getAll() {
-        return jpaStudentDao.getAll();
-    }
-
-    @Override
-    public List<Student> findStudentsByCourseId(int courseId) {
-        return jpaStudentDao.findStudentsByCourseId(courseId);
+        return jpaStudentDao.findAll();
     }
 
     @Override
     public Optional<Student> addStudent(Student student) {
-        return jpaStudentDao.addStudent(student);
+        jpaStudentDao.save(student);
+        return jpaStudentDao.findById(student.getId());
     }
 
     @Override
-    public Optional<Student> updateStudent(Student student) {
-        return jpaStudentDao.updateStudent(student);
+    public Optional<Student> updateStudent(Student student, int id) {
+        student.setId(id);
+        jpaStudentDao.save(student);
+        return jpaStudentDao.findById(student.getId());
     }
 
     @Override

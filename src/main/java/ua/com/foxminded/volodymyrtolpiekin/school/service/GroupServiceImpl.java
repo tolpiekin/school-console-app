@@ -1,11 +1,9 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.volodymyrtolpiekin.school.jpa.JpaGroupDao;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaGroupDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -25,23 +23,21 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Optional<Group> findByName(String name) {
-        return jpaGroupDAO.findByName(name);
-    }
-
-    @Override
     public List<Group> getAll() {
-        return jpaGroupDAO.getAll();
+        return jpaGroupDAO.findAll();
     }
 
     @Override
     public Optional<Group> addGroup(Group group) {
-        return jpaGroupDAO.addGroup(group);
+        jpaGroupDAO.save(group);
+        return jpaGroupDAO.findById(group.getId());
     }
 
     @Override
-    public Optional<Group> updateGroup(Group group) {
-        return jpaGroupDAO.updateGroup(group);
+    public Optional<Group> updateGroup(Group group, int id) {
+        group.setId(id);
+        jpaGroupDAO.save(group);
+        return jpaGroupDAO.findById(group.getId());
     }
 
     @Override
@@ -50,7 +46,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Map<String, Object>> smallerThen(int size){
-        return jpaGroupDAO.smallerThen(size);
+    public List<Group> smallerThen(int size){
+        return jpaGroupDAO.findGroupSmallerThen(size);
     }
 }

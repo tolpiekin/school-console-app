@@ -1,11 +1,9 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.volodymyrtolpiekin.school.jpa.JpaCourseDao;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.jpa.JpaCourseDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,23 +27,14 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public List<Course> getAll() {
-        return jpaCourseDao.getAll();
-    }
-
-    @Override
-    public List<Course> findCoursesByStudentId(int studentId) {
-        return jpaCourseDao.findCoursesByStudentId(studentId);
-    }
-
-    @Override
     public Optional<Course> addCourse(Course course) {
-        return jpaCourseDao.addCourse(course);
+        jpaCourseDao.save(course);
+        return jpaCourseDao.findById(course.getId());
     }
 
     @Override
-    public Optional<Course> updateCourse(Course course) {
-        return jpaCourseDao.updateCourse(course);
+    public List<Course> getAll() {
+        return jpaCourseDao.findAll();
     }
 
     @Override

@@ -10,15 +10,13 @@ public interface GroupService {
 
     Optional<Group> findById(int id);
 
-    Optional<Group> findByName(String name);
-
     List<Group> getAll();
 
     Optional<Group> addGroup(Group group);
 
-    Optional<Group> updateGroup(Group group);
+    Optional<Group> updateGroup(Group group, int id);
 
     void delGroup(int id);
 
-    List<Map<String, Object>> smallerThen(int size);
+    List<Group> smallerThen(int size);
 }

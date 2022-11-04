@@ -12,11 +12,9 @@ public interface StudentService {
 
     List<Student> getAll();
 
-    List<Student> findStudentsByCourseId(int courseId);
-
     Optional<Student> addStudent(Student student);
 
-    Optional<Student> updateStudent(Student student);
+    Optional<Student> updateStudent(Student student, int id);
 
     void delStudent(int id);
 }

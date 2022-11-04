@@ -10,13 +10,9 @@ public interface CourseService {
 
     Optional<Course> findByName(String name);
 
-    List<Course> getAll();
-
-    List<Course> findCoursesByStudentId(int studentId);
-
     Optional<Course> addCourse(Course course);
 
-    Optional<Course> updateCourse(Course course);
+    List<Course> getAll();
 
     void deleteById(int id);
 }

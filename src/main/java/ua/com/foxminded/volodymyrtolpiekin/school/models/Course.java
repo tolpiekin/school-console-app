@@ -1,8 +1,6 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -11,35 +9,21 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "COURSE_NAME")
-    private String name;
-
-    @Column(name = "COURSE_DESCRIPTION")
-    private String description;
-
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(name = "course_attendance",
-            joinColumns = { @JoinColumn(name = "student_id") },
-            inverseJoinColumns = { @JoinColumn(name = "course_id") })
-    private Set<Student> students = new HashSet<>();
+    private String courseName;
+    private String courseDescription;
 
     public Course() {
     }
 
-    public Course(int id, String name, String description) {
+    public Course(int id, String name, String courseDescription) {
         this.id = id;
-        this.name = name;
-        this.description = description;
+        this.courseName = name;
+        this.courseDescription = courseDescription;
     }
 
     @Override
     public String toString() {
-        return String.format("Course[id=%d, name='%s', description='%s']", id, name, description);
+        return String.format("Course[id=%d, name='%s', description='%s']", id, courseName, courseDescription);
     }
 
     public int getId() {
@@ -51,40 +35,19 @@ public class Course {
     }
 
     public String getName() {
-        return name;
+        return courseName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.courseName = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCourseDescription() {
+        return courseDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void addStudent(Student student) {
-        this.students.add(student);
-        student.getCourses().add(this);
-    }
-
-    public void removeStudent(int studentId){
-        Student student = this.students.stream().filter(s -> s.getId() == studentId).findFirst().orElse(null);
-        if (student != null ) {
-            this.students.remove(student);
-            student.getCourses().remove(this);
-        }
-    }
-
-    public Set<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
     }
 
     @Override
