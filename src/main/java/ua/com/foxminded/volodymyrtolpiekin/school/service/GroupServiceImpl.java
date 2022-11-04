@@ -5,7 +5,6 @@ import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaGroupDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -45,7 +44,9 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Map<String, Integer>> smallerThen(int size){
-        return jpaGroupDAO.findGroupSmallerThen(size);
+    public List<String> findGroupLessThan(int size){
+        List<String> grouplist =  jpaGroupDAO.findGroupsLessThan(size);
+        grouplist.forEach((k)-> System.out.println(k));
+        return grouplist;
     }
 }

@@ -6,11 +6,13 @@ import org.springframework.stereotype.Repository;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface JpaGroupDao extends JpaRepository<Group, Integer> {
-    @Query("SELECT g.groupName, COUNT(s.groupId) FROM Group g LEFT OUTER JOIN Student s ON g.id = s.groupId " +
-            "WHERE COUNT(s.groupId) <= :size")
-    List<Map<String, Integer>> findGroupSmallerThen(int size);
+
+    @Query(value = "SELECT groups.group_name, count(students.group_id) FROM groups " +
+            "INNER JOIN students ON students.group_id = groups.id " +
+            "GROUP BY groups.group_name " +
+            "HAVING count(students.group_id) <= :size", nativeQuery = true)
+    List<String> findGroupsLessThan(int size);
 }

@@ -192,8 +192,7 @@ public class Menu {
 
         System.out.println("Group Name");
 
-        groupServiceImpl.smallerThen(numberStudentsPerGroup).forEach(g -> System.out.format("%10s%10s%n",
-                g.get("group_name"), g.get("count")));
+        groupServiceImpl.findGroupLessThan(numberStudentsPerGroup).forEach(g -> System.out.println(g));
         pressEnterToContinue(sc);
     }
 
