@@ -7,6 +7,7 @@ import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.CourseAttendance;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,5 +64,6 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
                     }
             );
         }
+        throw new EntityNotFoundException(String.format("404. Student with id %d not attending course id %d", studentId, courseId));
     }
 }

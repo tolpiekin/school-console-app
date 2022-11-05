@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaGroupDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,11 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Optional<Group> findById(int id) {
-        return jpaGroupDAO.findById(id);
+        Optional<Group> returnedGroup =  jpaGroupDAO.findById(id);
+        if(returnedGroup.isPresent()){
+            return returnedGroup;
+        }
+        throw new EntityNotFoundException(String.format("404.Group with id %d not found", id));
     }
 
     @Override
@@ -28,7 +33,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Optional<Group> addGroup(Group group) {
-        return Optional.ofNullable(jpaGroupDAO.save(group));
+        return Optional.of(jpaGroupDAO.save(group));
     }
 
     @Override
@@ -40,7 +45,11 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void delGroup(int id){
-        jpaGroupDAO.deleteById(id);
+        Optional<Group> returnedGroup =  jpaGroupDAO.findById(id);
+        if(returnedGroup.isPresent()){
+            jpaGroupDAO.deleteById(id);
+        }
+        throw new EntityNotFoundException(String.format("404. Group with id %d not found", id));
     }
 
     @Override
