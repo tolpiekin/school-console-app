@@ -20,10 +20,10 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public Optional<Group> findById(int id) {
         Optional<Group> returnedGroup =  jpaGroupDAO.findById(id);
-        if(returnedGroup.isPresent()){
-            return returnedGroup;
+        if(!returnedGroup.isPresent()){
+            throw new EntityNotFoundException(String.format("404.Group with id %d not found", id));
         }
-        throw new EntityNotFoundException(String.format("404.Group with id %d not found", id));
+        return returnedGroup;
     }
 
     @Override
@@ -46,10 +46,10 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public void delGroup(int id){
         Optional<Group> returnedGroup =  jpaGroupDAO.findById(id);
-        if(returnedGroup.isPresent()){
-            jpaGroupDAO.deleteById(id);
+        if(!returnedGroup.isPresent()){
+            throw new EntityNotFoundException(String.format("404. Group with id %d not found", id));
         }
-        throw new EntityNotFoundException(String.format("404. Group with id %d not found", id));
+        jpaGroupDAO.deleteById(id);
     }
 
     @Override

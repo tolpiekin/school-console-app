@@ -136,8 +136,8 @@ public class Menu {
     }
 
     private void addStudent(Scanner sc) {
-        String studentList = studentServiceImpl.getAll().stream().map(s-> s.getId() + ". " + s.getFirstName() +
-                        s.getLastName()).collect(Collectors.joining("\n"));
+        String studentList = studentServiceImpl.getAll().stream().map(s-> String.format(STUDENT_OUTPUT_TEMPLATE,
+                s.getId(), s.getFirstName(), s.getLastName())).collect(Collectors.joining("\n"));
         String groupsList = groupServiceImpl.getAll().stream().map(g-> g.getId() + ". " + g.getGroupName())
                 .collect(Collectors.joining("\n"));
 

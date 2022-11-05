@@ -24,7 +24,7 @@ public final class MenuConstants  {
     public static final String COURSE_NAME_REQUEST = "Enter course name : ";
     public static final String GROUP_ID_REQUEST = "Enter group id for new student :";
     public static final String STUDENT_ID_REQUEST = "Enter student id :";
-    public static final String STUDENT_OUTPUT_TEMPLATE = "%3d. %s %s";
+    public static final String STUDENT_OUTPUT_TEMPLATE = "%3d. %-10s %-10s";
     public static final String FIRST_NAME_REQUEST = "Enter student's first name : ";
     public static final String LAST_NAME_REQUEST = "Enter student's last name : ";
     public static final String ADD_STUDENT_CONFIRMATION = "Student %s %s added with the id: %d %n";
