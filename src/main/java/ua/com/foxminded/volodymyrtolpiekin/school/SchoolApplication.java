@@ -5,11 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @Log4j2
-@EnableJpaRepositories(basePackages = "ua.com.foxminded.volodymyrtolpiekin.school.dao")
 public class SchoolApplication implements CommandLineRunner {
 	@Autowired
 	private final Menu menu;

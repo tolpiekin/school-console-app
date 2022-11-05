@@ -7,9 +7,8 @@ import ua.com.foxminded.volodymyrtolpiekin.school.models.CourseAttendance;
 import java.util.List;
 
 @Repository
-public interface JpaCourseAttendanceDAO extends JpaRepository<CourseAttendance, Integer> {
+public interface JpaCourseAttendanceDao extends JpaRepository<CourseAttendance, Integer> {
 
-    List<CourseAttendance> findCoursesByStudentId(int studentId);
-    List<CourseAttendance> findStudentsByCourseId(int courseId);
-
+    List<CourseAttendance> findByStudentId(int studentId);
+    List<CourseAttendance> findByCourseId(int courseId);
 }

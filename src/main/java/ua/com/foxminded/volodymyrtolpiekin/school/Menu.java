@@ -190,7 +190,7 @@ public class Menu {
         int numberStudentsPerGroup = sc.nextInt();
         sc.nextLine();
 
-        System.out.println("Group Name");
+        System.out.println("Group Name, Number of students");
 
         groupServiceImpl.findGroupLessThan(numberStudentsPerGroup).forEach(g -> System.out.println(g));
         pressEnterToContinue(sc);

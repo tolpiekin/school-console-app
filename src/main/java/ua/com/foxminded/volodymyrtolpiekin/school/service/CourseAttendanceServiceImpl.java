@@ -2,7 +2,7 @@ package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaCourseAttendanceDAO;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaCourseAttendanceDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.CourseAttendance;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class CourseAttendanceServiceImpl implements CourseAttendanceService {
-    private final JpaCourseAttendanceDAO jpaCourseAttendanceDAO;
+    private final JpaCourseAttendanceDao jpaCourseAttendanceDAO;
     private final CourseServiceImpl courseServiceImpl;
     private final StudentServiceImpl studentServiceImpl;
 
     @Autowired
-    public CourseAttendanceServiceImpl(JpaCourseAttendanceDAO jpaCourseAttendanceDAO, CourseServiceImpl courseServiceImpl, StudentServiceImpl studentServiceImpl) {
+    public CourseAttendanceServiceImpl(JpaCourseAttendanceDao jpaCourseAttendanceDAO, CourseServiceImpl courseServiceImpl, StudentServiceImpl studentServiceImpl) {
         this.jpaCourseAttendanceDAO = jpaCourseAttendanceDAO;
         this.courseServiceImpl = courseServiceImpl;
         this.studentServiceImpl = studentServiceImpl;
@@ -26,15 +26,17 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
     @Override
     public List<Student> findStudentsByCourseName(String courseName){
         int courseId = courseServiceImpl.findByName(courseName).get().getId();
-        List<CourseAttendance> studentsAtCourse = jpaCourseAttendanceDAO.findStudentsByCourseId(courseId);
-        return studentsAtCourse.stream().map(student -> studentServiceImpl.findById(student.getStudentId()).get())
+        List<CourseAttendance> studentsAtCourse = jpaCourseAttendanceDAO.findByCourseId(courseId);
+        return studentsAtCourse.stream().map(studentAtCourse ->
+                        studentServiceImpl.findById(studentAtCourse.getStudent().getId()).get())
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Course> findCoursesByStudent(int studentId){
-        List<CourseAttendance> coursesOfStudent = jpaCourseAttendanceDAO.findCoursesByStudentId(studentId);
-        return coursesOfStudent.stream().map(course -> courseServiceImpl.findById(course.getCourseId()).get())
+        List<CourseAttendance> coursesOfStudent = jpaCourseAttendanceDAO.findByStudentId(studentId);
+        return coursesOfStudent.stream().map(courseOfStudent ->
+                        courseServiceImpl.findById(courseOfStudent.getCourse().getId()).get())
                 .collect(Collectors.toList());
 
     }
@@ -42,23 +44,24 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
     @Override
     public void addStudentToCourse(int studentId, int courseId) {
         CourseAttendance courseAttendance = new CourseAttendance();
-        courseAttendance.setStudentId(studentId);
-        courseAttendance.setCourseId(courseId);
+        courseAttendance.setStudent(studentServiceImpl.findById(studentId).get());
+        courseAttendance.setCourse(courseServiceImpl.findById(courseId).get());
         jpaCourseAttendanceDAO.save(courseAttendance);
     }
 
     @Override
     public boolean ifStudentAtCourse(int studentId, int courseId){
-        return jpaCourseAttendanceDAO.findCoursesByStudentId(studentId).contains(courseId);
+        return jpaCourseAttendanceDAO.findByStudentId(studentId).contains(courseId);
     }
 
     @Override
     public void delete(int studentId, int courseId){
         if (ifStudentAtCourse(studentId, courseId)) {
-            CourseAttendance courseAttendance = new CourseAttendance();
-            courseAttendance.setStudentId(studentId);
-            courseAttendance.setCourseId(courseId);
-            jpaCourseAttendanceDAO.delete(courseAttendance);
+            jpaCourseAttendanceDAO.findByStudentId(studentId).forEach(a -> {
+                        if (a.getCourse().getId() == courseId);
+                        jpaCourseAttendanceDAO.deleteById(a.getId());
+                    }
+            );
         }
     }
 }

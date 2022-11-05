@@ -48,33 +48,39 @@ public class DatabaseStartup {
     }
 
     private void generateGroups() {
-        IntStream.range(0, NUMBER_OF_GROUPS).forEach(i -> {
-            Group group = new Group(i+1, generateGroupName());
-            if (!groupServiceImpl.findById(i+1).isPresent()) {
-                groupServiceImpl.addGroup(group);
-            }
-                });
-
+        if(groupServiceImpl.getAll().size() < 10) {
+            IntStream.range(0, NUMBER_OF_GROUPS).forEach(i -> {
+                Group group = new Group(i + 1, generateGroupName());
+                if (!groupServiceImpl.findById(i + 1).isPresent()) {
+                    groupServiceImpl.addGroup(group);
+                }
+            });
+        }
     }
 
     private void generateCourses() {
-        IntStream.range(0, COURSES.length).forEach(i ->{
-            Course course = new Course(i + 1, COURSES[i], String.format(COURSE_DESCRIPTION, COURSES[i]));
-            if (!(courseServiceImpl.findById(course.getId())).isPresent()) {
-                courseServiceImpl.addCourse(course);
-            }
-        });
+        if (courseServiceImpl.getAll().size() < 10 ) {
+            IntStream.range(0, COURSES.length).forEach(i -> {
+                Course course = new Course(i + 1, COURSES[i], String.format(COURSE_DESCRIPTION, COURSES[i]));
+                if (!(courseServiceImpl.findById(course.getId())).isPresent()) {
+                    courseServiceImpl.addCourse(course);
+                }
+            });
+        }
     }
 
     private void generateStudents() {
-        List<Group> groups = groupServiceImpl.getAll();
-        IntStream.range(0, NUMBER_OF_STUDENTS).forEach(i -> {
-            Student student = new Student(i + 1, groups.get(random.nextInt(NUMBER_OF_GROUPS)).getId(),
-                    FIRST_NAMES[random.nextInt(FIRST_NAMES.length)],
-                    LAST_NAMES[random.nextInt(LAST_NAMES.length)]);
-            if (!(studentServiceImpl.findById(student.getId())).isPresent()) {
-                studentServiceImpl.addStudent(student);}
-        });
+        if(studentServiceImpl.getAll().size() < 200) {
+            List<Group> groups = groupServiceImpl.getAll();
+            IntStream.range(1, NUMBER_OF_STUDENTS).forEach(i -> {
+                Student student = new Student(i, groups.get(random.nextInt(NUMBER_OF_GROUPS)).getId(),
+                        FIRST_NAMES[random.nextInt(FIRST_NAMES.length)],
+                        LAST_NAMES[random.nextInt(LAST_NAMES.length)]);
+                if (!(studentServiceImpl.findById(student.getId())).isPresent()) {
+                    studentServiceImpl.addStudent(student);
+                }
+            });
+        }
     }
 
     private void assignStudentsToCourses() {

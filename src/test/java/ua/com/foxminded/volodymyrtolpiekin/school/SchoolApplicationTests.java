@@ -26,33 +26,34 @@ import static org.mockito.Mockito.doReturn;
 @SpringBootTest
 class SchoolApplicationTests {
 	@Autowired
-	StudentServiceImpl studentService;
+	StudentServiceImpl studentServiceImpl;
 	@Autowired
-	CourseServiceImpl courseService;
+	CourseServiceImpl courseServiceImpl;
 	@Autowired
-	GroupServiceImpl groupService;
-
+	GroupServiceImpl groupServiceImpl;
 	@MockBean
 	private JpaStudentDao jpaStudentDao;
 	@MockBean
 	private JpaCourseDao jpaCourseDao;
 	@MockBean
 	private JpaGroupDao jpaGroupDao;
+	@MockBean DatabaseStartup databaseStartup;
+
 	@Test
 	@DisplayName("Test findstudentById  Success")
 	void testFindStudentById() {
 		Student student = new Student(1, 1, "John", "Doe");
 		doReturn(Optional.of(student)).when(jpaStudentDao).findById(1);
-		Optional<Student> returnedStudent = studentService.findById(1);
+		Optional<Student> returnedStudent = studentServiceImpl.findById(1);
 		Assertions.assertTrue(returnedStudent.isPresent(), "Student was not found");
 		Assertions.assertSame(returnedStudent.get(), student, "The student returned was not the same as the mock");
 	}
 
 	@Test
 	@DisplayName("Test findStudentById Not Found")
-	void testFindStudeentByIdNotFound() {
+	void testFindStudentByIdNotFound() {
 		doReturn(Optional.empty()).when(jpaStudentDao).findById(1);
-		Optional<Student> returnedStudent = studentService.findById(1);
+		Optional<Student> returnedStudent = studentServiceImpl.findById(1);
 		Assertions.assertFalse(returnedStudent.isPresent(), "Student should not be found");
 	}
 
@@ -81,7 +82,7 @@ class SchoolApplicationTests {
 	void testFindCourseById() {
 		Course course = new Course(1, "math", "Math is the mother and the queen of all the sciences");
 		doReturn(Optional.of(course)).when(jpaCourseDao).findById(1);
-		Optional<Course> returnedCourse = courseService.findById(1);
+		Optional<Course> returnedCourse = courseServiceImpl.findById(1);
 		Assertions.assertTrue(returnedCourse.isPresent(), "Course was not found");
 		Assertions.assertSame(returnedCourse.get(), course, "The course returned was not the same as the mock");
 	}
@@ -90,7 +91,7 @@ class SchoolApplicationTests {
 	@DisplayName("Test findCourseById Not Found")
 	void testFindCourseByIdNotFound() {
 		doReturn(Optional.empty()).when(jpaCourseDao).findById(1);
-		Optional<Course> returnedCourse = courseService.findById(1);
+		Optional<Course> returnedCourse = courseServiceImpl.findById(1);
 		Assertions.assertFalse(returnedCourse.isPresent(), "Course should not be found");
 	}
 
@@ -119,7 +120,7 @@ class SchoolApplicationTests {
 	void testFindGroupById() {
 		Group group = new Group(1, "gg-dsghj");
 		doReturn(Optional.of(group)).when(jpaGroupDao).findById(1);
-		Optional<Group> returnedGroup = groupService.findById(1);
+		Optional<Group> returnedGroup = groupServiceImpl.findById(1);
 		Assertions.assertTrue(returnedGroup.isPresent(), "Group was not found");
 		Assertions.assertSame(returnedGroup.get(), group, "The group returned was not the same as the mock");
 	}
@@ -128,7 +129,7 @@ class SchoolApplicationTests {
 	@DisplayName("Test findGroupById Not Found")
 	void testFindGroupByIdNotFound() {
 		doReturn(Optional.empty()).when(jpaGroupDao).findById(1);
-		Optional<Group> returnedGroup = groupService.findById(1);
+		Optional<Group> returnedGroup = groupServiceImpl.findById(1);
 		Assertions.assertFalse(returnedGroup.isPresent(), "Group should not be found");
 	}
 

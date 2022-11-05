@@ -1,6 +1,7 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -11,6 +12,8 @@ public class Course {
     private int id;
     private String courseName;
     private String courseDescription;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    Set<CourseAttendance> attendances;
 
     public Course() {
     }
@@ -19,11 +22,6 @@ public class Course {
         this.id = id;
         this.courseName = courseName;
         this.courseDescription = courseDescription;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Course[id=%d, name='%s', description='%s']", id, courseName, courseDescription);
     }
 
     public int getId() {
@@ -50,6 +48,18 @@ public class Course {
         this.courseDescription = courseDescription;
     }
 
+    public Set<CourseAttendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(Set<CourseAttendance> attendances) {
+        this.attendances = attendances;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Course[id=%d, name='%s', description='%s']", id, courseName, courseDescription);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

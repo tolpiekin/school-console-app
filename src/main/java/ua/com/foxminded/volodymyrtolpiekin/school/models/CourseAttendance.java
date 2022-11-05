@@ -1,15 +1,21 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "course_attendance")
 public class CourseAttendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int courseId;
-    private int studentId;
+    int id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    Student student;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    Course course;
 
     public CourseAttendance() {
     }
@@ -22,20 +28,20 @@ public class CourseAttendance {
         this.id = id;
     }
 
-    public int getCourseId() {
-        return courseId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public int getStudentId() {
-        return studentId;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     @Override
@@ -43,13 +49,13 @@ public class CourseAttendance {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CourseAttendance that = (CourseAttendance) o;
-        return courseId == that.courseId && studentId == that.studentId;
+        return id == that.id && Objects.equals(student, that.student) && Objects.equals(course, that.course);
     }
 
     @Override
     public int hashCode() {
         int result = 17;
-        result = (37 * result) + studentId + courseId;
+        result = (37 * result) + id;
         return result;
     }
 }
