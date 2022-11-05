@@ -20,11 +20,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Optional<Student> findById(int id) {
         Optional<Student> returnedStudent = jpaStudentDao.findById(id);
-        if(!returnedStudent.isPresent()){
+        if(returnedStudent.isPresent()){
+            return returnedStudent;
+        } else {
             throw new EntityNotFoundException(String.format("404.Student with id %d not found", id));
         }
-
-        return returnedStudent;
     }
 
     @Override
@@ -53,10 +53,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void delStudent(int id){
         Optional<Student> returnedStudent = jpaStudentDao.findById(id);
-        if(!returnedStudent.isPresent()){
+        if(returnedStudent.isPresent()){
+            jpaStudentDao.deleteById(id);
+        } else {
             throw new EntityNotFoundException(String.format("404.Student with id %d not found", id));
         }
-        jpaStudentDao.deleteById(id);
-
     }
 }

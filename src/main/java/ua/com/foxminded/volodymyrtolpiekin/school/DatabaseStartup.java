@@ -48,7 +48,7 @@ public class DatabaseStartup {
     }
 
     private void generateGroups() {
-        if(groupServiceImpl.getAll().size() < 10) {
+        if(groupServiceImpl.getAll().size() == 0) {
             IntStream.range(0, NUMBER_OF_GROUPS).forEach(i -> {
                 Group group = new Group(i + 1, generateGroupName());
                 if (!groupServiceImpl.findById(i + 1).isPresent()) {
@@ -59,7 +59,7 @@ public class DatabaseStartup {
     }
 
     private void generateCourses() {
-        if (courseServiceImpl.getAll().size() < 10 ) {
+        if (courseServiceImpl.getAll().size() == 0 ) {
             IntStream.range(0, COURSES.length).forEach(i -> {
                 Course course = new Course(i + 1, COURSES[i], String.format(COURSE_DESCRIPTION, COURSES[i]));
                 if (!(courseServiceImpl.findById(course.getId())).isPresent()) {
@@ -70,7 +70,7 @@ public class DatabaseStartup {
     }
 
     private void generateStudents() {
-        if(studentServiceImpl.getAll().size() < 200) {
+        if(studentServiceImpl.getAll().size() == 0) {
             List<Group> groups = groupServiceImpl.getAll();
             IntStream.range(1, NUMBER_OF_STUDENTS).forEach(i -> {
                 Student student = new Student(i, groups.get(random.nextInt(NUMBER_OF_GROUPS)).getId(),

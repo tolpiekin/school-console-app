@@ -52,17 +52,17 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
 
     @Override
     public boolean ifStudentAtCourse(int studentId, int courseId){
-        return jpaCourseAttendanceDAO.findByStudentId(studentId).contains(courseId);
+        return !(jpaCourseAttendanceDAO.findByCourseId(courseId).isEmpty() &&
+                jpaCourseAttendanceDAO.findByStudentId(studentId).isEmpty());
     }
 
     @Override
     public void delete(int studentId, int courseId) {
         if (ifStudentAtCourse(studentId, courseId)) {
-            jpaCourseAttendanceDAO.findByStudentId(studentId).forEach(a -> {
-                        if (a.getCourse().getId() == courseId) ;
-                        jpaCourseAttendanceDAO.deleteById(a.getId());
-                    }
-            );
+            jpaCourseAttendanceDAO.findByStudentId(studentId).forEach(ca -> {
+                        if (ca.getCourse().getId() == courseId){
+                        jpaCourseAttendanceDAO.deleteById(ca.getId());
+                    }});
         } else {
             throw new EntityNotFoundException(String.format("404. Student with id %d not attending course id %d", studentId, courseId));
         }

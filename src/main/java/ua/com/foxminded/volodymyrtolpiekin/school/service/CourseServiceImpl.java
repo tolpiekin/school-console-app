@@ -22,10 +22,11 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public Optional<Course> findById(int id) {
         Optional<Course> returnedCourse = jpaCourseDao.findById(id);
-        if(!returnedCourse.isPresent()) {
+        if(returnedCourse.isPresent()) {
+            return returnedCourse;
+        } else {
             throw new EntityNotFoundException(String.format("404.Course with id %d not found", id));
         }
-        return returnedCourse;
     }
 
     @Override
@@ -47,9 +48,10 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public void deleteById(int id){
         Optional<Course> returnedCourse = jpaCourseDao.findById(id);
-        if(!returnedCourse.isPresent()) {
+        if(returnedCourse.isPresent()) {
+            jpaCourseDao.deleteById(id);
+        } else {
             throw new EntityNotFoundException(String.format("404. Course with id %d not found", id));
         }
-        jpaCourseDao.deleteById(id);
     }
 }
