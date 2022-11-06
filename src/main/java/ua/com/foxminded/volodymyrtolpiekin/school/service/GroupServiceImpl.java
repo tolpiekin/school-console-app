@@ -17,9 +17,9 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Optional<Group> findById(int id) throws GroupIdNotFoundException {
+    public Optional<Group> findById(int id) throws GroupNotFoundException {
         return Optional.ofNullable(jpaGroupDao.findById(id)).orElseThrow(() ->
-                new GroupIdNotFoundException(id));
+                new GroupNotFoundException(id));
     }
 
     @Override
@@ -40,9 +40,9 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void delGroup(int id) throws GroupIdNotFoundException {
+    public void delGroup(int id) throws GroupNotFoundException {
         Optional<Group> returnedGroup = Optional.ofNullable(jpaGroupDao.findById(id).orElseThrow(() ->
-                new GroupIdNotFoundException(id)));
+                new GroupNotFoundException(id)));
         jpaGroupDao.deleteById(returnedGroup.get().getId());
     }
 

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface GroupService {
 
-    Optional<Group> findById(int id) throws GroupIdNotFoundException;
+    Optional<Group> findById(int id) throws GroupNotFoundException;
 
     List<Group> getAll();
 
@@ -15,7 +15,7 @@ public interface GroupService {
 
     Optional<Group> updateGroup(Group group, int id);
 
-    void delGroup(int id) throws GroupIdNotFoundException;
+    void delGroup(int id) throws GroupNotFoundException;
 
     List<String> findGroupLessThan(int size);
 }

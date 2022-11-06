@@ -19,7 +19,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Optional<Student> findById(int id) {
         return Optional.ofNullable(jpaStudentDao.findById(id)).orElseThrow(() ->
-                new StudentIdNotFoundException(id));
+                new StudentNotFoundException(id));
     }
 
     @Override
@@ -46,9 +46,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void delStudent(int id) throws StudentIdNotFoundException {
+    public void delStudent(int id) throws StudentNotFoundException {
         Optional<Student> returnedStudent = Optional.ofNullable(jpaStudentDao.findById(id).orElseThrow(() ->
-                new StudentIdNotFoundException(id)));
+                new StudentNotFoundException(id)));
         jpaStudentDao.deleteById(returnedStudent.get().getId());
     }
 }
