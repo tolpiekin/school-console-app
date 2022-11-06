@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StudentService {
-    Optional<Student> findById(int id);
+    Optional<Student> findById(int id) throws StudentIdNotFoundException;
 
     Optional<Student> findByLastName(String lastName);
 
@@ -16,5 +16,5 @@ public interface StudentService {
 
     Optional<Student> updateStudent(Student student, int id);
 
-    void delStudent(int id);
+    void delStudent(int id) throws StudentIdNotFoundException;
 }

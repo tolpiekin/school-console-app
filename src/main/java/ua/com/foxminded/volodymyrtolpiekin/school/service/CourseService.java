@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CourseService {
-    Optional<Course> findById(int id);
+    Optional<Course> findById(int id) throws CourseNotFoundException;
 
     Optional<Course> findByName(String courseName);
 
@@ -14,5 +14,5 @@ public interface CourseService {
 
     List<Course> getAll();
 
-    void deleteById(int id);
+    void deleteById(int id) throws CourseNotFoundException;
 }

@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class CourseAttendanceServiceImpl implements CourseAttendanceService {
-    private final JpaCourseAttendanceDao jpaCourseAttendanceDAO;
+    private final JpaCourseAttendanceDao jpaCourseAttendanceDao;
     private final CourseServiceImpl courseServiceImpl;
     private final StudentServiceImpl studentServiceImpl;
 
     @Autowired
-    public CourseAttendanceServiceImpl(JpaCourseAttendanceDao jpaCourseAttendanceDAO, CourseServiceImpl courseServiceImpl, StudentServiceImpl studentServiceImpl) {
-        this.jpaCourseAttendanceDAO = jpaCourseAttendanceDAO;
+    public CourseAttendanceServiceImpl(JpaCourseAttendanceDao jpaCourseAttendanceDao, CourseServiceImpl courseServiceImpl, StudentServiceImpl studentServiceImpl) {
+        this.jpaCourseAttendanceDao = jpaCourseAttendanceDao;
         this.courseServiceImpl = courseServiceImpl;
         this.studentServiceImpl = studentServiceImpl;
     }
@@ -27,7 +27,7 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
     @Override
     public List<Student> findStudentsByCourseName(String courseName){
         int courseId = courseServiceImpl.findByName(courseName).get().getId();
-        List<CourseAttendance> studentsAtCourse = jpaCourseAttendanceDAO.findByCourseId(courseId);
+        List<CourseAttendance> studentsAtCourse = jpaCourseAttendanceDao.findByCourseId(courseId);
         return studentsAtCourse.stream().map(studentAtCourse ->
                         studentServiceImpl.findById(studentAtCourse.getStudent().getId()).get())
                 .collect(Collectors.toList());
@@ -35,7 +35,7 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
 
     @Override
     public List<Course> findCoursesByStudent(int studentId){
-        List<CourseAttendance> coursesOfStudent = jpaCourseAttendanceDAO.findByStudentId(studentId);
+        List<CourseAttendance> coursesOfStudent = jpaCourseAttendanceDao.findByStudentId(studentId);
         return coursesOfStudent.stream().map(courseOfStudent ->
                         courseServiceImpl.findById(courseOfStudent.getCourse().getId()).get())
                 .collect(Collectors.toList());
@@ -47,21 +47,21 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
         CourseAttendance courseAttendance = new CourseAttendance();
         courseAttendance.setStudent(studentServiceImpl.findById(studentId).get());
         courseAttendance.setCourse(courseServiceImpl.findById(courseId).get());
-        jpaCourseAttendanceDAO.save(courseAttendance);
+        jpaCourseAttendanceDao.save(courseAttendance);
     }
 
     @Override
     public boolean ifStudentAtCourse(int studentId, int courseId){
-        return !(jpaCourseAttendanceDAO.findByCourseId(courseId).isEmpty() &&
-                jpaCourseAttendanceDAO.findByStudentId(studentId).isEmpty());
+        return !(jpaCourseAttendanceDao.findByCourseId(courseId).isEmpty() &&
+                jpaCourseAttendanceDao.findByStudentId(studentId).isEmpty());
     }
 
     @Override
     public void delete(int studentId, int courseId) {
         if (ifStudentAtCourse(studentId, courseId)) {
-            jpaCourseAttendanceDAO.findByStudentId(studentId).forEach(ca -> {
+            jpaCourseAttendanceDao.findByStudentId(studentId).forEach(ca -> {
                         if (ca.getCourse().getId() == courseId){
-                        jpaCourseAttendanceDAO.deleteById(ca.getId());
+                        jpaCourseAttendanceDao.deleteById(ca.getId());
                     }});
         } else {
             throw new EntityNotFoundException(String.format("404. Student with id %d not attending course id %d", studentId, courseId));

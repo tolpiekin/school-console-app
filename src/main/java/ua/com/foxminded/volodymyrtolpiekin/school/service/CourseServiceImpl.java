@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaCourseDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,13 +19,9 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public Optional<Course> findById(int id) {
-        Optional<Course> returnedCourse = jpaCourseDao.findById(id);
-        if(returnedCourse.isPresent()) {
-            return returnedCourse;
-        } else {
-            throw new EntityNotFoundException(String.format("404.Course with id %d not found", id));
-        }
+    public Optional<Course> findById(int id) throws CourseNotFoundException {
+        return Optional.ofNullable(jpaCourseDao.findById(id)).orElseThrow(() ->
+                new CourseNotFoundException(id));
     }
 
     @Override
@@ -46,12 +41,9 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public void deleteById(int id){
-        Optional<Course> returnedCourse = jpaCourseDao.findById(id);
-        if(returnedCourse.isPresent()) {
-            jpaCourseDao.deleteById(id);
-        } else {
-            throw new EntityNotFoundException(String.format("404. Course with id %d not found", id));
-        }
+    public void deleteById(int id) throws CourseNotFoundException {
+        Optional<Course> returnedCourse = Optional.ofNullable(jpaCourseDao.findById(id).orElseThrow(() ->
+                new CourseNotFoundException(id)));
+        jpaCourseDao.deleteById(returnedCourse.get().getId());
     }
 }

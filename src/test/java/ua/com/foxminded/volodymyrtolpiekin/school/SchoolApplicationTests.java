@@ -16,10 +16,12 @@ import ua.com.foxminded.volodymyrtolpiekin.school.service.CourseServiceImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.service.GroupServiceImpl;
 import ua.com.foxminded.volodymyrtolpiekin.school.service.StudentServiceImpl;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
@@ -37,10 +39,13 @@ class SchoolApplicationTests {
 	private JpaCourseDao jpaCourseDao;
 	@MockBean
 	private JpaGroupDao jpaGroupDao;
+
 	@MockBean DatabaseStartup databaseStartup;
 
+	@MockBean Menu menu;
+
 	@Test
-	@DisplayName("Test findstudentById  Success")
+	@DisplayName("Test findStudentById  Success")
 	void testFindStudentById() {
 		Student student = new Student(1, 1, "John", "Doe");
 		doReturn(Optional.of(student)).when(jpaStudentDao).findById(1);
@@ -72,9 +77,9 @@ class SchoolApplicationTests {
 	void testAddStudent() {
 		Student student = new Student(1, 1, "John", "Doe");
 		doReturn(Optional.of(student)).when(jpaStudentDao).save(any());
-		Student returnedStudent = jpaStudentDao.save(student);
-		Assertions.assertNotNull(returnedStudent, "The saved student should not be null");
-		Assertions.assertEquals(returnedStudent, student, "Should be the same student");
+		Optional<Student> returnedStudent = studentServiceImpl.addStudent(student);
+		Assertions.assertNotNull(returnedStudent.isPresent(), "The saved student should not be null");
+		Assertions.assertEquals(returnedStudent.get(), student, "Should be the same student");
 	}
 
 	@Test
@@ -91,8 +96,10 @@ class SchoolApplicationTests {
 	@DisplayName("Test findCourseById Not Found")
 	void testFindCourseByIdNotFound() {
 		doReturn(Optional.empty()).when(jpaCourseDao).findById(1);
-		Optional<Course> returnedCourse = courseServiceImpl.findById(1);
-		Assertions.assertFalse(returnedCourse.isPresent(), "Course should not be found");
+		Exception exception = assertThrows(EntityNotFoundException.class, () -> {
+			Optional<Course> returnedCourse = courseServiceImpl.findById(1);
+		});
+		Assertions.assertTrue(exception.getMessage().contains("404.Course with id 1 not found"));
 	}
 
 	@Test
@@ -110,9 +117,9 @@ class SchoolApplicationTests {
 	void testAddCourse() {
 		Course course = new Course(1, "math", "2+2=?");
 		doReturn(Optional.of(course)).when(jpaCourseDao).save(any());
-		Course returnedCourse = jpaCourseDao.save(course);
-		Assertions.assertNotNull(returnedCourse, "The saved student should not be null");
-		Assertions.assertEquals(returnedCourse, course, "Should be the same student");
+		Optional<Course> returnedCourse = courseServiceImpl.addCourse(course);
+		Assertions.assertNotNull(returnedCourse.isPresent(), "The saved student should not be null");
+		Assertions.assertEquals(returnedCourse.get(), course, "Should be the same student");
 	}
 
 	@Test
@@ -129,8 +136,10 @@ class SchoolApplicationTests {
 	@DisplayName("Test findGroupById Not Found")
 	void testFindGroupByIdNotFound() {
 		doReturn(Optional.empty()).when(jpaGroupDao).findById(1);
-		Optional<Group> returnedGroup = groupServiceImpl.findById(1);
-		Assertions.assertFalse(returnedGroup.isPresent(), "Group should not be found");
+		Exception exception = assertThrows(EntityNotFoundException.class, () -> {
+			Optional<Group> returnedGroup = groupServiceImpl.findById(1);
+				});
+		Assertions.assertTrue(exception.getMessage().contains("404.Group with id 1 not found"));
 	}
 
 	@Test
@@ -148,8 +157,8 @@ class SchoolApplicationTests {
 	void testAddGroup() {
 		Group group = new Group(1, "df-dfsdoe");
 		doReturn(Optional.of(group)).when(jpaGroupDao).save(any());
-		Group returnedGroup = jpaGroupDao.save(group);
-		Assertions.assertNotNull(returnedGroup, "The saved group should not be null");
-		Assertions.assertEquals(returnedGroup, group, "Should be the same group");
+		Optional<Group> returnedGroup = groupServiceImpl.addGroup(group);
+		Assertions.assertNotNull(returnedGroup.isPresent(), "The saved group should not be null");
+		Assertions.assertEquals(returnedGroup.get(), group, "Should be the same group");
 	}
 }

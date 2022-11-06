@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaStudentDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,12 +18,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Optional<Student> findById(int id) {
-        Optional<Student> returnedStudent = jpaStudentDao.findById(id);
-        if(returnedStudent.isPresent()){
-            return returnedStudent;
-        } else {
-            throw new EntityNotFoundException(String.format("404.Student with id %d not found", id));
-        }
+        return Optional.ofNullable(jpaStudentDao.findById(id)).orElseThrow(() ->
+                new StudentIdNotFoundException(id));
     }
 
     @Override
@@ -51,12 +46,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void delStudent(int id){
-        Optional<Student> returnedStudent = jpaStudentDao.findById(id);
-        if(returnedStudent.isPresent()){
-            jpaStudentDao.deleteById(id);
-        } else {
-            throw new EntityNotFoundException(String.format("404.Student with id %d not found", id));
-        }
+    public void delStudent(int id) throws StudentIdNotFoundException {
+        Optional<Student> returnedStudent = Optional.ofNullable(jpaStudentDao.findById(id).orElseThrow(() ->
+                new StudentIdNotFoundException(id)));
+        jpaStudentDao.deleteById(returnedStudent.get().getId());
     }
 }
