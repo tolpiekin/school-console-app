@@ -29,7 +29,8 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Optional<Group> addGroup(Group group) {
-        return Optional.of(jpaGroupDao.save(group));
+        jpaGroupDao.save(group);
+        return jpaGroupDao.findById(group.getId());
     }
 
     @Override

@@ -76,10 +76,10 @@ class SchoolApplicationTests {
 	@DisplayName("Test add student")
 	void testAddStudent() {
 		Student student = new Student(1, 1, "John", "Doe");
-		doReturn(Optional.of(student)).when(jpaStudentDao).save(any());
+		doReturn(Optional.of(student)).when(jpaStudentDao).findById(1);
 		Optional<Student> returnedStudent = studentServiceImpl.addStudent(student);
 		Assertions.assertNotNull(returnedStudent.isPresent(), "The saved student should not be null");
-		Assertions.assertEquals(returnedStudent.get(), student, "Should be the same student");
+		Assertions.assertSame(returnedStudent.get(), student, "Should be the same student");
 	}
 
 	@Test
@@ -96,10 +96,8 @@ class SchoolApplicationTests {
 	@DisplayName("Test findCourseById Not Found")
 	void testFindCourseByIdNotFound() {
 		doReturn(Optional.empty()).when(jpaCourseDao).findById(1);
-		Exception exception = assertThrows(EntityNotFoundException.class, () -> {
-			Optional<Course> returnedCourse = courseServiceImpl.findById(1);
-		});
-		Assertions.assertTrue(exception.getMessage().contains("404.Course with id 1 not found"));
+		Optional<Course> returnedCourse = courseServiceImpl.findById(1);
+		Assertions.assertFalse(returnedCourse.isPresent(), "Course shouldn't not found");
 	}
 
 	@Test
@@ -116,10 +114,10 @@ class SchoolApplicationTests {
 	@DisplayName("Test add course")
 	void testAddCourse() {
 		Course course = new Course(1, "math", "2+2=?");
-		doReturn(Optional.of(course)).when(jpaCourseDao).save(any());
+		doReturn(Optional.of(course)).when(jpaCourseDao).findById(1);
 		Optional<Course> returnedCourse = courseServiceImpl.addCourse(course);
 		Assertions.assertNotNull(returnedCourse.isPresent(), "The saved student should not be null");
-		Assertions.assertEquals(returnedCourse.get(), course, "Should be the same student");
+		Assertions.assertSame(returnedCourse.get(), course, "Should be the same student");
 	}
 
 	@Test
@@ -136,10 +134,8 @@ class SchoolApplicationTests {
 	@DisplayName("Test findGroupById Not Found")
 	void testFindGroupByIdNotFound() {
 		doReturn(Optional.empty()).when(jpaGroupDao).findById(1);
-		Exception exception = assertThrows(EntityNotFoundException.class, () -> {
-			Optional<Group> returnedGroup = groupServiceImpl.findById(1);
-				});
-		Assertions.assertTrue(exception.getMessage().contains("404.Group with id 1 not found"));
+		Optional<Group> returnedGroup = groupServiceImpl.findById(1);
+		Assertions.assertFalse(returnedGroup.isPresent(), "Group should not be found");
 	}
 
 	@Test
@@ -156,9 +152,9 @@ class SchoolApplicationTests {
 	@DisplayName("Test add group")
 	void testAddGroup() {
 		Group group = new Group(1, "df-dfsdoe");
-		doReturn(Optional.of(group)).when(jpaGroupDao).save(any());
+		doReturn(Optional.of(group)).when(jpaGroupDao).findById(1);
 		Optional<Group> returnedGroup = groupServiceImpl.addGroup(group);
 		Assertions.assertNotNull(returnedGroup.isPresent(), "The saved group should not be null");
-		Assertions.assertEquals(returnedGroup.get(), group, "Should be the same group");
+		Assertions.assertSame(returnedGroup.get(), group, "Should be the same group");
 	}
 }
