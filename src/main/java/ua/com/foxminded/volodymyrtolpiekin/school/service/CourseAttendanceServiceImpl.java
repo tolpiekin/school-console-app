@@ -1,14 +1,16 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaCourseAttendanceDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.CourseAttendance;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,19 +29,30 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
     @Override
     public List<Student> findStudentsByCourseName(String courseName){
         int courseId = courseServiceImpl.findByName(courseName).get().getId();
-        List<CourseAttendance> studentsAtCourse = jpaCourseAttendanceDao.findByCourseId(courseId);
-        return studentsAtCourse.stream().map(studentAtCourse ->
-                        studentServiceImpl.findById(studentAtCourse.getStudent().getId()).get())
-                .collect(Collectors.toList());
+        try {
+            Optional<List<CourseAttendance>> studentsAtCourse = Optional.of(jpaCourseAttendanceDao
+                    .findByCourseId(courseId).orElseThrow(() -> new CourseAttendanceNotFoundException(courseName)));
+            return studentsAtCourse.get().stream().map(studentAtCourse ->
+                            studentServiceImpl.findById(studentAtCourse.getStudent().getId()).get())
+                    .collect(Collectors.toList());
+        } catch (CourseAttendanceNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Attendance not found", exc);
+        }
+
     }
 
     @Override
     public List<Course> findCoursesByStudent(int studentId){
-        List<CourseAttendance> coursesOfStudent = jpaCourseAttendanceDao.findByStudentId(studentId);
-        return coursesOfStudent.stream().map(courseOfStudent ->
-                        courseServiceImpl.findById(courseOfStudent.getCourse().getId()).get())
-                .collect(Collectors.toList());
+        try {
+            Optional<List<CourseAttendance>> coursesOfStudent = Optional.of(jpaCourseAttendanceDao
+                    .findByStudentId(studentId).orElseThrow(() -> new CourseAttendanceNotFoundException(studentId)));
 
+            return coursesOfStudent.get().stream().map(courseOfStudent ->
+                            courseServiceImpl.findById(courseOfStudent.getCourse().getId()).get())
+                    .collect(Collectors.toList());
+        } catch (CourseAttendanceNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Attendance not found", exc);
+        }
     }
 
     @Override
@@ -52,19 +65,17 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
 
     @Override
     public boolean ifStudentAtCourse(int studentId, int courseId){
-        return !(jpaCourseAttendanceDao.findByCourseId(courseId).isEmpty() &&
-                jpaCourseAttendanceDao.findByStudentId(studentId).isEmpty());
+        return (jpaCourseAttendanceDao.findByCourseId(courseId).isPresent() &&
+                jpaCourseAttendanceDao.findByStudentId(studentId).isPresent());
     }
 
     @Override
     public void delete(int studentId, int courseId) {
         if (ifStudentAtCourse(studentId, courseId)) {
-            jpaCourseAttendanceDao.findByStudentId(studentId).forEach(ca -> {
+            jpaCourseAttendanceDao.findByStudentId(studentId).get().forEach(ca -> {
                         if (ca.getCourse().getId() == courseId){
                         jpaCourseAttendanceDao.deleteById(ca.getId());
                     }});
-        } else {
-            throw new EntityNotFoundException(String.format("404. Student with id %d not attending course id %d", studentId, courseId));
         }
     }
 }

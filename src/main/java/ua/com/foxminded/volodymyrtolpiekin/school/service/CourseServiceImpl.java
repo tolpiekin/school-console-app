@@ -1,7 +1,9 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaCourseDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
@@ -19,9 +21,14 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public Optional<Course> findById(int id) throws CourseNotFoundException {
-        return Optional.ofNullable(jpaCourseDao.findById(id)).orElseThrow(() ->
-                new CourseNotFoundException(id));
+    public Optional<Course> findById(int id) {
+        try {
+            return Optional.of(jpaCourseDao.findById(id)).orElseThrow(() ->
+                    new CourseNotFoundException(id));
+        }
+        catch (CourseNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Not Found", exc);
+        }
     }
 
     @Override
@@ -41,9 +48,15 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public void deleteById(int id) throws CourseNotFoundException {
-        Optional<Course> returnedCourse = Optional.ofNullable(jpaCourseDao.findById(id).orElseThrow(() ->
-                new CourseNotFoundException(id)));
+    public void deleteById(int id) {
+        Optional<Course> returnedCourse;
+        try {
+            returnedCourse = Optional.of(jpaCourseDao.findById(id).orElseThrow(() ->
+                    new CourseNotFoundException(id)));
+        }
+        catch (CourseNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Not Found", exc);
+        }
         jpaCourseDao.deleteById(returnedCourse.get().getId());
     }
 }

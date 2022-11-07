@@ -1,6 +1,8 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaGroupDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
@@ -17,9 +19,14 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Optional<Group> findById(int id) throws GroupNotFoundException {
-        return Optional.ofNullable(jpaGroupDao.findById(id)).orElseThrow(() ->
-                new GroupNotFoundException(id));
+    public Optional<Group> findById(int id) {
+        try {
+            return Optional.of(jpaGroupDao.findById(id)).orElseThrow(() ->
+                    new GroupNotFoundException(id));
+        }
+        catch (GroupNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Group Not Found", exc);
+        }
     }
 
     @Override
@@ -41,9 +48,16 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void delGroup(int id) throws GroupNotFoundException {
-        Optional<Group> returnedGroup = Optional.ofNullable(jpaGroupDao.findById(id).orElseThrow(() ->
-                new GroupNotFoundException(id)));
+    public void delGroup(int id) {
+        Optional<Group> returnedGroup;
+        try {
+            returnedGroup = Optional.of(jpaGroupDao.findById(id).orElseThrow(() ->
+                    new GroupNotFoundException(id)));
+        }
+        catch (GroupNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Group Not Found", exc);
+        }
+
         jpaGroupDao.deleteById(returnedGroup.get().getId());
     }
 
