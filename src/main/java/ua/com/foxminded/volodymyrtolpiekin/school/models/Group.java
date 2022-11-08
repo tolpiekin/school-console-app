@@ -1,20 +1,27 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "groups")
 public class Group {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
+    private String groupName;
 
     public Group() {
     }
 
-    public Group(int id, String name) {
+    public Group(int id, String groupName) {
         this.id = id;
-        this.name = name;
+        this.groupName = groupName;
     }
 
     @Override
     public String toString() {
-        return String.format("Group[id=%d, name='%s']", id, name);
+        return String.format("Group[id=%d, name='%s']", id, groupName);
     }
 
     public int getId() {
@@ -25,12 +32,12 @@ public class Group {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     @Override

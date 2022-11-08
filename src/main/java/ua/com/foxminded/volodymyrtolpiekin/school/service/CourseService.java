@@ -1,21 +1,18 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CourseService {
-    Optional<Course> findById(int id);
+    Optional<Course> findById(int id) throws CourseNotFoundException;
 
-    Optional<Course> findByName(String name);
-
-    List<Course> getAll();
+    Optional<Course> findByName(String courseName);
 
     Optional<Course> addCourse(Course course);
 
-    Optional<Course> updateCourse(Course course);
+    List<Course> getAll();
 
-    void deleteById(int id);
+    void deleteById(int id) throws CourseNotFoundException;
 }

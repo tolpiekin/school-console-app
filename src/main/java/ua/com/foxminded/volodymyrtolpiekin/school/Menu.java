@@ -88,19 +88,18 @@ public class Menu {
         int studentId = sc.nextInt();
         sc.nextLine();
 
-        if (courseAttendanceServiceImpl.getCoursesOfStudent(studentId).isEmpty()) {
+        if (courseAttendanceServiceImpl.findCoursesByStudent(studentId).isEmpty()) {
             System.out.println(STUDENT_NOT_ATTENDING_ANY_COURSE);
         } else {
-            String currentCourses = courseAttendanceServiceImpl.getCoursesOfStudent(studentId).stream().map(course ->
-                    String.format(COURSE_LIST_TEMPLATE, course.getId(), course.getName())).collect(Collectors
+            String currentCourses = courseAttendanceServiceImpl.findCoursesByStudent(studentId).stream().map(course ->
+                    String.format(COURSE_LIST_TEMPLATE, course.getId(), course.getCourseName())).collect(Collectors
                     .joining("\n"));
 
             handleMenu(currentCourses, COURSE_ID_REQUEST);
 
             int courseId = sc.nextInt();
             sc.nextLine();
-
-            courseAttendanceServiceImpl.removeStudentFromCourse(studentId, courseId);
+            courseAttendanceServiceImpl.delete(studentId, courseId);
 
             System.out.println(DEL_FROM_COURSE_CONFIRMATION);
         }
@@ -118,9 +117,9 @@ public class Menu {
         sc.nextLine();
 
         List<Course> courses = courseServiceImpl.getAll();
-        courses.removeAll(courseAttendanceServiceImpl.getCoursesOfStudent(studentId));
+        courses.removeAll(courseAttendanceServiceImpl.findCoursesByStudent(studentId));
 
-        String coursesList = courses.stream().map(c-> c.getId() + ". " + c.getName()).collect(Collectors
+        String coursesList = courses.stream().map(c-> c.getId() + ". " + c.getCourseName()).collect(Collectors
                 .joining("\n"));
 
         handleMenu(coursesList, COURSE_ID_REQUEST);
@@ -128,6 +127,7 @@ public class Menu {
         int courseId = sc.nextInt();
         sc.nextLine();
 
+        Course course = courseServiceImpl.findById(courseId).get();
         courseAttendanceServiceImpl.addStudentToCourse(studentId, courseId);
 
         System.out.printf(ADD_STUDENT_TO_COURSE_CONFIRMATION, studentId, courseId);
@@ -136,9 +136,9 @@ public class Menu {
     }
 
     private void addStudent(Scanner sc) {
-        String studentList = studentServiceImpl.getAll().stream().map(s-> s.getId() + ". " + s.getFirstName() +
-                        s.getLastName()).collect(Collectors.joining("\n"));
-        String groupsList = groupServiceImpl.getAll().stream().map(g-> g.getId() + ". " + g.getName())
+        String studentList = studentServiceImpl.getAll().stream().map(s-> String.format(STUDENT_OUTPUT_TEMPLATE,
+                s.getId(), s.getFirstName(), s.getLastName())).collect(Collectors.joining("\n"));
+        String groupsList = groupServiceImpl.getAll().stream().map(g-> g.getId() + ". " + g.getGroupName())
                 .collect(Collectors.joining("\n"));
 
         handleMenu(ADD_STUDENT_TITLE + "\n" + studentList, STUDENT_ID_REQUEST);
@@ -167,7 +167,7 @@ public class Menu {
     }
 
     private void courseAttendance(Scanner sc) {
-        String coursesList = courseServiceImpl.getAll().stream().map(Course::getName).collect(Collectors
+        String coursesList = courseServiceImpl.getAll().stream().map(Course::getCourseName).collect(Collectors
                 .joining("\n"));
 
         handleMenu(COURSE_ATTENDANCE_TITLE + "\n" + coursesList, COURSE_NAME_REQUEST);
@@ -176,8 +176,9 @@ public class Menu {
 
         System.out.println(courseName + " course attendees:");
 
-        courseAttendanceServiceImpl.getStudentsAtCourse(courseName).forEach(m ->
-                System.out.format("%s %s%n", m.getFirstName(), m.getLastName()));
+        Course course = courseServiceImpl.findByName(courseName).get();
+        courseAttendanceServiceImpl.findStudentsByCourseName(courseName).forEach(student ->
+                System.out.format("%s %s%n", student.getFirstName(), student.getLastName()));
 
         pressEnterToContinue(sc);
     }
@@ -189,10 +190,9 @@ public class Menu {
         int numberStudentsPerGroup = sc.nextInt();
         sc.nextLine();
 
-        System.out.println("Group Name | Number of Students");
+        System.out.println("Group Name, Number of students");
 
-        groupServiceImpl.smallerThen(numberStudentsPerGroup).forEach(g -> System.out.format("%10s%10s%n",
-                g.get("group_name"), g.get("count")));
+        groupServiceImpl.findGroupLessThan(numberStudentsPerGroup).forEach(g -> System.out.println(g));
         pressEnterToContinue(sc);
     }
 

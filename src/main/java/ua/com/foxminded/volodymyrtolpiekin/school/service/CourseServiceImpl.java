@@ -1,49 +1,62 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.CourseDAOImpl;
+import org.springframework.web.server.ResponseStatusException;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaCourseDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j2
 public class CourseServiceImpl implements CourseService{
-    private final CourseDAOImpl courseDAOImpl;
 
-    @Autowired
-    public CourseServiceImpl (CourseDAOImpl courseDAOImpl) {
-        this.courseDAOImpl = courseDAOImpl;
+    private final JpaCourseDao jpaCourseDao;
+
+    public CourseServiceImpl (JpaCourseDao jpaCourseDao) {
+        this.jpaCourseDao = jpaCourseDao;
     }
 
     @Override
     public Optional<Course> findById(int id) {
-        return courseDAOImpl.findById(id);
+        try {
+            return Optional.of(jpaCourseDao.findById(id)).orElseThrow(() ->
+                    new CourseNotFoundException(id));
+        }
+        catch (CourseNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Not Found", exc);
+        }
     }
 
     @Override
-    public Optional<Course> findByName(String name) {
-        return courseDAOImpl.findByName(name);
-    }
-
-    @Override
-    public List<Course> getAll() {
-        return courseDAOImpl.getAll();
+    public Optional<Course> findByName(String courseName) {
+        return jpaCourseDao.findByCourseName(courseName);
     }
 
     @Override
     public Optional<Course> addCourse(Course course) {
-        return courseDAOImpl.addItem(course);
+        jpaCourseDao.save(course);
+        return jpaCourseDao.findById(course.getId());
     }
 
     @Override
-    public Optional<Course> updateCourse(Course course) {
-        return courseDAOImpl.updateItem(course);
+    public List<Course> getAll() {
+        return jpaCourseDao.findAll();
     }
 
     @Override
-    public void deleteById(int id){
-        courseDAOImpl.deleteById(id);
+    public void deleteById(int id) {
+        Optional<Course> returnedCourse;
+        try {
+            returnedCourse = Optional.of(jpaCourseDao.findById(id).orElseThrow(() ->
+                    new CourseNotFoundException(id)));
+        }
+        catch (CourseNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Not Found", exc);
+        }
+        jpaCourseDao.deleteById(returnedCourse.get().getId());
     }
 }

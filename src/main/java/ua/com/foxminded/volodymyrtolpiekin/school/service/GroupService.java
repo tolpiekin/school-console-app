@@ -3,22 +3,19 @@ package ua.com.foxminded.volodymyrtolpiekin.school.service;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface GroupService {
 
-    Optional<Group> findById(int id);
-
-    Optional<Group> findByName(String name);
+    Optional<Group> findById(int id) throws GroupNotFoundException;
 
     List<Group> getAll();
 
     Optional<Group> addGroup(Group group);
 
-    Optional<Group> updateGroup(Group group);
+    Optional<Group> updateGroup(Group group, int id);
 
-    void delGroup(int id);
+    void delGroup(int id) throws GroupNotFoundException;
 
-    List<Map<String, Object>> smallerThen(int size);
+    List<String> findGroupLessThan(int size);
 }

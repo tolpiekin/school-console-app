@@ -1,22 +1,27 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name = "courses")
 public class Course {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private String description;
+    private String courseName;
+    private String courseDescription;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    Set<CourseAttendance> attendances;
 
     public Course() {
     }
 
-    public Course(int id, String name, String description) {
+    public Course(int id, String courseName, String courseDescription) {
         this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Course[id=%d, name='%s', description='%s']", id, name, description);
+        this.courseName = courseName;
+        this.courseDescription = courseDescription;
     }
 
     public int getId() {
@@ -27,22 +32,34 @@ public class Course {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCourseName(String name) {
+        this.courseName = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCourseDescription() {
+        return courseDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
     }
 
+    public Set<CourseAttendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(Set<CourseAttendance> attendances) {
+        this.attendances = attendances;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Course[id=%d, name='%s', description='%s']", id, courseName, courseDescription);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

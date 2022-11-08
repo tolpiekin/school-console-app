@@ -1,49 +1,68 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.JpaStudentDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.StudentDAOImpl;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final StudentDAOImpl studentDAOImpl;
 
-    @Autowired
-    public StudentServiceImpl (StudentDAOImpl studentDAOImpl) {
-        this.studentDAOImpl = studentDAOImpl;
+    private final JpaStudentDao jpaStudentDao;
+
+    public StudentServiceImpl (JpaStudentDao jpaStudentDao) {
+        this.jpaStudentDao = jpaStudentDao;
     }
 
     @Override
     public Optional<Student> findById(int id) {
-        return studentDAOImpl.findById(id);
+        try {
+            return Optional.of(jpaStudentDao.findById(id)).orElseThrow(() ->
+                    new StudentNotFoundException(id));
+        }
+        catch (StudentNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student Not found", exc);
+        }
+
     }
 
     @Override
     public Optional<Student> findByLastName(String lastName) {
-        return studentDAOImpl.findByName(lastName);
+        return jpaStudentDao.findByLastName(lastName);
     }
 
     @Override
     public List<Student> getAll() {
-        return studentDAOImpl.getAll();
+        return jpaStudentDao.findAll();
     }
 
     @Override
     public Optional<Student> addStudent(Student student) {
-        return studentDAOImpl.addItem(student);
+        jpaStudentDao.save(student);
+        return jpaStudentDao.findById(student.getId());
     }
 
     @Override
-    public Optional<Student> updateStudent(Student student) {
-        return studentDAOImpl.updateItem(student);
+    public Optional<Student> updateStudent(Student student, int id) {
+        student.setId(id);
+        jpaStudentDao.save(student);
+        return jpaStudentDao.findById(student.getId());
     }
 
     @Override
-    public void delStudent(int id){
-        studentDAOImpl.deleteById(id);
+    public void delStudent(int id) {
+        Optional<Student> returnedStudent;
+        try {
+            returnedStudent = Optional.of(jpaStudentDao.findById(id).orElseThrow(() ->
+                    new StudentNotFoundException(id)));
+        }
+        catch (StudentNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found", exc);
+        }
+        jpaStudentDao.deleteById(returnedStudent.get().getId());
     }
 }
