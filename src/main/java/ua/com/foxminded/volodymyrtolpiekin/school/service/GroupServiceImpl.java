@@ -2,54 +2,53 @@ package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.foxminded.volodymyrtolpiekin.school.dao.JGroupDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
-import ua.com.foxminded.volodymyrtolpiekin.school.dao.GroupDAOImpl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class GroupServiceImpl implements GroupService {
-    private final GroupDAOImpl groupDAOImpl;
+    private final JGroupDao jGroupDao;
 
     @Autowired
-    public GroupServiceImpl(GroupDAOImpl groupDAOImpl) {
-        this.groupDAOImpl = groupDAOImpl;
+    public GroupServiceImpl(JGroupDao jGroupDao) {
+        this.jGroupDao = jGroupDao;
     }
 
     @Override
     public Optional<Group> findById(int id) {
-        return groupDAOImpl.findById(id);
+        return jGroupDao.findById(id);
     }
 
     @Override
     public Optional<Group> findByName(String name) {
-        return groupDAOImpl.findByName(name);
+        return jGroupDao.findByName(name);
     }
 
     @Override
     public List<Group> getAll() {
-        return groupDAOImpl.getAll();
+        return jGroupDao.getAll();
     }
 
     @Override
     public Optional<Group> addGroup(Group group) {
-        return groupDAOImpl.addItem(group);
+        return jGroupDao.addItem(group);
     }
 
     @Override
     public Optional<Group> updateGroup(Group group) {
-        return groupDAOImpl.updateItem(group);
+        return jGroupDao.updateItem(group);
     }
 
     @Override
     public void delGroup(int id){
-        groupDAOImpl.deleteById(id);
+        jGroupDao.deleteById(id);
     }
 
     @Override
-    public List<Map<String, Object>> smallerThen(int size){
-        return groupDAOImpl.findGroupsSmallerThenNumber(size);
+    public List<Group> smallerThen(int size){
+        return jGroupDao.findGroupsSmallerThenNumber(size);
     }
 }

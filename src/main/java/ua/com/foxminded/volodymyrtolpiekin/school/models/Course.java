@@ -1,60 +1,77 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name = "courses")
 public class Course {
-    private int id;
-    private String name;
-    private String description;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int courseId;
+    private String courseName;
+    private String courseDescription;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    Set<CourseAttendance> attendances;
 
     public Course() {
     }
 
-    public Course(int id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+    public Course(int courseId, String courseName, String courseDescription) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.courseDescription = courseDescription;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String name) {
+        this.courseName = name;
+    }
+
+    public String getCourseDescription() {
+        return courseDescription;
+    }
+
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
+    }
+
+    public Set<CourseAttendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(Set<CourseAttendance> attendances) {
+        this.attendances = attendances;
     }
 
     @Override
     public String toString() {
-        return String.format("Course[id=%d, name='%s', description='%s']", id, name, description);
+        return String.format("Course[id=%d, name='%s', description='%s']", courseId, courseName, courseDescription);
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return id == course.id;
+        return courseId == course.courseId;
     }
 
     @Override
     public int hashCode() {
         int result = 17;
-        result = (37 * result) + id;
+        result = (37 * result) + courseId;
         return result;
     }
 }

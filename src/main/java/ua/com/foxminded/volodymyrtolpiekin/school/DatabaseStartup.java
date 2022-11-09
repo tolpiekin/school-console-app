@@ -36,9 +36,15 @@ public class DatabaseStartup {
 
     @PostConstruct
     public void init(){
-        generateGroups();
-        generateCourses();
-        generateStudents();
+        if (groupServiceImpl.getAll().isEmpty()) {
+            generateGroups();
+        }
+        if (courseServiceImpl.getAll().isEmpty()) {
+            generateCourses();
+        }
+        if(studentServiceImpl.getAll().isEmpty()) {
+            generateStudents();
+        }
         assignStudentsToCourses();
     }
 
@@ -49,8 +55,9 @@ public class DatabaseStartup {
 
     private void generateGroups() {
         IntStream.range(0, NUMBER_OF_GROUPS).forEach(i -> {
-            Group group = new Group(i + 1, generateGroupName());
-            if (!groupServiceImpl.findById(group.getId()).isPresent()) {
+            Group group = new Group();
+            group.setGroupName(generateGroupName());
+            if (!groupServiceImpl.findById(group.getGroupId()).isPresent()) {
                 groupServiceImpl.addGroup(group);
             }
                 });
@@ -59,21 +66,21 @@ public class DatabaseStartup {
 
     private void generateCourses() {
         IntStream.range(0, COURSES.length).forEach(i ->{
-            Course course = new Course(i + 1, COURSES[i], String.format(COURSE_DESCRIPTION, COURSES[i]));
-            if (!(courseServiceImpl.findById(course.getId())).isPresent()) {
-                courseServiceImpl.addCourse(course);
-            }
+            Course course = new Course();
+            course.setCourseName(COURSES[i]);
+            course.setCourseDescription(String.format(COURSE_DESCRIPTION, COURSES[i]));
+            courseServiceImpl.addCourse(course);
         });
     }
 
     private void generateStudents() {
         List<Group> groups = groupServiceImpl.getAll();
         IntStream.range(0, NUMBER_OF_STUDENTS).forEach(i -> {
-            Student student = new Student(i + 1, groups.get(random.nextInt(NUMBER_OF_GROUPS)).getId(),
-                    FIRST_NAMES[random.nextInt(FIRST_NAMES.length)],
-                    LAST_NAMES[random.nextInt(LAST_NAMES.length)]);
-            if (!(studentServiceImpl.findById(student.getId())).isPresent()) {
-                studentServiceImpl.addStudent(student);}
+            Student student = new Student();
+            student.setGroupId(groups.get(random.nextInt(NUMBER_OF_GROUPS)).getGroupId());
+            student.setFirstName(FIRST_NAMES[random.nextInt(FIRST_NAMES.length)]);
+            student.setLastName(LAST_NAMES[random.nextInt(LAST_NAMES.length)]);
+            studentServiceImpl.addStudent(student);
         });
     }
 
@@ -81,10 +88,10 @@ public class DatabaseStartup {
         List<Student> students = studentServiceImpl.getAll();
         List<Course> courses = courseServiceImpl.getAll();
         students.forEach(student -> IntStream.range(0, random.nextInt(COURSES_LIMIT + 1)).forEach(i -> {
-            if(courseAttendanceServiceImpl.getCoursesOfStudent(student.getId()).size() < 3) {
+            if(courseAttendanceServiceImpl.getCoursesOfStudent(student.getStudentId()).size() < 3) {
                 Course course = courses.get(random.nextInt(courses.size()));
-                if (!courseAttendanceServiceImpl.ifStudentAtCourse(student.getId(), course.getId())) {
-                    courseAttendanceServiceImpl.addStudentToCourse(student.getId(), course.getId());
+                if (!courseAttendanceServiceImpl.ifStudentAtCourse(student.getStudentId(), course.getCourseId())) {
+                    courseAttendanceServiceImpl.addStudentToCourse(student.getStudentId(), course.getCourseId());
                 }
             }
         }));

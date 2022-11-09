@@ -1,19 +1,19 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
-import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.CourseAttendance;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CourseAttendanceDAO {
 
-    List<Student> getStudentsByCourseName(String courseName);
+    Optional<CourseAttendance> findById(int id);
 
-    List<Course> getCoursesByStudentId(int studentId);
+    List<CourseAttendance> getStudentsByCourseId(int courseId);
 
-    boolean addStudentToCourse(int studentId, int courseId);
+    List<CourseAttendance> getCoursesByStudentId(int studentId);
 
-    boolean isStudentAtCourse(int studentId, int courseId);
+    void addStudentToCourse(CourseAttendance courseAttendance);
 
-    boolean removeStudentFromCourse(int studentId, int courseId);
+    void deleteById(int courseAttendanceId);
 }

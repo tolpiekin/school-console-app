@@ -1,36 +1,43 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "groups")
 public class Group {
-    private int id;
-    private String name;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int groupId;
+    private String groupName;
 
     public Group() {
     }
 
-    public Group(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public Group(int groupId, String groupName) {
+        this.groupId = groupId;
+        this.groupName = groupName;
     }
 
     @Override
     public String toString() {
-        return String.format("Group[id=%d, name='%s']", id, name);
+        return String.format("Group[id=%d, name='%s']", groupId, groupName);
     }
 
-    public int getId() {
-        return id;
+    public int getGroupId() {
+        return groupId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 
-    public String getName() {
-        return name;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     @Override
@@ -38,13 +45,13 @@ public class Group {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Group group = (Group) o;
-        return id == group.id;
+        return groupId == group.groupId;
     }
 
     @Override
     public int hashCode() {
         int result = 17;
-        result = (37 * result) + id;
+        result = (37 * result) + groupId;
         return result;
     }
 }
