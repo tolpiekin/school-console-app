@@ -1,13 +1,16 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JCourseAttendanceDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.CourseAttendance;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,20 +29,30 @@ public class CourseAttendanceServiceImpl implements CourseAttendanceService {
 
     @Override
     public List<Student> getStudentsAtCourse(String courseName){
-        int courseId = courseServiceImpl.findByName(courseName).get().getCourseId();
-        List<CourseAttendance> studentsAtCourse = jCourseAttendanceDao.getByCourseId(courseServiceImpl
-                .findById(courseId).get());
-        return studentsAtCourse.stream().map(studentAtCourse ->
-                        studentServiceImpl.findById(studentAtCourse.getStudent().getStudentId()).get())
-                .collect(Collectors.toList());
+        try {
+            Optional<List<CourseAttendance>> studentsAtCourse = Optional.of(jCourseAttendanceDao
+                    .getByCourseId(courseServiceImpl.findByName(courseName).orElseThrow(() ->
+                    new CourseAttendanceNotFoundException(courseName))));
+            return studentsAtCourse.get().stream().map(studentAtCourse ->
+                            studentServiceImpl.findById(studentAtCourse.getStudent().getStudentId()).get())
+                    .collect(Collectors.toList());
+        } catch (CourseAttendanceNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Attendance not found", exc);
+        }
     }
 
     @Override
     public List<Course> getCoursesOfStudent(Student student){
-        List<CourseAttendance> coursesOfStudent = jCourseAttendanceDao.getByStudent(student);
-        return coursesOfStudent.stream().map(ca ->
-                        courseServiceImpl.findById(ca.getCourse().getCourseId()).get())
-                .collect(Collectors.toList());
+        try {
+            Optional<List<CourseAttendance>> coursesOfStudent = Optional.of(Optional.of(jCourseAttendanceDao
+                    .getByStudent(student)).orElseThrow(() -> new CourseAttendanceNotFoundException(student.getStudentId())));
+
+            return coursesOfStudent.get().stream().map(courseOfStudent ->
+                            courseServiceImpl.findById(courseOfStudent.getCourse().getCourseId()).get())
+                    .collect(Collectors.toList());
+        } catch (CourseAttendanceNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Attendance not found", exc);
+        }
     }
 
     @Override

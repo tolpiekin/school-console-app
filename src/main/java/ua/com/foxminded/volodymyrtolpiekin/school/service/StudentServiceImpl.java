@@ -1,7 +1,9 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JStudentDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
@@ -19,7 +21,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Optional<Student> findById(int id) {
-        return jStudentDao.findById(id);
+        try {
+            return Optional.of(jStudentDao.findById(id).orElseThrow(() ->
+                    new StudentNotFoundException(id)
+            ));
+        }
+        catch (StudentNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student Not found", exc);
+        }
+
     }
 
     @Override
@@ -44,6 +54,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void delStudent(int id){
-        jStudentDao.deleteById(id);
+        Optional<Student> returnedStudent;
+        try {
+            returnedStudent = Optional.of(jStudentDao.findById(id).orElseThrow(() ->
+                    new StudentNotFoundException(id)));
+        }
+        catch (StudentNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found", exc);
+        }
+
+        jStudentDao.deleteById(returnedStudent.get().getStudentId());
     }
 }

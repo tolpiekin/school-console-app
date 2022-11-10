@@ -1,7 +1,9 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JCourseDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 
@@ -19,7 +21,13 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public Optional<Course> findById(int id) {
-        return jCourseDao.findById(id);
+        try {
+            return Optional.of(jCourseDao.findById(id)).orElseThrow(()->
+                    new CourseNotFoundException(id));
+        }
+        catch(CourseNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Not Found", exc);
+        }
     }
 
     @Override
@@ -44,6 +52,14 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public void deleteById(int id){
-        jCourseDao.deleteById(id);
+        Optional<Course> returnedCourse;
+        try{
+            returnedCourse = Optional.of(findById(id)).orElseThrow(()->
+                    new CourseNotFoundException(id));
+        }
+        catch (CourseNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course Not Found", exc);
+        }
+        jCourseDao.deleteById(returnedCourse.get().getCourseId());
     }
 }

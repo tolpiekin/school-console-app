@@ -1,7 +1,9 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ua.com.foxminded.volodymyrtolpiekin.school.dao.JGroupDao;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.Group;
 
@@ -19,7 +21,14 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Optional<Group> findById(int id) {
-        return jGroupDao.findById(id);
+        try{
+            return Optional.of(jGroupDao.findById(id)).orElseThrow(() ->
+                    new GroupNotFoundException(id)
+            );
+        }
+        catch(GroupNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Group Not Found", exc);
+        }
     }
 
     @Override
@@ -44,7 +53,15 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void delGroup(int id){
-        jGroupDao.deleteById(id);
+        Optional<Group> returnedGroup;
+        try {
+            returnedGroup = Optional.of(jGroupDao.findById(id).orElseThrow(() ->
+                    new GroupNotFoundException(id)));
+        }
+        catch (GroupNotFoundException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Group Not Found", exc);
+        }
+        jGroupDao.deleteById(returnedGroup.get().getGroupId());
     }
 
     @Override
