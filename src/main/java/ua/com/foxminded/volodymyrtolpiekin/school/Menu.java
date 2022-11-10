@@ -143,11 +143,6 @@ public class Menu {
         String groupsList = groupServiceImpl.getAll().stream().map(g-> g.getGroupId() + ". " + g.getGroupName())
                 .collect(Collectors.joining("\n"));
 
-        //handleMenu(ADD_STUDENT_TITLE + "\n" + studentList, STUDENT_ID_REQUEST);
-
-        //int studentId = sc.nextInt();
-        //sc.nextLine();
-
         handleMenu(ADD_STUDENT_TITLE + "\n" + groupsList, GROUP_ID_REQUEST);
 
         int groupId = sc.nextInt();

@@ -13,11 +13,8 @@ import java.util.Optional;
 public class JGroupDao implements GroupDAO {
     public static final String FIND_BY_NAME = "select g from Group g where g.groupName = :groupName";
     public static final String GET_ALL = "select g from Group g";
-    public static final String LESS_THEN = "SELECT g FROM Group g WHERE (SELECT count(s) FROM Student s WHERE s.groupId = g.groupId) <= :groupSize";
-        //"select g From Group g, Student s where g.groupId = s.groupId";
-            //"select g.* from Group g inner join (select count(s.studentId) as studCount, s.groupId " +
-            //        "as groupIdCounter from Student s group by groupId) as counter on " +
-            //        "groupId = groupIdCounter where studCount <= :groupSize";
+    public static final String LESS_THEN = "SELECT g FROM Group g WHERE (SELECT count(s) FROM Student s " +
+            "WHERE s.groupId = g.groupId) <= :groupSize";
 
     @PersistenceContext
     private EntityManager entityManager;
