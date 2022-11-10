@@ -8,11 +8,11 @@ import java.util.List;
 public interface CourseAttendanceService {
     List<Student> getStudentsAtCourse(String courseName);
 
-    List<Course> getCoursesOfStudent(int studentId);
+    List<Course> getCoursesOfStudent(Student student);
 
-    void addStudentToCourse(int studentId, int courseId);
+    void addStudentToCourse(Student student, Course course);
 
-    boolean ifStudentAtCourse(int studentId, int courseId);
+    boolean ifStudentAtCourse(Student student, Course course);
 
-    void removeStudentFromCourse(int studentId, int courseId);
+    void removeStudentFromCourse(Student student, Course course);
 }

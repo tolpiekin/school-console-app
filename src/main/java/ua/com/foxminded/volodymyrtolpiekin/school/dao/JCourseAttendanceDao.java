@@ -1,8 +1,9 @@
 package ua.com.foxminded.volodymyrtolpiekin.school.dao;
 
-import org.springframework.beans.CachedIntrospectionResults;
 import org.springframework.stereotype.Repository;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Course;
 import ua.com.foxminded.volodymyrtolpiekin.school.models.CourseAttendance;
+import ua.com.foxminded.volodymyrtolpiekin.school.models.Student;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,9 +13,8 @@ import java.util.Optional;
 
 @Repository
 public class JCourseAttendanceDao implements CourseAttendanceDAO{
-    public static final String FIND_BY_COURSE_ID = "select ca from CourseAttendance ca where ca.courseId = :courseId";
-    public static final String FIND_BY_STUDENT_ID = "select ca from CourseAttendance ca where ca.studentId = :studentId";
-    public static final String GET_ALL = "select c from Course c";
+    public static final String FIND_BY_COURSE_ID = "select ca from CourseAttendance ca where ca.course = :course";
+    public static final String FIND_BY_STUDENT_ID = "select ca from CourseAttendance ca where ca.student = :student";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -27,18 +27,17 @@ public class JCourseAttendanceDao implements CourseAttendanceDAO{
 
     @Transactional
     @Override
-    public List<CourseAttendance> getStudentsByCourseId(int courseId) {
+    public List<CourseAttendance> getByCourseId(Course course) {
         return entityManager.createQuery(FIND_BY_COURSE_ID, CourseAttendance.class)
-                .setParameter("courseId", courseId)
+                .setParameter("course", course)
                 .getResultList();
     }
 
     @Transactional
     @Override
-    public List<CourseAttendance> getCoursesByStudentId(int studentId) {
+    public List<CourseAttendance> getByStudent(Student student) {
         return entityManager.createQuery(FIND_BY_STUDENT_ID, CourseAttendance.class)
-                .setParameter("studentId", studentId)
-                .getResultList();
+                    .setParameter("student", student).getResultList();
     }
 
     @Transactional

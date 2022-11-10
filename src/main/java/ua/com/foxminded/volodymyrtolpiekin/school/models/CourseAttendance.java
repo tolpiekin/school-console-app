@@ -10,11 +10,9 @@ public class CourseAttendance {
     int courseAttendanceId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
     Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
     Course course;
 
     public CourseAttendance() {

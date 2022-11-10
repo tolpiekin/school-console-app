@@ -13,10 +13,11 @@ import java.util.Optional;
 public class JGroupDao implements GroupDAO {
     public static final String FIND_BY_NAME = "select g from Group g where g.groupName = :groupName";
     public static final String GET_ALL = "select g from Group g";
-    public static final String LESS_THEN =
-            "select g.* from Group " +
-                    "inner join (select count(student_id) as studCount, group_id as group_id_counter from Student " +
-                    "group by group_id) as counter on group_id = group_id_counter where studCount <= :groupSize";
+    public static final String LESS_THEN = "SELECT g FROM Group g WHERE (SELECT count(s) FROM Student s WHERE s.groupId = g.groupId) <= :groupSize";
+        //"select g From Group g, Student s where g.groupId = s.groupId";
+            //"select g.* from Group g inner join (select count(s.studentId) as studCount, s.groupId " +
+            //        "as groupIdCounter from Student s group by groupId) as counter on " +
+            //        "groupId = groupIdCounter where studCount <= :groupSize";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -69,9 +70,10 @@ public class JGroupDao implements GroupDAO {
 
     @Transactional
     @Override
-    public List<Group> findGroupsSmallerThenNumber(int groupSize) {
+    public List<Group> findGroupsSmallerThenNumber(int size) {
+        long groupSize = size;
         return entityManager.createQuery(LESS_THEN, Group.class)
-                .setParameter("groupSize", groupSize)
+                .setParameter("groupSize", (Long) groupSize)
                 .getResultList();
     }
 }

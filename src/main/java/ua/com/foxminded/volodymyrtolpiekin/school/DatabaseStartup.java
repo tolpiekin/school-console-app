@@ -88,10 +88,10 @@ public class DatabaseStartup {
         List<Student> students = studentServiceImpl.getAll();
         List<Course> courses = courseServiceImpl.getAll();
         students.forEach(student -> IntStream.range(0, random.nextInt(COURSES_LIMIT + 1)).forEach(i -> {
-            if(courseAttendanceServiceImpl.getCoursesOfStudent(student.getStudentId()).size() < 3) {
+            if(courseAttendanceServiceImpl.getCoursesOfStudent(student).size() < 3) {
                 Course course = courses.get(random.nextInt(courses.size()));
-                if (!courseAttendanceServiceImpl.ifStudentAtCourse(student.getStudentId(), course.getCourseId())) {
-                    courseAttendanceServiceImpl.addStudentToCourse(student.getStudentId(), course.getCourseId());
+                if (!courseAttendanceServiceImpl.ifStudentAtCourse(student, course)) {
+                    courseAttendanceServiceImpl.addStudentToCourse(student, course);
                 }
             }
         }));

@@ -5,22 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @Log4j2
-public class JdbcApiApplication implements CommandLineRunner {
+public class JPAHibernateApp implements CommandLineRunner {
 
 	@Autowired
 	private final Menu menu;
 
-	public JdbcApiApplication(Menu menu) {
+	public JPAHibernateApp(Menu menu) {
 		this.menu = menu;
 	}
 
 	public static void main(String[] args) {
 		log.info("STARTING THE APPLICATION");
-		SpringApplication.run(JdbcApiApplication.class, args);
+		SpringApplication.run(JPAHibernateApp.class, args);
 		log.info("APPLICATION FINISHED");
 	}
 
